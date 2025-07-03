@@ -97,9 +97,6 @@ database.db
 # Backup files
 *.bak
 
-# MySQL dumps
-*.sql
-
 # Angular build artifacts
 frontend/dist/
 frontend/.angular/
