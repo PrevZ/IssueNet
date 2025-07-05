@@ -1,5 +1,62 @@
+/* Layout principale dell'applicazione - Trello style */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--light-gray);
+}
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
 .app-main {
-  margin-top: 64px; /* Per evitare che il contenuto vada sotto la navbar */
+  flex: 1;
+  margin-top: 64px; /* Altezza della navbar */
   min-height: calc(100vh - 64px);
-  background-color: #f5f5f5;
+  background-color: var(--light-gray);
+  padding: 24px 0;
+}
+
+.app-footer-wrapper {
+  margin-top: auto;
+  background-color: var(--white);
+  border-top: 1px solid var(--gray);
+}
+
+/* Contenitore principale per le pagine */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Card container per contenuti */
+.content-card {
+  background-color: var(--white);
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-light);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+/* Layout responsive */
+@media (max-width: 768px) {
+  .app-main {
+    margin-top: 64px;
+    padding: 16px 0;
+  }
+  
+  .page-container {
+    padding: 0 16px;
+  }
+  
+  .content-card {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
 }

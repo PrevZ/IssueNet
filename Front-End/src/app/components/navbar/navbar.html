@@ -1,25 +1,69 @@
 <mat-toolbar color="primary" class="navbar">
   <mat-toolbar-row>
+    <!-- Logo e titolo -->
     <span routerLink="/dashboard" class="logo-link">
       <mat-icon>bug_report</mat-icon>
       IssueNet
     </span>
     
+    <!-- Link informativi sempre visibili -->
+    <div class="info-links">
+      <button mat-button routerLink="/features" routerLinkActive="active-info">
+        <mat-icon>star</mat-icon>
+        Funzionalità
+      </button>
+      <button mat-button routerLink="/faq" routerLinkActive="active-info">
+        <mat-icon>help</mat-icon>
+        FAQ
+      </button>
+      <button mat-button routerLink="/about" routerLinkActive="active-info">
+        <mat-icon>info</mat-icon>
+        Chi Siamo
+      </button>
+    </div>
+    
     <span class="spacer"></span>
     
-    <button mat-button routerLink="/dashboard" routerLinkActive="active">
-      <mat-icon>dashboard</mat-icon>
-      Dashboard
-    </button>
+    <!-- Menu di navigazione quando l'utente è autenticato -->
+    <div class="nav-links" *ngIf="currentUser">
+      <button mat-button routerLink="/dashboard" routerLinkActive="active">
+        <mat-icon>dashboard</mat-icon>
+        Dashboard
+      </button>
+      
+      <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+        <mat-icon>person</mat-icon>
+        {{ currentUser.full_name }}
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>person</mat-icon>
+          <span>Profilo</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>Impostazioni</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </div>
     
-    <button mat-button>
-      <mat-icon>person</mat-icon>
-      Profile
-    </button>
-    
-    <button mat-button>
-      <mat-icon>logout</mat-icon>
-      Logout
-    </button>
+    <!-- Pulsanti di login/registrazione quando l'utente NON è autenticato -->
+    <div class="auth-buttons" *ngIf="!currentUser">
+      <button mat-button routerLink="/login">
+        <mat-icon>login</mat-icon>
+        Login
+      </button>
+      <button mat-raised-button color="accent" routerLink="/register">
+        <mat-icon>person_add</mat-icon>
+        Registrati
+      </button>
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>

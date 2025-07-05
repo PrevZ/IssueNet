@@ -1,0 +1,41 @@
+<footer class="app-footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>Links</h4>
+      <ul>
+        <li><a routerLink="/about">Chi Siamo</a></li>
+        <li><a routerLink="/features">Funzionalità</a></li>
+        <li><a routerLink="/privacy-policy">Privacy Policy</a></li>
+        <li><a routerLink="/terms-of-service">Terms of Service</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h4>Contatti</h4>
+      <div class="contact-info">
+        <p><mat-icon>email</mat-icon> team&#64;issuenet.com</p>
+        <p><mat-icon>phone</mat-icon> +39 123 456 7890</p>
+        <p><mat-icon>location_on</mat-icon> Milano, Italia</p>
+      </div>
+    </div>
+    
+    <div class="footer-section">
+      <h4>Social</h4>
+      <div class="social-links">
+        <a href="#" aria-label="GitHub" (click)="$event.preventDefault()">
+          <mat-icon>code</mat-icon>
+        </a>
+        <a href="#" aria-label="LinkedIn" (click)="$event.preventDefault()">
+          <mat-icon>business</mat-icon>
+        </a>
+        <a href="#" aria-label="Twitter" (click)="$event.preventDefault()">
+          <mat-icon>public</mat-icon>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; {{ currentYear }} IssueNet. Tutti i diritti riservati.</p>
+  </div>
+</footer>

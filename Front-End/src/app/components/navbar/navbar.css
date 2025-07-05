@@ -4,6 +4,12 @@
   left: 0;
   right: 0;
   z-index: 1000;
+  background-color: var(--primary-blue);
+  box-shadow: var(--shadow-medium);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
 }
 
 .logo-link {
@@ -11,14 +17,159 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  font-weight: 500;
-  font-size: 1.2rem;
+  font-weight: 600;
+  font-size: 1.3rem;
+  text-decoration: none;
+  color: var(--white);
+  transition: opacity 0.2s ease;
+  margin-right: 2rem;
+}
+
+.logo-link:hover {
+  opacity: 0.9;
+  text-decoration: none;
+  color: var(--white);
 }
 
 .spacer {
   flex: 1 1 auto;
 }
 
-.active {
+/* Info links - sempre visibili, posizionati a sinistra dopo il logo */
+.info-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.info-links button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--white);
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.info-links button:hover {
   background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.info-links button.active-info {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Navigation and auth containers - posizionati a destra */
+.nav-links, 
+.auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-links button,
+.auth-buttons button {
+  background: transparent;
+  border: none;
+  color: var(--white);
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-links button:hover,
+.auth-buttons button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* User button specific styling */
+.user-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Login/Register buttons */
+.auth-buttons button:first-child {
+  border: 1px solid var(--white);
+}
+
+.auth-buttons button:last-child {
+  background-color: var(--white);
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.auth-buttons button:last-child:hover {
+  background-color: var(--primary-blue-light);
+  color: var(--primary-blue-dark);
+}
+
+.active {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 16px;
+  }
+  
+  .logo-link {
+    font-size: 1.1rem;
+    margin-right: 1rem;
+  }
+  
+  .info-links {
+    gap: 0.5rem;
+  }
+  
+  .info-links button,
+  .nav-links button,
+  .auth-buttons button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  
+  /* Nascondi testo sui dispositivi piccoli, mantieni solo le icone */
+  .nav-links button span,
+  .auth-buttons button span {
+    display: none;
+  }
+  
+  .info-links button span {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-link {
+    margin-right: 0.5rem;
+  }
+  
+  .info-links {
+    gap: 0.25rem;
+  }
+  
+  .info-links button,
+  .nav-links button,
+  .auth-buttons button {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
 }
