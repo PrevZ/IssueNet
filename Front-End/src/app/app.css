@@ -19,6 +19,10 @@
   margin-top: 64px; /* Altezza della navbar */
   min-height: calc(100vh - 64px);
   background-color: var(--light-gray);
+}
+
+/* Padding per pagine normali (non Home) */
+.app-main.with-padding {
   padding: 24px 0;
 }
 

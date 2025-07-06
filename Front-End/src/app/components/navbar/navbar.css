@@ -31,6 +31,12 @@
   color: var(--white);
 }
 
+.navbar-logo {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
 .spacer {
   flex: 1 1 auto;
 }

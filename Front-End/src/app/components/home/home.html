@@ -1,0 +1,158 @@
+<!-- Hero Section per utenti NON autenticati -->
+<div class="hero-section" *ngIf="!currentUser">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1>Benvenuto in IssueNet</h1>
+      <p class="hero-subtitle">
+        Il tuo sistema di bug tracking moderno e intuitivo, ispirato a Trello
+      </p>
+    </div>
+    <div class="hero-image">
+      <img src="assets/images/logo.png" alt="IssueNet Logo" class="hero-logo">
+    </div>
+  </div>
+</div>
+
+<!-- Features Preview per utenti NON autenticati -->
+<div class="features-preview" *ngIf="!currentUser">
+  <div class="container">
+    <h2>Perché scegliere IssueNet?</h2>
+    <p class="features-description">
+      Organizza, traccia e risolvi i problemi del tuo progetto con facilità. 
+      IssueNet ti aiuta a mantenere tutto sotto controllo con un'interfaccia pulita e funzionale.
+    </p>
+    
+    <!-- Layout stile Trello: cards a sinistra, immagine a destra -->
+    <div class="features-layout">
+      <!-- Feature cards a sinistra -->
+      <div class="features-cards">
+        <div 
+          *ngFor="let feature of features; let i = index" 
+          class="feature-card-item"
+          [class.active]="i === currentFeatureIndex"
+          (click)="selectFeature(i)"
+        >
+          <div class="feature-card-icon">
+            <mat-icon>{{ feature.icon }}</mat-icon>
+          </div>
+          <div class="feature-card-content">
+            <h3>{{ feature.title }}</h3>
+            <p>{{ feature.description }}</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Immagine corrente a destra -->
+      <div class="features-image">
+        <div class="image-container">
+          <img 
+            [src]="currentFeature.image" 
+            [alt]="currentFeature.alt"
+            class="feature-showcase-img"
+          >
+        </div>
+        
+        <!-- Indicatori/navigation dots -->
+        <div class="features-indicators">
+          <button 
+            *ngFor="let feature of features; let i = index"
+            mat-icon-button
+            class="indicator-dot"
+            [class.active]="i === currentFeatureIndex"
+            (click)="selectFeature(i)"
+          >
+            <span class="dot"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Call to Action Section per utenti NON autenticati -->
+<div class="cta-section" *ngIf="!currentUser">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Pronto a iniziare?</h2>
+      <p class="cta-description">
+        Unisciti a migliaia di team che già utilizzano IssueNet per gestire i loro progetti. 
+        Registrati gratuitamente e inizia subito a organizzare il tuo lavoro!
+      </p>
+      <div class="cta-actions">
+        <button mat-raised-button color="primary" routerLink="/register" class="cta-button-main">
+          <mat-icon>person_add</mat-icon>
+          Registrati Gratis
+        </button>
+        <button mat-button routerLink="/login" class="cta-button-secondary">
+          <mat-icon>login</mat-icon>
+          Hai già un account? Accedi
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Welcome Section per utenti autenticati -->
+<div class="welcome-section" *ngIf="currentUser">
+  <div class="container">
+    <div class="welcome-header">
+      <h1>Bentornato, {{ currentUser.full_name }}!</h1>
+      <p>Ecco una panoramica delle tue attività</p>
+    </div>
+
+    <div class="quick-actions">
+      <h2>Azioni Rapide</h2>
+      <div class="actions-grid">
+        <mat-card class="action-card" routerLink="/dashboard">
+          <mat-card-header>
+            <mat-icon mat-card-avatar color="primary">dashboard</mat-icon>
+            <mat-card-title>Dashboard</mat-card-title>
+            <mat-card-subtitle>Vai alla tua dashboard principale</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+
+        <mat-card class="action-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar color="accent">add_circle</mat-icon>
+            <mat-card-title>Nuovo Progetto</mat-card-title>
+            <mat-card-subtitle>Crea un nuovo progetto</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+
+        <mat-card class="action-card">
+          <mat-card-header>
+            <mat-icon mat-card-avatar color="warn">bug_report</mat-icon>
+            <mat-card-title>Nuovo Issue</mat-card-title>
+            <mat-card-subtitle>Segnala un nuovo problema</mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="user-stats">
+      <h2>Le tue statistiche</h2>
+      <div class="stats-grid">
+        <mat-card class="stat-card">
+          <mat-card-content>
+            <div class="stat-number">0</div>
+            <div class="stat-label">Progetti Attivi</div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="stat-card">
+          <mat-card-content>
+            <div class="stat-number">0</div>
+            <div class="stat-label">Issue Aperti</div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="stat-card">
+          <mat-card-content>
+            <div class="stat-number">0</div>
+            <div class="stat-label">Issue Completati</div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

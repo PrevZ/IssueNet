@@ -4,7 +4,7 @@
 </header>
 
 <!-- Contenuto principale -->
-<main class="app-main">
+<main class="app-main" [class.with-padding]="!isHomePage">
   <router-outlet></router-outlet>
 </main>
 
