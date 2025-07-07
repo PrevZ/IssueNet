@@ -3,7 +3,10 @@ INSERT INTO users (username, email, password, full_name, role) VALUES
 ('admin', 'admin@issuenet.com', '$2b$10$rOvHJtP1h2qHJ.j8N2mJ0uF5.1K5K5K5K5K5K5K5K5K5K5K5K5K5K', 'System Administrator', 'admin'),
 ('john_dev', 'john@issuenet.com', '$2b$10$rOvHJtP1h2qHJ.j8N2mJ0uF5.1K5K5K5K5K5K5K5K5K5K5K5K5K5K', 'John Developer', 'developer'),
 ('mary_tester', 'mary@issuenet.com', '$2b$10$rOvHJtP1h2qHJ.j8N2mJ0uF5.1K5K5K5K5K5K5K5K5K5K5K5K5K5K', 'Mary Tester', 'tester'),
-('alice_pm', 'alice@issuenet.com', '$2b$10$rOvHJtP1h2qHJ.j8N2mJ0uF5.1K5K5K5K5K5K5K5K5K5K5K5K5K5K', 'Alice ProjectManager', 'developer');
+('alice_pm', 'alice@issuenet.com', '$2b$10$rOvHJtP1h2qHJ.j8N2mJ0uF5.1K5K5K5K5K5K5K5K5K5K5K5K5K5K', 'Alice ProjectManager', 'developer'),
+('test', 'test@test.com', 'TestUser2024!', 'Test User', 'developer'),
+('demo', 'demo@demo.com', 'DemoPass789#', 'Demo User', 'tester'),
+('marco', 'marco@issuenet.com', 'MarcoSecure456$', 'Marco Rossi', 'admin');
 
 -- Inserimento progetti
 INSERT INTO projects (name, description, created_by, status) VALUES

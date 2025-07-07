@@ -192,5 +192,46 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+// POST /api/users/login - Autentica un utente
+router.post('/login', async (req, res) => {
+    const connection = await db.getConnection();
+    res.setHeader('Content-Type', 'application/json');
+    try {
+        const { username, password } = req.body;
+        
+        if (!username || !password) {
+            return res.status(400).json({ error: 'Username e password sono obbligatori' });
+        }
+        
+        // Trova l'utente per username
+        const users = await userDAO.getUserByUsername(connection, username);
+        if (users.length === 0) {
+            return res.status(401).json({ error: 'Credenziali non valide' });
+        }
+        
+        const user = users[0];
+        
+        // Verifica la password (in produzione dovresti usare hashing)
+        if (user.password !== password) {
+            return res.status(401).json({ error: 'Credenziali non valide' });
+        }
+        
+        // Login riuscito - rimuovi la password dalla risposta
+        const userResponse = { ...user };
+        delete userResponse.password;
+        
+        res.json({
+            user: userResponse,
+            token: 'dummy-jwt-token', // In produzione, genera un vero JWT
+            message: 'Login effettuato con successo'
+        });
+    } catch (error) {
+        console.error("Error during login:", error);
+        res.status(500).json({ error: error.message });
+    } finally {
+        await connection.end();
+    }
+});
+
 // Esporta il router 
 module.exports = router;

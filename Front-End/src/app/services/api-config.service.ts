@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ApiConfigService {
-  // URL base del tuo backend
-  private readonly baseUrl = 'http://localhost:3000'; // Modifica con la porta del tuo backend
+  // URL base del backend con context path
+  private readonly baseUrl = 'http://localhost:3000/api'; 
   
   constructor() { }
 

@@ -158,3 +158,19 @@ a:hover {
 .p-1 { padding: 8px; }
 .p-2 { padding: 16px; }
 .p-3 { padding: 24px; }
+
+/* Snackbar styles */
+.success-snack {
+  background-color: var(--success) !important;
+  color: var(--white) !important;
+}
+
+.error-snack {
+  background-color: var(--danger) !important;
+  color: var(--white) !important;
+}
+
+.warning-snack {
+  background-color: var(--warning) !important;
+  color: var(--white) !important;
+}

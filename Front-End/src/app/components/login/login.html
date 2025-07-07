@@ -1,1 +1,91 @@
-<p>login works!</p>
+<div class="login-container">
+  <div class="login-card-wrapper">
+    <mat-card class="login-card">
+      <mat-card-header class="login-header">
+        <div class="login-logo">
+          <img src="assets/images/logo.png" alt="IssueNet Logo" class="logo-img">
+          <h1>Accedi a IssueNet</h1>
+        </div>
+        <p class="login-subtitle">Benvenuto! Inserisci le tue credenziali per accedere.</p>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+          <!-- Username -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Username</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="username"
+              placeholder="Inserisci il tuo username"
+              autocomplete="username"
+            >
+            <mat-icon matPrefix>person</mat-icon>
+            <mat-error *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+              {{ getErrorMessage('username') }}
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Password -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input
+              matInput
+              [type]="hidePassword ? 'password' : 'text'"
+              formControlName="password"
+              placeholder="Inserisci la tua password"
+              autocomplete="current-password"
+            >
+            <mat-icon matPrefix>lock</mat-icon>
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hidePassword"
+            >
+              <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+              {{ getErrorMessage('password') }}
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Remember Me -->
+          <div class="login-options">
+            <mat-checkbox formControlName="rememberMe" color="primary">
+              Ricordami
+            </mat-checkbox>
+            <a routerLink="/forgot-password" class="forgot-password-link">
+              Password dimenticata?
+            </a>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            class="login-button full-width"
+            [disabled]="loginForm.invalid || isLoading"
+          >
+            <span *ngIf="!isLoading">Accedi</span>
+            <span *ngIf="isLoading" class="loading-text">
+              <mat-icon class="spinning">refresh</mat-icon>
+              Accesso in corso...
+            </span>
+          </button>
+        </form>
+      </mat-card-content>
+
+      <mat-card-actions class="login-actions">
+        <div class="register-prompt">
+          <span>Non hai un account?</span>
+          <a routerLink="/register" class="register-link">Registrati qui</a>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
