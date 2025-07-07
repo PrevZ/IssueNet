@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { User, CreateUserRequest, LoginRequest, LoginResponse } from '../models';
+import { User, CreateUserRequest, RegisterRequest, LoginRequest, LoginResponse } from '../models';
 import { ApiConfigService } from './api-config.service';
 
 @Injectable({
@@ -35,8 +35,16 @@ export class UserService {
   }
 
   // Registra un nuovo utente
-  register(user: CreateUserRequest): Observable<User> {
-    return this.http.post<User>(this.apiConfig.getApiUrl(`${this.endpoint}/register`), user);
+  register(registerData: RegisterRequest): Observable<User> {
+    const userData = {
+      username: registerData.username,
+      email: registerData.email,
+      password: registerData.password,
+      full_name: `${registerData.firstName} ${registerData.lastName}`,
+      role: registerData.role || 'developer'
+    };
+    
+    return this.http.post<User>(this.apiConfig.getApiUrl(`${this.endpoint}/register`), userData);
   }
 
   // Login

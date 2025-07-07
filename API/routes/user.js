@@ -125,28 +125,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// POST /api/users - Crea un nuovo utente
-router.post('/', async (req, res) => {
-    const connection = await db.getConnection();
-    await connection.beginTransaction();
-    res.setHeader('Content-Type', 'application/json');
-    try {
-        const newUser = await userDAO.createUser(connection, req.body);
-        if (newUser != null) {
-            res.status(201).json(newUser);
-        } else {
-            res.status(500);
-        }
-        await connection.commit();
-    } catch (error) {
-        console.error("Error creating user:", error);
-        await connection.rollback();
-        res.status(500).json({ error: error.message });
-    } finally {
-        await connection.end();
-    }
-});
-
 // PUT /api/users/:id - Aggiorna un utente esistente
 router.put('/:id', async (req, res) => {
     const connection = await db.getConnection();
@@ -186,6 +164,72 @@ router.delete('/:id', async (req, res) => {
     } catch (error) {
         console.error("Error deleting user:", error);
         await connection.rollback();
+        res.status(500).json({ error: error.message });
+    } finally {
+        await connection.end();
+    }
+});
+
+// POST /api/users/register - Registra un nuovo utente
+router.post('/register', async (req, res) => {
+    const connection = await db.getConnection();
+    await connection.beginTransaction();
+    res.setHeader('Content-Type', 'application/json');
+    try {
+        const { username, email, password, full_name, role } = req.body;
+        
+        // Validazione input
+        if (!username || !email || !password || !full_name) {
+            return res.status(400).json({ 
+                error: 'Username, email, password e full_name sono obbligatori' 
+            });
+        }
+
+        // Verifica che username non sia già in uso
+        const existingUserByUsername = await userDAO.getUserByUsername(connection, username);
+        if (existingUserByUsername.length > 0) {
+            return res.status(409).json({ error: 'Username già presente' });
+        }
+
+        // Verifica che email non sia già in uso
+        const existingUserByEmail = await userDAO.getUserByEmail(connection, email);
+        if (existingUserByEmail.length > 0) {
+            return res.status(409).json({ error: 'Email presente' });
+        }
+
+        // Crea il nuovo utente
+        const userData = {
+            username,
+            email,
+            password, // In produzione, dovresti hashare la password
+            full_name,
+            role: role || 'developer' // Default role
+        };
+
+        const newUser = await userDAO.createUser(connection, userData);
+        if (newUser != null) {
+            // Rimuovo la password dalla risposta
+            const userResponse = { ...newUser };
+            delete userResponse.password;
+            
+            await connection.commit();
+            res.status(201).json({
+                user: userResponse,
+                message: 'Registrazione completata con successo'
+            });
+        } else {
+            await connection.rollback();
+            res.status(500).json({ error: 'Errore durante la creazione dell\'utente' });
+        }
+    } catch (error) {
+        console.error("Error during registration:", error);
+        await connection.rollback();
+        
+        // Gestione errori specifici del database
+        if (error.code === 'ER_DUP_ENTRY') {
+            return res.status(409).json({ error: 'Username o email già esistenti' });
+        }
+        
         res.status(500).json({ error: error.message });
     } finally {
         await connection.end();

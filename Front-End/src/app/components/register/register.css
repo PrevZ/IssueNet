@@ -1,0 +1,172 @@
+.register-container {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.register-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.register-header .logo {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+}
+
+.register-header mat-card-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.register-header mat-card-subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 0;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.terms-section {
+  margin: 16px 0;
+}
+
+.terms-checkbox {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.terms-checkbox a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.terms-checkbox a:hover {
+  text-decoration: underline;
+}
+
+.register-button {
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 16px;
+  border-radius: 8px;
+  text-transform: none;
+}
+
+.register-button[disabled] {
+  opacity: 0.6;
+}
+
+.register-button mat-icon {
+  animation: spin 1s linear infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.login-link p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.login-link .link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-link .link:hover {
+  text-decoration: underline;
+}
+
+/* Form Field Styling */
+.mat-mdc-form-field {
+  --mdc-filled-text-field-focus-active-indicator-color: #667eea;
+  --mdc-filled-text-field-focus-label-text-color: #667eea;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-form-field-focus-overlay {
+  background-color: rgba(102, 126, 234, 0.04);
+}
+
+/* Error Styling */
+.mat-mdc-form-field-error {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .register-container {
+    padding: 10px;
+    min-height: calc(100vh - 120px);
+  }
+  
+  .register-card {
+    padding: 16px;
+    margin: 0;
+  }
+  
+  .register-header mat-card-title {
+    font-size: 1.75rem;
+  }
+  
+  .register-header .logo {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-container {
+    padding: 5px;
+  }
+  
+  .register-card {
+    padding: 12px;
+  }
+  
+  .register-header mat-card-title {
+    font-size: 1.5rem;
+  }
+  
+  .register-form {
+    gap: 12px;
+  }
+}

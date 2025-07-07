@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { Home } from './components/home/home';
 import { Login } from './components/login/login';
-import { Register } from './components/register/register.component';
+import { Register } from './components/register/register';
 import { Dashboard } from './components/dashboard/dashboard';
 import { ProjectBoard } from './components/project-board/project-board';
 import { Features } from './components/features/features';
