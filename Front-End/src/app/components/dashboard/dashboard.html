@@ -1,52 +1,160 @@
 <div class="dashboard-container">
-  <h1>Dashboard</h1>
-  <p>Benvenuto nella tua dashboard di IssueNet! Qui potrai vedere tutti i tuoi progetti e gestire i bug.</p>
-  
-  <div class="projects-section">
-    <div class="section-header">
-      <h2>I tuoi Progetti</h2>
-      <button mat-raised-button color="primary">
-        <mat-icon>add</mat-icon>
-        Nuovo Progetto
-      </button>
+  <!-- Header con benvenuto -->
+  <div class="dashboard-header">
+    <div class="welcome-section">
+      <h1>Benvenuto, {{ currentUser?.full_name || 'Utente' }}!</h1>
+      <p>Ecco una panoramica dei tuoi progetti e attività recenti</p>
     </div>
-    
-    <div class="projects-grid">
-      <!-- Esempio di card progetto -->
-      <mat-card class="project-card">
-        <mat-card-header>
-          <mat-card-title>Progetto Demo</mat-card-title>
-          <mat-card-subtitle>Progetto di esempio</mat-card-subtitle>
-        </mat-card-header>
+  </div>
+
+  <!-- Statistiche generali -->
+  <div class="stats-section">
+    <div class="stats-grid">
+      <mat-card class="stat-card">
         <mat-card-content>
-          <p>Questo è un progetto di esempio per testare l'interfaccia.</p>
-          <div class="project-stats">
-            <span class="stat">
-              <mat-icon>bug_report</mat-icon>
-              5 Issues
-            </span>
-            <span class="stat">
-              <mat-icon>people</mat-icon>
-              3 Membri
-            </span>
+          <div class="stat-content">
+            <mat-icon class="stat-icon projects">folder_open</mat-icon>
+            <div class="stat-info">
+              <h3>{{ stats.totalProjects }}</h3>
+              <p>Progetti Attivi</p>
+            </div>
           </div>
         </mat-card-content>
-        <mat-card-actions>
-          <button mat-button routerLink="/project/1">Apri Board</button>
-          <button mat-button>Gestisci</button>
-        </mat-card-actions>
       </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <mat-icon class="stat-icon total-issues">assignment</mat-icon>
+            <div class="stat-info">
+              <h3>{{ stats.totalIssues }}</h3>
+              <p>Issue Totali</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <mat-icon class="stat-icon open-issues">bug_report</mat-icon>
+            <div class="stat-info">
+              <h3>{{ stats.openIssues }}</h3>
+              <p>Issue Aperte</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <mat-icon class="stat-icon closed-issues">check_circle</mat-icon>
+            <div class="stat-info">
+              <h3>{{ stats.closedIssues }}</h3>
+              <p>Issue Risolte</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Contenuto principale -->
+  <div class="main-content">
+    <!-- Sezione Progetti -->
+    <div class="projects-section">
+      <div class="section-header">
+        <h2>
+          <mat-icon>folder_open</mat-icon>
+          I tuoi Progetti
+        </h2>
+      </div>
       
-      <!-- Card per aggiungere nuovo progetto -->
-      <mat-card class="project-card add-project-card">
-        <mat-card-content>
-          <div class="add-project-content">
-            <mat-icon>add</mat-icon>
-            <h3>Crea Nuovo Progetto</h3>
-            <p>Inizia un nuovo progetto per organizzare i tuoi issue</p>
-          </div>
-        </mat-card-content>
-      </mat-card>
+      <div class="projects-grid">
+        <!-- Card progetto esistente -->
+        <mat-card class="project-card" *ngFor="let project of projects" (click)="openProject(project.id_project)">
+          <mat-card-header>
+            <div class="project-header">
+              <div class="project-title-section">
+                <div class="project-title-row">
+                  <mat-card-title>{{ project.name }}</mat-card-title>
+                  <div class="project-status-badge">
+                    <mat-icon [matBadge]="project.openIssues" matBadgeColor="warn" 
+                             matBadgeSize="small" [matBadgeHidden]="project.openIssues === 0">
+                      {{ getStatusIcon(project.status) }}
+                    </mat-icon>
+                  </div>
+                </div>
+                <mat-card-subtitle>{{ project.description }}</mat-card-subtitle>
+              </div>
+            </div>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <!-- Progress Bar -->
+            <div class="progress-section">
+              <div class="progress-info">
+                <span>Progresso</span>
+                <span>{{ project.progress }}%</span>
+              </div>
+              <mat-progress-bar mode="determinate" [value]="project.progress"></mat-progress-bar>
+            </div>
+
+            <!-- Statistiche del progetto -->
+            <div class="project-stats">
+              <div class="stat">
+                <mat-icon>bug_report</mat-icon>
+                <span>{{ project.openIssues }}/{{ project.totalIssues }} Issues</span>
+              </div>
+              <div class="stat">
+                <mat-icon>people</mat-icon>
+                <span>{{ project.members }} Membri</span>
+              </div>
+              <div class="stat">
+                <mat-icon>schedule</mat-icon>
+                <span>{{ getTimeAgo(project.lastUpdate) }}</span>
+              </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="project-tags">
+              <mat-chip-set>
+                <mat-chip *ngFor="let tag of project.tags">{{ tag }}</mat-chip>
+              </mat-chip-set>
+            </div>
+
+            <!-- Priorità -->
+            <div class="project-priority">
+              <mat-chip [color]="getPriorityColor(project.priority)" selected>
+                {{ project.priority | titlecase }} Priority
+              </mat-chip>
+            </div>
+          </mat-card-content>
+          
+          <mat-card-actions>
+            <button mat-button [routerLink]="'/project/' + project.id_project">
+              <mat-icon>launch</mat-icon>
+              Apri Board
+            </button>
+            <button mat-button>
+              <mat-icon>settings</mat-icon>
+              Gestisci
+            </button>
+          </mat-card-actions>
+        </mat-card>
+        
+        <!-- Card per aggiungere nuovo progetto -->
+        <mat-card class="project-card add-project-card" (click)="createNewProject()">
+          <mat-card-content>
+            <div class="add-project-content">
+              <mat-icon>add_circle_outline</mat-icon>
+              <h3>Crea Nuovo Progetto</h3>
+              <p>Inizia un nuovo progetto per organizzare i tuoi issue</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
   </div>
 </div>

@@ -44,4 +44,14 @@ export class ProjectService {
   getProjectsByUser(userId: number): Observable<Project[]> {
     return this.http.get<Project[]>(this.apiConfig.getApiUrl(`${this.endpoint}/user/${userId}`));
   }
+
+  // Ottieni progetti dell'utente con statistiche dettagliate
+  getEnhancedProjectsByUser(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(this.apiConfig.getApiUrl(`${this.endpoint}/user/${userId}/enhanced`));
+  }
+
+  // Ottieni statistiche aggregate dell'utente
+  getUserProjectStats(userId: number): Observable<any> {
+    return this.http.get<any>(this.apiConfig.getApiUrl(`${this.endpoint}/user/${userId}/stats`));
+  }
 }

@@ -1,0 +1,402 @@
+/* Project Board Container */
+.project-board-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Board Header */
+.board-header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #2c3e50;
+  min-height: 80px;
+  z-index: 10;
+}
+
+.board-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: none;
+  padding: 0 1rem;
+}
+
+.board-title-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.back-button {
+  color: #0079bf;
+  background: rgba(0, 121, 191, 0.1);
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background: rgba(0, 121, 191, 0.2);
+  transform: scale(1.05);
+}
+
+.board-title-info h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.board-title-info p {
+  font-size: 1rem;
+  color: #7f8c8d;
+  margin: 0.25rem 0 0 0;
+}
+
+.board-actions button {
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  text-transform: none;
+  box-shadow: 0 2px 8px rgba(0, 121, 191, 0.3);
+}
+
+/* Kanban Board */
+.kanban-board {
+  flex: 1;
+  display: flex;
+  gap: 1.5rem;
+  padding: 2rem;
+  overflow-x: auto;
+  min-height: 0;
+}
+
+/* Kanban Columns */
+.kanban-column {
+  min-width: 320px;
+  max-width: 320px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  max-height: calc(100vh - 180px);
+}
+
+.column-header {
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 16px 16px 0 0;
+}
+
+.column-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+
+.column-header mat-chip {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Column Content */
+.column-content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.issue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Issue Cards */
+.issue-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.issue-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.issue-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.issue-card:hover::before {
+  opacity: 1;
+}
+
+/* Issue Header */
+.issue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.issue-title-section {
+  flex: 1;
+  min-width: 0;
+}
+
+.issue-header mat-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  word-wrap: break-word;
+}
+
+.issue-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.type-icon {
+  font-size: 1rem;
+  color: #667eea;
+}
+
+.issue-id {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  font-weight: 600;
+}
+
+.priority-chip {
+  font-size: 0.7rem;
+  min-height: 24px;
+  margin-left: 0.5rem;
+}
+
+/* Issue Content */
+.issue-description {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.issue-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.issue-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.issue-stat mat-icon {
+  font-size: 1rem;
+  color: #999;
+}
+
+/* Issue Footer */
+.issue-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: #999;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.issue-assignee {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.issue-assignee mat-icon {
+  font-size: 1rem;
+}
+
+.issue-updated {
+  font-style: italic;
+}
+
+/* Empty Column */
+.empty-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  color: #bdc3c7;
+  min-height: 200px;
+}
+
+.empty-column mat-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-column p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Loading State */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  color: #7f8c8d;
+}
+
+.loading-state mat-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: pulse 2s infinite;
+}
+
+.loading-state p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Error State */
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  color: #e74c3c;
+  text-align: center;
+}
+
+.error-state mat-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  color: #e74c3c;
+}
+
+.error-state p {
+  font-size: 1.1rem;
+  margin: 0 0 1.5rem 0;
+  color: #7f8c8d;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .kanban-board {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .kanban-column {
+    min-width: 280px;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .board-header-content {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+  
+  .board-title-section {
+    width: 100%;
+  }
+  
+  .board-title-info h1 {
+    font-size: 1.4rem;
+  }
+  
+  .kanban-board {
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  .kanban-column {
+    min-width: 100%;
+    max-width: 100%;
+    max-height: 60vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .board-title-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .back-button {
+    align-self: flex-start;
+  }
+  
+  .issue-card {
+    margin-bottom: 0.5rem;
+  }
+  
+  .issue-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .priority-chip {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+}

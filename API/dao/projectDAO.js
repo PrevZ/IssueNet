@@ -98,9 +98,55 @@ const getProjectStats = async function (connection, projectId) {
     return (!rows ? [] : rows);
 }
 
+// Ottiene statistiche aggregate per tutti i progetti dell'utente
+const getUserProjectStats = async function (connection, userId) {
+    sql = `SELECT 
+           COUNT(DISTINCT p.id_project) as total_projects,
+           COUNT(DISTINCT CASE WHEN p.status = 'active' THEN p.id_project END) as active_projects,
+           COUNT(DISTINCT CASE WHEN p.status = 'archived' THEN p.id_project END) as archived_projects,
+           COUNT(i.id_issue) as total_issues,
+           COUNT(CASE WHEN i.status = 'todo' THEN 1 END) as todo_issues,
+           COUNT(CASE WHEN i.status = 'in_progress' THEN 1 END) as in_progress_issues,
+           COUNT(CASE WHEN i.status = 'in_review' THEN 1 END) as in_review_issues,
+           COUNT(CASE WHEN i.status = 'done' THEN 1 END) as done_issues
+           FROM projects p
+           LEFT JOIN issues i ON p.id_project = i.id_project
+           WHERE p.created_by = ?`;
+    params = [userId];
+
+    const rows = await db.execute(connection, sql, params);
+    return (!rows ? {} : rows[0]);
+}
+
+// Ottiene progetti con statistiche integrate
+const getEnhancedProjectsByUser = async function (connection, userId) {
+    sql = `SELECT 
+           p.id_project,
+           p.name,
+           p.description,
+           p.created_by,
+           p.status,
+           p.created_at,
+           p.updated_at,
+           COUNT(i.id_issue) as total_issues,
+           COUNT(CASE WHEN i.status = 'todo' THEN 1 END) as todo_issues,
+           COUNT(CASE WHEN i.status = 'in_progress' THEN 1 END) as in_progress_issues,
+           COUNT(CASE WHEN i.status = 'in_review' THEN 1 END) as in_review_issues,
+           COUNT(CASE WHEN i.status = 'done' THEN 1 END) as done_issues
+           FROM projects p
+           LEFT JOIN issues i ON p.id_project = i.id_project
+           WHERE p.created_by = ?
+           GROUP BY p.id_project, p.name, p.description, p.created_by, p.status, p.created_at, p.updated_at`;
+    params = [userId];
+
+    const rows = await db.execute(connection, sql, params);
+    return (!rows ? [] : rows);
+}
+
 // Esporta tutte le funzioni per usarle nelle route
 module.exports = {
     getAllProjects, getProjectById, getProjectsByCreator,
     getProjectsByStatus, createProject, updateProject,
-    deleteProject, getProjectStats
+    deleteProject, getProjectStats, getUserProjectStats,
+    getEnhancedProjectsByUser
 }

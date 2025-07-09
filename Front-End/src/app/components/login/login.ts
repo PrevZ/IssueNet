@@ -73,7 +73,7 @@ export class Login implements OnInit {
           });
           
           // Reindirizza alla dashboard se loggato, altrimenti alla home
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/home']);
         },
         error: (error) => {
           this.isLoading = false;

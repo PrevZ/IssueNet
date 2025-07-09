@@ -35,6 +35,36 @@ router.get('/user/:userId', async (req, res) => {
     }
 });
 
+// GET /api/projects/user/:userId/stats - Ottiene statistiche aggregate per tutti i progetti dell'utente
+router.get('/user/:userId/stats', async (req, res) => {
+    const connection = await db.getConnection();
+    res.setHeader('Content-Type', 'application/json');
+    try {
+        const stats = await projectDAO.getUserProjectStats(connection, req.params.userId);
+        res.json(stats);
+    } catch (error) {
+        console.error("Error fetching user project stats:", error);
+        res.status(500).json({ error: error.message });
+    } finally {
+        await connection.end();
+    }
+});
+
+// GET /api/projects/user/:userId/enhanced - Ottiene progetti con statistiche integrate
+router.get('/user/:userId/enhanced', async (req, res) => {
+    const connection = await db.getConnection();
+    res.setHeader('Content-Type', 'application/json');
+    try {
+        const projects = await projectDAO.getEnhancedProjectsByUser(connection, req.params.userId);
+        res.json(projects);
+    } catch (error) {
+        console.error("Error fetching enhanced projects:", error);
+        res.status(500).json({ error: error.message });
+    } finally {
+        await connection.end();
+    }
+});
+
 // GET /api/projects/status/:status - Trova progetti per status (active/archived)
 router.get('/status/:status', async (req, res) => {
     const connection = await db.getConnection();
@@ -149,6 +179,8 @@ router.delete('/:id', async (req, res) => {
         await connection.end();
     }
 });
+
+
 
 // Esporta il router 
 module.exports = router;

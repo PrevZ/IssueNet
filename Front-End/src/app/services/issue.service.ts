@@ -32,7 +32,7 @@ export class IssueService {
 
   // Ottieni issue assegnati a un utente
   getIssuesByAssignee(userId: number): Observable<Issue[]> {
-    return this.http.get<Issue[]>(this.apiConfig.getApiUrl(`${this.endpoint}/assigned/${userId}`));
+    return this.http.get<Issue[]>(this.apiConfig.getApiUrl(`${this.endpoint}/my/${userId}`));
   }
 
   // Crea un nuovo issue

@@ -26,3 +26,16 @@ export interface UpdateProjectRequest {
   description?: string;
   status?: 'active' | 'archived';
 }
+
+// Interfaccia estesa per i dati della dashboard
+export interface DashboardProject extends Project {
+  // Dati aggiuntivi per la dashboard
+  progress: number;
+  totalIssues: number;
+  openIssues: number;
+  closedIssues: number;
+  members: number;
+  priority: 'low' | 'medium' | 'high';
+  lastUpdate: Date;
+  tags: string[];
+}

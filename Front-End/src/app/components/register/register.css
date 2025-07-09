@@ -1,10 +1,27 @@
 .register-container {
-  min-height: calc(100vh - 140px);
+  min-height: calc(100vh - 170px); /* Sottrae altezza navbar + footer */
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0079bf 0%, #005a8b 100%);
+  position: relative;
+}
+
+/* Pattern decorativo di sfondo */
+.register-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  background-size: 600px 600px;
+  background-position: 0 0, 300px 300px;
+  pointer-events: none;
 }
 
 .register-card {
@@ -12,9 +29,17 @@
   max-width: 500px;
   padding: 20px;
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(10px);
   background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transform: translateY(0);
+  transition: all 0.3s ease;
+}
+
+.register-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.2);
 }
 
 .register-header {
@@ -22,11 +47,23 @@
   margin-bottom: 20px;
 }
 
+.title-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.title-content {
+  text-align: left;
+}
+
 .register-header .logo {
   width: 60px;
   height: 60px;
-  margin-bottom: 16px;
   border-radius: 12px;
+  flex-shrink: 0;
 }
 
 .register-header mat-card-title {
@@ -52,6 +89,22 @@
   width: 100%;
 }
 
+/* Stili Trello per i form field */
+.register-form mat-form-field {
+  --mdc-outlined-text-field-container-shape: 8px;
+  --mdc-outlined-text-field-outline-color: #ddd;
+  --mdc-outlined-text-field-hover-outline-color: #0079bf;
+  --mdc-outlined-text-field-focus-outline-color: #0079bf;
+}
+
+.register-form mat-form-field .mat-mdc-form-field-focus-overlay {
+  background-color: rgba(0, 121, 191, 0.05);
+}
+
+.register-form mat-form-field.mat-focused .mat-mdc-text-field-wrapper {
+  background-color: rgba(0, 121, 191, 0.02);
+}
+
 .terms-section {
   margin: 16px 0;
 }
@@ -62,7 +115,7 @@
 }
 
 .terms-checkbox a {
-  color: #667eea;
+  color: #0079bf;
   text-decoration: none;
   font-weight: 500;
 }
@@ -100,25 +153,95 @@
 }
 
 .login-link p {
-  margin: 0;
   color: #666;
-  font-size: 14px;
+  margin: 0;
 }
 
 .login-link .link {
-  color: #667eea;
+  color: #0079bf;
   text-decoration: none;
   font-weight: 600;
+  transition: color 0.2s ease;
 }
 
 .login-link .link:hover {
+  color: #005a8b;
   text-decoration: underline;
+}
+
+.login-link p {
+  color: #666;
+  margin: 0;
+}
+
+.login-link .link {
+  color: #0079bf;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.login-link .link:hover {
+  color: #005a8b;
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .register-container {
+    padding: 10px;
+    min-height: 100vh;
+  }
+  
+  .register-card {
+    max-width: 100%;
+    padding: 16px;
+    margin: 0;
+  }
+  
+  .register-header .logo {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .register-header mat-card-title {
+    font-size: 1.5rem;
+  }
+  
+  .register-form {
+    gap: 12px;
+  }
+  
+  .register-button {
+    height: 44px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-container {
+    padding: 5px;
+  }
+  
+  .register-card {
+    padding: 12px;
+    border-radius: 12px;
+  }
+  
+  .register-header mat-card-title {
+    font-size: 1.3rem;
+  }
+  
+  .register-button {
+    height: 42px;
+    font-size: 14px;
+  }
 }
 
 /* Form Field Styling */
 .mat-mdc-form-field {
-  --mdc-filled-text-field-focus-active-indicator-color: #667eea;
-  --mdc-filled-text-field-focus-label-text-color: #667eea;
+  --mdc-filled-text-field-focus-active-indicator-color: #0079bf;
+  --mdc-filled-text-field-focus-label-text-color: #0079bf;
 }
 
 .mat-mdc-form-field.mat-focused .mat-mdc-form-field-focus-overlay {
@@ -147,6 +270,10 @@
     font-size: 1.75rem;
   }
   
+  .title-section {
+    gap: 12px;
+  }
+  
   .register-header .logo {
     width: 50px;
     height: 50px;
@@ -164,6 +291,20 @@
   
   .register-header mat-card-title {
     font-size: 1.5rem;
+  }
+  
+  .title-section {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .title-content {
+    text-align: center;
+  }
+  
+  .register-header .logo {
+    width: 50px;
+    height: 50px;
   }
   
   .register-form {
