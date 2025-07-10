@@ -639,6 +639,71 @@
   color: #95a5a6;
 }
 
+/* Spaziatura tra le sezioni progetti e issue */
+.issues-section {
+  margin-top: 4rem;
+}
+
+/* Spaziatura per la sezione commenti */
+.comments-section {
+  margin-top: 4rem;
+}
+
+/* Empty State per Issue */
+.empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: white;
+  margin-top: 2rem;
+}
+
+.empty-state mat-icon {
+  font-size: 4rem;
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  margin: 1rem 0 0.5rem 0;
+  font-weight: 600;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  opacity: 0.8;
+  max-width: 400px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* Stili specifici per i commenti */
+.comment-content {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(0, 121, 191, 0.05);
+  border-radius: 10px;
+  border-left: 4px solid var(--primary-color, #0079bf);
+}
+
+.comment-content p {
+  margin: 0;
+  line-height: 1.6;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.comments-section .project-card {
+  cursor: pointer;
+}
+
+.comments-section .project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .main-content {

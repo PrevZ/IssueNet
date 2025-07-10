@@ -20,6 +20,11 @@ export class CommentService {
     return this.http.get<Comment[]>(this.apiConfig.getApiUrl(`${this.endpoint}/issue/${issueId}`));
   }
 
+  // Ottieni commenti per un utente
+  getCommentsByUser(userId: number): Observable<Comment[]> {
+    return this.http.get<Comment[]>(this.apiConfig.getApiUrl(`${this.endpoint}/user/${userId}`));
+  }
+
   // Ottieni un commento per ID
   getCommentById(id: number): Observable<Comment> {
     return this.http.get<Comment>(this.apiConfig.getApiUrl(`${this.endpoint}/${id}`));

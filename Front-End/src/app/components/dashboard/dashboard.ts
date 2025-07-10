@@ -10,7 +10,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { RouterModule, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { ProjectService } from '../../services/project.service';
-import { User, Project, DashboardProject } from '../../models';
+import { IssueService } from '../../services/issue.service';
+import { CommentService } from '../../services/comment.service';
+import { User, Project, DashboardProject, Issue, Comment } from '../../models';
 
 
 
@@ -33,6 +35,12 @@ import { User, Project, DashboardProject } from '../../models';
 export class Dashboard implements OnInit {
   currentUser: User | null = null;
   projects: DashboardProject[] = [];
+  userIssues: Issue[] = [];
+  userComments: Comment[] = [];
+  // Mapping per i nomi dei progetti
+  projectNames: { [key: number]: string } = {};
+  // Mapping per i titoli delle issue
+  issueTitles: { [key: number]: string } = {};
   stats = {
     totalProjects: 0,
     totalIssues: 0,
@@ -43,6 +51,8 @@ export class Dashboard implements OnInit {
   constructor(
     private userService: UserService,
     private projectService: ProjectService,
+    private issueService: IssueService,
+    private commentService: CommentService,
     private router: Router
   ) {}
 
@@ -63,6 +73,12 @@ export class Dashboard implements OnInit {
     
     // Carica statistiche dal backend
     this.loadStatsFromBackend();
+    
+    // Carica le issue dell'utente
+    this.loadUserIssues();
+    
+    // Carica i commenti dell'utente
+    this.loadUserComments();
   }
 
   loadProjectsFromBackend(): void {
@@ -71,6 +87,8 @@ export class Dashboard implements OnInit {
         console.log('Progetti enhanced caricati dal backend:', projects);
         // Trasforma i progetti del backend in DashboardProject
         this.projects = projects.map(project => this.transformBackendProject(project));
+        // Popola il mapping ID -> nome progetto
+        this.populateProjectNames(projects);
       },
       error: (error) => {
         console.error('Errore nel caricamento dei progetti enhanced:', error);
@@ -93,6 +111,34 @@ export class Dashboard implements OnInit {
       error: (error) => {
         console.error('Errore nel caricamento delle statistiche:', error);
         this.stats = { totalProjects: 0, totalIssues: 0, openIssues: 0, closedIssues: 0 };
+      }
+    });
+  }
+
+  loadUserIssues(): void {
+    this.issueService.getIssuesByAssignee(this.currentUser!.id_user).subscribe({
+      next: (issues) => {
+        console.log('Issue dell\'utente caricate:', issues);
+        this.userIssues = issues;
+      },
+      error: (error) => {
+        console.error('Errore nel caricamento delle issue dell\'utente:', error);
+        this.userIssues = [];
+      }
+    });
+  }
+
+  loadUserComments(): void {
+    this.commentService.getCommentsByUser(this.currentUser!.id_user).subscribe({
+      next: (comments) => {
+        console.log('Commenti dell\'utente caricati:', comments);
+        this.userComments = comments;
+        // Popola il mapping dei titoli delle issue per i commenti
+        this.populateIssueTitles(comments);
+      },
+      error: (error) => {
+        console.error('Errore nel caricamento dei commenti dell\'utente:', error);
+        this.userComments = [];
       }
     });
   }
@@ -184,9 +230,10 @@ export class Dashboard implements OnInit {
     }
   }
 
-  getTimeAgo(date: Date): string {
+  getTimeAgo(date: Date | string): string {
     const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
+    const targetDate = typeof date === 'string' ? new Date(date) : date;
+    const diffMs = now.getTime() - targetDate.getTime();
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
@@ -200,6 +247,52 @@ export class Dashboard implements OnInit {
     }
   }
 
+  getIssueTypeIcon(type: string): string {
+    switch (type) {
+      case 'bug': return 'bug_report';
+      case 'feature': return 'star';
+      case 'task': return 'assignment';
+      case 'improvement': return 'trending_up';
+      default: return 'help';
+    }
+  }
+
+  getIssuePriorityColor(priority: string): string {
+    switch (priority) {
+      case 'critical': return 'error';
+      case 'high': return 'warn';
+      case 'medium': return 'accent';
+      case 'low': return 'primary';
+      default: return 'primary';
+    }
+  }
+
+  getIssueStatusColor(status: string): string {
+    switch (status) {
+      case 'todo': return 'primary';
+      case 'in_progress': return 'accent';
+      case 'in_review': return 'warn';
+      case 'done': return 'success';
+      default: return 'primary';
+    }
+  }
+
+  getStatusDisplayName(status: string): string {
+    switch (status) {
+      case 'todo': return 'Da Fare';
+      case 'in_progress': return 'In Corso';
+      case 'in_review': return 'In Revisione';
+      case 'done': return 'Completato';
+      default: return status;
+    }
+  }
+
+  onIssueClick(issue: Issue): void {
+    console.log('Issue clicked:', issue);
+    // Naviga alla board del progetto contenente l'issue
+    this.router.navigate(['/project', issue.id_project]);
+  }
+
   openProject(projectId: number): void {
     // Naviga alla board del progetto
     console.log('Opening project:', projectId);
@@ -209,5 +302,65 @@ export class Dashboard implements OnInit {
   createNewProject(): void {
     console.log('Creazione nuovo progetto...');
     
+  }
+
+  getIssueProgress(issue: Issue): number {
+    if (issue.estimated_hours && issue.actual_hours) {
+      return Math.min(Math.floor((issue.actual_hours / issue.estimated_hours) * 100), 100);
+    }
+    
+    // Se non ci sono ore effettive, calcola in base allo status
+    switch (issue.status) {
+      case 'todo': return 0;
+      case 'in_progress': return 30;
+      case 'in_review': return 70;
+      case 'done': return 100;
+      default: return 0;
+    }
+  }
+
+  populateProjectNames(projects: any[]): void {
+    this.projectNames = {};
+    projects.forEach(project => {
+      this.projectNames[project.id_project] = project.name;
+    });
+  }
+
+  populateIssueTitles(comments: Comment[]): void {
+    // Estrae gli ID delle issue dai commenti
+    const issueIds = [...new Set(comments.map(comment => comment.id_issue))];
+    
+    // Per ogni issue ID, carica l'issue per ottenere il titolo
+    issueIds.forEach(issueId => {
+      this.issueService.getIssueById(issueId).subscribe({
+        next: (issue) => {
+          this.issueTitles[issueId] = issue.title;
+        },
+        error: (error) => {
+          console.error(`Errore nel caricamento dell'issue ${issueId}:`, error);
+          this.issueTitles[issueId] = `Issue ${issueId}`;
+        }
+      });
+    });
+  }
+
+  getProjectNameById(projectId: number): string {
+    return this.projectNames[projectId] || `Progetto ${projectId}`;
+  }
+
+  getIssueTitleById(issueId: number): string {
+    return this.issueTitles[issueId] || `Issue ${issueId}`;
+  }
+
+  onCommentClick(comment: Comment): void {
+    // Naviga al progetto dell'issue relativa al commento
+    const projectId = this.getProjectIdByIssueId(comment.id_issue);
+    this.router.navigate(['/project', projectId]);
+  }
+
+  getProjectIdByIssueId(issueId: number): number {
+    // Cerca l'issue nelle issue caricate per ottenere l'ID del progetto
+    const issue = this.userIssues.find(issue => issue.id_issue === issueId);
+    return issue ? issue.id_project : 1; // Default a progetto 1 se non trovato
   }
 }
