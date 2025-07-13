@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { User, CreateUserRequest, RegisterRequest, LoginRequest, LoginResponse } from '../models';
+import { User, CreateUserRequest, RegisterRequest, LoginRequest, LoginResponse, UpdateUserRequest } from '../models';
 import { ApiConfigService } from './api-config.service';
 
 @Injectable({
@@ -22,16 +22,6 @@ export class UserService {
     if (savedUser) {
       this.currentUserSubject.next(JSON.parse(savedUser));
     }
-  }
-
-  // Ottieni tutti gli utenti
-  getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiConfig.getApiUrl(this.endpoint));
-  }
-
-  // Ottieni un utente per ID
-  getUserById(id: number): Observable<User> {
-    return this.http.get<User>(this.apiConfig.getApiUrl(`${this.endpoint}/${id}`));
   }
 
   // Registra un nuovo utente
@@ -93,5 +83,44 @@ export class UserService {
           }
         })
       );
+  }
+
+  // Ottieni tutti gli utenti (solo per admin)
+  getAllUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiConfig.getApiUrl(this.endpoint));
+  }
+
+  // Ottieni utente per ID
+  getUserById(id: number): Observable<User> {
+    return this.http.get<User>(this.apiConfig.getApiUrl(`${this.endpoint}/${id}`));
+  }
+
+  // Crea nuovo utente (solo per admin)
+  createUser(userData: CreateUserRequest): Observable<User> {
+    return this.http.post<User>(this.apiConfig.getApiUrl(this.endpoint), userData);
+  }
+
+  // Aggiorna utente esistente (admin o stesso utente)
+  updateUser(id: number, userData: UpdateUserRequest): Observable<User> {
+    return this.http.put<User>(this.apiConfig.getApiUrl(`${this.endpoint}/${id}`), userData)
+      .pipe(
+        tap(updatedUser => {
+          // Aggiorna l'utente corrente se è quello che stiamo modificando
+          if (this.currentUserSubject.value?.id_user === id) {
+            this.currentUserSubject.next(updatedUser);
+            localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+          }
+        })
+      );
+  }
+
+  // Elimina utente (solo per admin)
+  deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(this.apiConfig.getApiUrl(`${this.endpoint}/${id}`));
+  }
+
+  // Ottieni utenti per ruolo
+  getUsersByRole(role: string): Observable<User[]> {
+    return this.http.get<User[]>(this.apiConfig.getApiUrl(`${this.endpoint}/role/${role}`));
   }
 }

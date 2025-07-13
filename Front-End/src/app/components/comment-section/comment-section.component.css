@@ -1,0 +1,329 @@
+.comment-section {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+/* Header della sezione commenti */
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.header-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.header-info mat-icon {
+  color: #6c757d;
+  font-size: 1.5rem;
+}
+
+.sort-controls button {
+  color: #6c757d;
+}
+
+.sort-controls .selected {
+  color: #007bff;
+  font-weight: 500;
+}
+
+/* Form nuovo commento */
+.new-comment-form {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.comment-input {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.user-avatar {
+  flex-shrink: 0;
+  margin-top: 0.5rem;
+}
+
+.user-avatar mat-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  color: #6c757d;
+}
+
+.comment-field {
+  flex: 1;
+}
+
+.comment-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  gap: 0.5rem;
+}
+
+/* Lista commenti */
+.comments-list {
+  margin-top: 1rem;
+}
+
+.no-comments {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+}
+
+.no-comments mat-icon {
+  font-size: 3rem;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.no-comments p {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.no-comments span {
+  font-size: 0.9rem;
+  color: #999;
+}
+
+/* Singolo commento */
+.comment-item {
+  margin-bottom: 1rem;
+}
+
+.comment-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.comment-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Header del commento */
+.comment-header-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.user-info {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.user-details {
+  flex: 1;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.user-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.role-chip {
+  font-size: 0.7rem;
+  height: 20px;
+  line-height: 20px;
+  padding: 0 6px;
+}
+
+.role-admin {
+  background-color: #dc3545;
+  color: white;
+}
+
+.role-developer {
+  background-color: #28a745;
+  color: white;
+}
+
+.role-tester {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.timestamp {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.edited {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.edited mat-icon {
+  font-size: 0.9rem;
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+/* Azioni commento */
+.comment-actions button {
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.comment-card:hover .comment-actions button {
+  opacity: 1;
+}
+
+.delete-action {
+  color: #dc3545 !important;
+}
+
+/* Contenuto commento */
+.comment-content {
+  margin-left: 2.75rem;
+}
+
+.content-display p {
+  margin: 0;
+  line-height: 1.5;
+  color: #333;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Modalità modifica */
+.content-edit {
+  margin-top: 0.5rem;
+}
+
+.edit-field {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .comment-section {
+    padding: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .comment-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .comment-input {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .user-avatar {
+    align-self: flex-start;
+    margin-top: 0;
+  }
+
+  .comment-content {
+    margin-left: 0;
+    margin-top: 0.75rem;
+  }
+
+  .user-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .user-meta {
+    flex-wrap: wrap;
+  }
+
+  .comment-actions,
+  .edit-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Animazioni */
+.comment-item {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Stati di loading */
+.comment-field.mat-form-field-disabled,
+.edit-field.mat-form-field-disabled {
+  opacity: 0.6;
+}
+
+/* Miglioramenti visivi */
+.comment-card {
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.comment-card:hover {
+  border-left-color: #007bff;
+}
+
+/* Badge personalizzato */
+.header-info mat-chip {
+  margin-left: 0.5rem;
+}
+
+/* Tooltip per timestamp */
+.timestamp[matTooltip] {
+  cursor: help;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}

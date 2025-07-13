@@ -1,0 +1,131 @@
+.dialog-container {
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Header */
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.dialog-header h2 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.close-button {
+  margin-left: 1rem;
+}
+
+/* Content */
+.dialog-content {
+  padding: 1.5rem;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.half-width {
+  flex: 1;
+}
+
+/* Actions */
+.dialog-actions {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e0e0e0;
+  background: #f8f9fa;
+  gap: 0.5rem;
+}
+
+/* Form styling */
+mat-form-field {
+  font-size: 14px;
+}
+
+mat-select mat-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+mat-checkbox {
+  margin: 1rem 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dialog-container {
+    max-width: 95vw;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .half-width {
+    width: 100%;
+  }
+
+  .dialog-header {
+    padding: 1rem;
+  }
+
+  .dialog-content {
+    padding: 1rem;
+  }
+
+  .dialog-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Validation states */
+.mat-mdc-form-field.mat-form-field-invalid .mat-mdc-text-field-wrapper {
+  border-color: #f44336;
+}
+
+/* Button styling */
+.dialog-actions button {
+  min-width: 120px;
+}
+
+/* Icon alignment in select options */
+::ng-deep .mat-mdc-option .mat-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Animation */
+.dialog-container {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

@@ -1,0 +1,293 @@
+/* Dialog Container */
+.dialog-container {
+  padding: 0;
+  max-width: 600px;
+}
+
+/* Dialog Header */
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #0079bf 0%, #005a8b 100%);
+  color: white;
+  border-radius: 8px 8px 0 0;
+}
+
+.dialog-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+}
+
+.close-button {
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 0.3s ease;
+}
+
+.close-button:hover {
+  color: white;
+}
+
+/* Dialog Content */
+.dialog-content {
+  padding: 0 1.5rem;
+  min-width: 500px;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+/* Form Layout */
+.full-width {
+  width: 100%;
+  margin-bottom: 1.2rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.half-width {
+  flex: 1;
+}
+
+/* Form Field Styling */
+.mat-form-field {
+  font-size: 14px;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: rgba(0, 0, 0, 0.12);
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  color: #0079bf;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-label {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
+  color: #0079bf;
+}
+
+/* Select Options with Icons */
+.mat-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mat-option .mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+/* Priority Styling */
+.priority-low {
+  color: #4caf50;
+}
+
+.priority-medium {
+  color: #ff9800;
+}
+
+.priority-high {
+  color: #f44336;
+}
+
+.priority-critical {
+  color: #d32f2f;
+  font-weight: 600;
+}
+
+/* Input and Textarea Styling */
+.mat-input-element {
+  color: #333;
+}
+
+.mat-input-element::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+textarea.mat-input-element {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Number Input */
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Date Picker */
+.mat-datepicker-toggle {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.mat-form-field.mat-focused .mat-datepicker-toggle {
+  color: #0079bf;
+}
+
+/* Dialog Actions */
+.dialog-actions {
+  padding: 1.5rem;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 1rem;
+  justify-content: flex-end;
+  gap: 1rem;
+  background-color: #f8f9fa;
+}
+
+.dialog-actions button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.dialog-actions button[mat-button] {
+  color: #666;
+}
+
+.dialog-actions button[mat-button]:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.dialog-actions button[mat-raised-button] {
+  background: linear-gradient(135deg, #0079bf 0%, #005a8b 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 121, 191, 0.3);
+}
+
+.dialog-actions button[mat-raised-button]:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 121, 191, 0.4);
+}
+
+.dialog-actions button[mat-raised-button]:disabled {
+  background: #ccc;
+  color: #999;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Error Messages */
+.mat-error {
+  color: #f44336;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Icons */
+.mat-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.dialog-header .mat-icon {
+  color: white;
+}
+
+.mat-form-field-suffix .mat-icon {
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.mat-form-field.mat-focused .mat-form-field-suffix .mat-icon {
+  color: #0079bf;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dialog-content {
+    min-width: 300px;
+    padding: 0 1rem;
+  }
+  
+  .dialog-header,
+  .dialog-actions {
+    padding: 1rem;
+  }
+
+  .dialog-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .half-width {
+    width: 100%;
+    margin-bottom: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dialog-actions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .dialog-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Animation */
+.dialog-container {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom Scrollbar for Content */
+.dialog-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dialog-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.dialog-content::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

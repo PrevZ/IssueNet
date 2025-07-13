@@ -1,0 +1,165 @@
+<div class="comment-section">
+  <!-- Header della sezione commenti -->
+  <div class="comment-header">
+    <div class="header-info">
+      <mat-icon>comment</mat-icon>
+      <h3>Commenti <mat-chip [matBadge]="comments.length" matBadgeColor="primary">{{ comments.length }}</mat-chip></h3>
+    </div>
+    
+    <!-- Ordinamento -->
+    <div class="sort-controls" *ngIf="comments.length > 1">
+      <button mat-button [matMenuTriggerFor]="sortMenu">
+        <mat-icon>sort</mat-icon>
+        Ordina
+      </button>
+      <mat-menu #sortMenu="matMenu">
+        <button mat-menu-item 
+                *ngFor="let option of sortOptions"
+                [class.selected]="option.value === currentSort"
+                (click)="onSortChange(option.value)">
+          <mat-icon *ngIf="option.value === currentSort">check</mat-icon>
+          {{ option.label }}
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Form per nuovo commento -->
+  <div class="new-comment-form" *ngIf="currentUser">
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmitComment()">
+      <div class="comment-input">
+        <div class="user-avatar">
+          <mat-icon>account_circle</mat-icon>
+        </div>
+        <mat-form-field appearance="outline" class="comment-field">
+          <mat-label>Scrivi un commento...</mat-label>
+          <textarea matInput 
+                    formControlName="content"
+                    rows="3"
+                    placeholder="Condividi i tuoi pensieri su questa issue..."
+                    maxlength="1000">
+          </textarea>
+          <mat-hint align="end">{{ commentForm.get('content')?.value?.length || 0 }}/1000</mat-hint>
+          <mat-error *ngIf="commentForm.get('content')?.hasError('required')">
+            Il commento è obbligatorio
+          </mat-error>
+          <mat-error *ngIf="commentForm.get('content')?.hasError('minlength')">
+            Il commento deve essere di almeno 3 caratteri
+          </mat-error>
+        </mat-form-field>
+      </div>
+      
+      <div class="comment-actions">
+        <button mat-raised-button 
+                color="primary" 
+                type="submit"
+                [disabled]="!commentForm.valid || isSubmitting">
+          <mat-icon>send</mat-icon>
+          {{ isSubmitting ? 'Invio...' : 'Commenta' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Lista commenti -->
+  <div class="comments-list">
+    <div class="no-comments" *ngIf="comments.length === 0">
+      <mat-icon>comment_bank</mat-icon>
+      <p>Nessun commento ancora.</p>
+      <span *ngIf="currentUser">Sii il primo a commentare!</span>
+    </div>
+
+    <div class="comment-item" *ngFor="let comment of comments; trackBy: trackByCommentId">
+      <div class="comment-card">
+        <!-- Header del commento -->
+        <div class="comment-header-item">
+          <div class="user-info">
+            <div class="user-avatar">
+              <mat-icon>account_circle</mat-icon>
+            </div>
+            <div class="user-details">
+              <div class="user-name">{{ getUserDisplayName(comment) }}</div>
+              <div class="user-meta">
+                <mat-chip class="role-chip" [class]="'role-' + comment.user?.role">
+                  {{ getUserRole(comment) }}
+                </mat-chip>
+                <span class="timestamp">{{ getTimeAgo(comment.created_at) }}</span>
+                <span class="edited" *ngIf="comment.updated_at !== comment.created_at">
+                  <mat-icon>edit</mat-icon>
+                  modificato
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Menu azioni -->
+          <div class="comment-actions" *ngIf="canEditComment(comment) || canDeleteComment(comment)">
+            <button mat-icon-button [matMenuTriggerFor]="commentMenu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #commentMenu="matMenu">
+              <button mat-menu-item 
+                      *ngIf="canEditComment(comment)"
+                      (click)="startEdit(comment)">
+                <mat-icon>edit</mat-icon>
+                Modifica
+              </button>
+              <button mat-menu-item 
+                      *ngIf="canDeleteComment(comment)"
+                      (click)="deleteComment(comment.id_comment)"
+                      class="delete-action">
+                <mat-icon>delete</mat-icon>
+                Elimina
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+
+        <!-- Contenuto del commento -->
+        <div class="comment-content">
+          <!-- Modalità visualizzazione -->
+          <div class="content-display" *ngIf="editingCommentId !== comment.id_comment">
+            <p [innerHTML]="comment.content | nl2br"></p>
+          </div>
+
+          <!-- Modalità modifica -->
+          <div class="content-edit" *ngIf="editingCommentId === comment.id_comment">
+            <form [formGroup]="editForm" (ngSubmit)="onSubmitEdit(comment.id_comment)">
+              <mat-form-field appearance="outline" class="edit-field">
+                <mat-label>Modifica commento</mat-label>
+                <textarea matInput 
+                          formControlName="content"
+                          rows="3"
+                          maxlength="1000">
+                </textarea>
+                <mat-hint align="end">{{ editForm.get('content')?.value?.length || 0 }}/1000</mat-hint>
+                <mat-error *ngIf="editForm.get('content')?.hasError('required')">
+                  Il commento è obbligatorio
+                </mat-error>
+                <mat-error *ngIf="editForm.get('content')?.hasError('minlength')">
+                  Il commento deve essere di almeno 3 caratteri
+                </mat-error>
+              </mat-form-field>
+              
+              <div class="edit-actions">
+                <button mat-button type="button" (click)="cancelEdit()">
+                  <mat-icon>cancel</mat-icon>
+                  Annulla
+                </button>
+                <button mat-raised-button 
+                        color="primary" 
+                        type="submit"
+                        [disabled]="!editForm.valid || isSubmitting">
+                  <mat-icon>save</mat-icon>
+                  {{ isSubmitting ? 'Salvando...' : 'Salva' }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

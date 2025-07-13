@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="board-actions">
-        <button mat-raised-button color="primary" (click)="onCreateIssue()">
+        <button mat-raised-button color="primary" (click)="openCreateIssueDialog()">
           <mat-icon>add</mat-icon>
           Nuova Issue
         </button>
@@ -85,6 +85,28 @@
                 <span class="issue-updated">{{ getTimeAgo(issue.updated_at) }}</span>
               </div>
             </mat-card-content>
+
+            <!-- Azioni Issue -->
+            <mat-card-actions class="issue-actions">
+              <button mat-icon-button 
+                      (click)="onIssueClick(issue); $event.stopPropagation()" 
+                      matTooltip="Visualizza dettagli e commenti"
+                      class="details-button">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button mat-icon-button 
+                      (click)="openEditIssueDialog(issue); $event.stopPropagation()" 
+                      matTooltip="Modifica issue"
+                      class="edit-button">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button 
+                      (click)="deleteIssue(issue); $event.stopPropagation()" 
+                      matTooltip="Elimina issue"
+                      class="delete-button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-actions>
           </mat-card>
 
           <!-- Placeholder quando non ci sono issue -->

@@ -211,6 +211,7 @@
   margin-bottom: 1rem;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -398,5 +399,72 @@
   .priority-chip {
     margin-left: 0;
     align-self: flex-start;
+  }
+}
+
+/* Issue Actions */
+.issue-actions {
+  padding: 0.5rem;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.02);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.issue-card:hover .issue-actions {
+  opacity: 1;
+}
+
+.issue-actions button {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  transition: all 0.3s ease;
+}
+
+.edit-button {
+  color: #0079bf;
+}
+
+.edit-button:hover {
+  background: rgba(0, 121, 191, 0.1);
+  color: #005a8b;
+}
+
+.details-button {
+  color: #28a745;
+}
+
+.details-button:hover {
+  background: rgba(40, 167, 69, 0.1);
+  color: #1e7e34;
+}
+
+.delete-button {
+  color: #f44336;
+}
+
+.delete-button:hover {
+  background: rgba(244, 67, 54, 0.1);
+  color: #d32f2f;
+}
+
+/* Responsive adjustments for actions */
+@media (max-width: 768px) {
+  .issue-actions {
+    opacity: 1; /* Always visible on mobile */
+  }
+  
+  .issue-actions button {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+  }
+  
+  .issue-card:hover .issue-actions {
+    opacity: 1;
+    visibility: visible;
   }
 }

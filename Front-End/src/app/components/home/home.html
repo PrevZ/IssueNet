@@ -111,19 +111,11 @@
           </mat-card-header>
         </mat-card>
 
-        <mat-card class="action-card">
+        <mat-card class="action-card" >
           <mat-card-header>
-            <mat-icon mat-card-avatar color="accent">add_circle</mat-icon>
-            <mat-card-title>Nuovo Progetto</mat-card-title>
-            <mat-card-subtitle>Crea un nuovo progetto</mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-
-        <mat-card class="action-card">
-          <mat-card-header>
-            <mat-icon mat-card-avatar color="warn">bug_report</mat-icon>
-            <mat-card-title>Nuovo Issue</mat-card-title>
-            <mat-card-subtitle>Segnala un nuovo problema</mat-card-subtitle>
+            <mat-icon mat-card-avatar color="accent">person</mat-icon>
+            <mat-card-title>Profilo Utente</mat-card-title>
+            <mat-card-subtitle>Modifica le tue informazioni</mat-card-subtitle>
           </mat-card-header>
         </mat-card>
       </div>
@@ -134,22 +126,22 @@
       <div class="stats-grid">
         <mat-card class="stat-card">
           <mat-card-content>
-            <div class="stat-number">0</div>
+            <div class="stat-number">{{ userStats.totalProjects }}</div>
             <div class="stat-label">Progetti Attivi</div>
           </mat-card-content>
         </mat-card>
 
         <mat-card class="stat-card">
           <mat-card-content>
-            <div class="stat-number">0</div>
-            <div class="stat-label">Issue Aperti</div>
+            <div class="stat-number">{{ userStats.totalIssues }}</div>
+            <div class="stat-label">Issue Totali</div>
           </mat-card-content>
         </mat-card>
 
         <mat-card class="stat-card">
           <mat-card-content>
-            <div class="stat-number">0</div>
-            <div class="stat-label">Issue Completati</div>
+            <div class="stat-number">{{ userStats.comments }}</div>
+            <div class="stat-label">Commenti Inseriti</div>
           </mat-card-content>
         </mat-card>
       </div>

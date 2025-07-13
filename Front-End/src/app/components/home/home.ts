@@ -6,6 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
+import { ProjectService } from '../../services/project.service';
+import { CommentService } from '../../services/comment.service';
+import { IssueService } from '../../services/issue.service';
 
 @Component({
   selector: 'app-home',
@@ -52,11 +55,38 @@ export class Home implements OnInit {
   
   currentFeatureIndex = 0;
 
-  constructor(private userService: UserService) {}
+  // statistiche utente
+  userStats = {
+    totalProjects: 0,
+    totalIssues: 0,
+    comments: 0
+  };
+
+  constructor(private userService: UserService, private projectService: ProjectService, private issueService: IssueService,private commentService: CommentService) {}
 
   ngOnInit() {
     this.userService.currentUser$.subscribe(user => {
       this.currentUser = user;
+      if (user) {
+        this.loadUserStats(user.id_user);
+      }
+    });
+  }
+
+  loadUserStats(userId: number) {
+    // Recupera progetti
+    this.projectService.getUserProjectStats(userId).subscribe(stats => {
+      this.userStats.totalProjects = Number(stats.total_projects) || 0;
+    });
+
+    // Recupera issue
+    this.issueService.getIssuesByAssignee(userId).subscribe(issues => {
+      this.userStats.totalIssues = issues.length;
+    });
+
+    // Recupera commenti
+    this.commentService.getCommentsByUser(userId).subscribe(comments => {
+      this.userStats.comments = comments.length;
     });
   }
   

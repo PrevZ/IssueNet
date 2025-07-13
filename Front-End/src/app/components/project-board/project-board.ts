@@ -8,12 +8,15 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProjectService } from '../../services/project.service';
 import { UserService } from '../../services/user.service';
 import { IssueService } from '../../services/issue.service';
-import { Project, User, Issue } from '../../models';
+import { IssueDialogComponent } from '../issue-dialog/issue-dialog.component';
+import { IssueDetailsDialogComponent } from '../issue-details-dialog/issue-details-dialog.component';
+import { Project, User, Issue, CreateIssueRequest, UpdateIssueRequest } from '../../models';
 
 interface KanbanColumn {
   id: string;
@@ -34,7 +37,8 @@ interface KanbanColumn {
     MatBadgeModule,
     MatMenuModule,
     MatDialogModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTooltipModule
   ],
   templateUrl: './project-board.html',
   styleUrl: './project-board.css'
@@ -42,6 +46,7 @@ interface KanbanColumn {
 export class ProjectBoard implements OnInit {
   project: Project | null = null;
   currentUser: User | null = null;
+  projectUsers: User[] = [];
   projectId: number = 0;
   loading = false;
   
@@ -77,13 +82,14 @@ export class ProjectBoard implements OnInit {
     private router: Router,
     private projectService: ProjectService,
     private userService: UserService,
-    private issueService: IssueService
+    private issueService: IssueService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.currentUser = this.userService.getCurrentUser();
     
-    // Ottieni l'ID del progetto dalla route
+    // Ottengo l'ID del progetto dalla route
     this.route.params.subscribe(params => {
       this.projectId = +params['id'];
       if (this.projectId) {
@@ -100,6 +106,7 @@ export class ProjectBoard implements OnInit {
         this.project = project;
         console.log('Progetto caricato:', project);
         this.loadProjectIssues();
+        this.loadProjectUsers();
       },
       error: (error) => {
         console.error('Errore nel caricamento del progetto:', error);
@@ -139,6 +146,20 @@ export class ProjectBoard implements OnInit {
     });
 
     console.log('Issue distribuite nelle colonne:', this.kanbanColumns);
+  }
+
+  private loadProjectUsers(): void {
+    // Carico tutti gli utenti del sistema
+    this.userService.getAllUsers().subscribe({
+      next: (users) => {
+        this.projectUsers = users;
+        console.log('Utenti del progetto caricati:', users);
+      },
+      error: (error) => {
+        console.error('Errore nel caricamento degli utenti del progetto:', error);
+        this.projectUsers = [];
+      }
+    });
   }
 
   getPriorityColor(priority: string): string {
@@ -184,13 +205,119 @@ export class ProjectBoard implements OnInit {
   }
 
   onIssueClick(issue: Issue): void {
-    console.log('Issue clicked:', issue);
-    // TODO: Aprire dialog di dettaglio issue
+    // Apre il dialog dei dettagli con commenti
+    this.openIssueDetailDialog(issue);
   }
 
-  onCreateIssue(): void {
-    console.log('Creazione nuova issue per progetto:', this.projectId);
-    // TODO: Aprire dialog di creazione issue
+  openEditIssueDialog(issue: Issue): void {
+    // Apre il dialog di modifica
+    const dialogRef = this.dialog.open(IssueDialogComponent, {
+      width: '600px',
+      maxWidth: '90vw',
+      data: {
+        projectId: this.projectId,
+        currentUserId: this.currentUser!.id_user,
+        projectUsers: this.projectUsers,
+        issue: issue,
+        mode: 'edit'
+      },
+      disableClose: false,
+      autoFocus: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'update') {
+        this.handleUpdateIssue(issue.id_issue, result.data);
+      }
+    });
+  }
+
+  openCreateIssueDialog(): void {
+    const dialogRef = this.dialog.open(IssueDialogComponent, {
+      width: '600px',
+      maxWidth: '90vw',
+      data: {
+        projectId: this.projectId,
+        currentUserId: this.currentUser!.id_user,
+        projectUsers: this.projectUsers,
+        mode: 'create'
+      },
+      disableClose: false,
+      autoFocus: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.type === 'create') {
+        this.handleCreateIssue(result.data);
+      }
+    });
+  }
+
+  openIssueDetailDialog(issue: Issue): void {
+    const dialogRef = this.dialog.open(IssueDetailsDialogComponent, {
+      width: '800px',
+      maxWidth: '95vw',
+      maxHeight: '90vh',
+      data: {
+        issue: issue,
+        projectUsers: this.projectUsers
+      },
+      disableClose: false,
+      autoFocus: true
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      // Il dialog dei dettagli è solo per visualizzazione
+      // Le azioni di modifica/eliminazione vengono gestite separatamente
+    });
+  }
+
+  private handleCreateIssue(issueData: CreateIssueRequest): void {
+    this.issueService.createIssue(issueData).subscribe({
+      next: (newIssue) => {
+        console.log('Issue creata con successo:', newIssue);
+        // Ricarica le issue per aggiornare la board
+        this.loadProjectIssues();
+        // TODO: Mostrare notifica di successo
+      },
+      error: (error) => {
+        console.error('Errore nella creazione dell\'issue:', error);
+        // TODO: Mostrare notifica di errore
+      }
+    });
+  }
+
+  private handleUpdateIssue(issueId: number, issueData: UpdateIssueRequest): void {
+    this.issueService.updateIssue(issueId, issueData).subscribe({
+      next: (updatedIssue) => {
+        console.log('Issue aggiornata con successo:', updatedIssue);
+        // Ricarica le issue per aggiornare la board
+        this.loadProjectIssues();
+        // TODO: Mostrare notifica di successo
+      },
+      error: (error) => {
+        console.error('Errore nell\'aggiornamento dell\'issue:', error);
+        // TODO: Mostrare notifica di errore
+      }
+    });
+  }
+
+  public deleteIssue(issue: Issue): void {
+    // TODO: Aggiungere dialog di conferma
+    if (confirm(`Sei sicuro di voler eliminare l'issue "${issue.title}"?`)) {
+      this.issueService.deleteIssue(issue.id_issue).subscribe({
+        next: () => {
+          console.log('Issue eliminata con successo');
+          // Ricarica le issue per aggiornare la board
+          this.loadProjectIssues();
+          // TODO: Mostrare notifica di successo
+        },
+        error: (error) => {
+          console.error('Errore nell\'eliminazione dell\'issue:', error);
+          // TODO: Mostrare notifica di errore
+        }
+      });
+    }
   }
 
   goBackToDashboard(): void {

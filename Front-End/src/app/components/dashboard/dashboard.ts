@@ -6,13 +6,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatBadgeModule } from '@angular/material/badge';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { RouterModule, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { ProjectService } from '../../services/project.service';
 import { IssueService } from '../../services/issue.service';
 import { CommentService } from '../../services/comment.service';
-import { User, Project, DashboardProject, Issue, Comment } from '../../models';
+import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
+import { IssueDialogComponent } from '../issue-dialog/issue-dialog.component';
+import { User, Project, DashboardProject, Issue, Comment, CreateProjectRequest } from '../../models';
 
 
 
@@ -53,7 +55,8 @@ export class Dashboard implements OnInit {
     private projectService: ProjectService,
     private issueService: IssueService,
     private commentService: CommentService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -300,8 +303,37 @@ export class Dashboard implements OnInit {
   }
 
   createNewProject(): void {
-    console.log('Creazione nuovo progetto...');
+    console.log('Apertura dialog creazione progetto...');
     
+    const dialogRef = this.dialog.open(CreateProjectDialogComponent, {
+      width: '500px',
+      maxWidth: '90vw',
+      data: { userId: this.currentUser!.id_user },
+      disableClose: false,
+      autoFocus: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Dati progetto ricevuti:', result);
+        this.handleCreateProject(result);
+      }
+    });
+  }
+
+  private handleCreateProject(projectData: CreateProjectRequest): void {
+    this.projectService.createProject(projectData).subscribe({
+      next: (newProject) => {
+        console.log('Progetto creato con successo:', newProject);
+        // Ricarica i dati della dashboard per mostrare il nuovo progetto
+        this.loadProjectsFromBackend();
+        this.loadStatsFromBackend();
+      },
+      error: (error) => {
+        console.error('Errore nella creazione del progetto:', error);
+        // TODO: Implementare gestione errori con notifiche
+      }
+    });
   }
 
   getIssueProgress(issue: Issue): number {

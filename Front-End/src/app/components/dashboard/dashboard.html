@@ -5,6 +5,17 @@
       <h1>Benvenuto, {{ currentUser?.full_name || 'Utente' }}!</h1>
       <p>Ecco una panoramica dei tuoi progetti e attività recenti</p>
     </div>
+    
+    <!-- Menu di navigazione rapida -->
+    <div class="quick-actions" *ngIf="currentUser?.role === 'admin'">
+      <h3>Azioni Rapide</h3>
+      <div class="actions-grid">
+        <button mat-raised-button color="primary" routerLink="/user-management" class="action-button">
+          <mat-icon>group</mat-icon>
+          Gestione Utenti
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- Statistiche generali -->
@@ -73,7 +84,7 @@
       
       <div class="projects-grid">
         <!-- Card progetto esistente -->
-        <mat-card class="project-card" *ngFor="let project of projects" (click)="openProject(project.id_project)">
+        <mat-card class="project-card" *ngFor="let project of projects">
           <mat-card-header>
             <div class="project-header">
               <div class="project-title-section">
@@ -236,10 +247,6 @@
               <mat-icon>launch</mat-icon>
               Vai al Progetto
             </button>
-            <button mat-button>
-              <mat-icon>edit</mat-icon>
-              Modifica
-            </button>
           </mat-card-actions>
         </mat-card>
       </div>
@@ -262,7 +269,7 @@
       </div>
     
     <div class="projects-grid" *ngIf="userComments.length > 0">
-      <mat-card class="project-card" *ngFor="let comment of userComments" (click)="onCommentClick(comment)">
+      <mat-card class="project-card" *ngFor="let comment of userComments">
         <mat-card-header>
           <div class="project-header">
             <div class="project-title-section">
@@ -318,10 +325,6 @@
           <button mat-button (click)="onCommentClick(comment); $event.stopPropagation()">
             <mat-icon>launch</mat-icon>
             Vai all'Issue
-          </button>
-          <button mat-button>
-            <mat-icon>edit</mat-icon>
-            Modifica
           </button>
         </mat-card-actions>
       </mat-card>

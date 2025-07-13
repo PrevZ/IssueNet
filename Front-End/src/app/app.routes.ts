@@ -4,6 +4,7 @@ import { Login } from './components/login/login';
 import { Register } from './components/register/register';
 import { Dashboard } from './components/dashboard/dashboard';
 import { ProjectBoard } from './components/project-board/project-board';
+import { UserManagementComponent } from './components/user-management/user-management.component';
 import { Features } from './components/features/features';
 import { Faq } from './components/faq/faq';
 import { About } from './components/about/about';
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'register', component: Register },
   { path: 'dashboard', component: Dashboard },
+  { path: 'user-management', component: UserManagementComponent },
   { path: 'features', component: Features },
   { path: 'faq', component: Faq },
   { path: 'about', component: About },

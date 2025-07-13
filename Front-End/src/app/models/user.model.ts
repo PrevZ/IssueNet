@@ -15,6 +15,14 @@ export interface CreateUserRequest {
   role?: 'admin' | 'developer' | 'tester';
 }
 
+export interface UpdateUserRequest {
+  username?: string;
+  email?: string;
+  password?: string;
+  full_name?: string;
+  role?: 'admin' | 'developer' | 'tester';
+}
+
 export interface RegisterRequest {
   firstName: string;
   lastName: string;

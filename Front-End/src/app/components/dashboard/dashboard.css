@@ -273,7 +273,6 @@
 }
 
 .project-card {
-  cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -479,6 +478,7 @@
 }
 
 .add-project-card {
+  cursor: pointer;
   border: 2px dashed rgba(103, 126, 234, 0.3);
   background: rgba(103, 126, 234, 0.05);
   backdrop-filter: blur(15px);
@@ -644,6 +644,16 @@
   margin-top: 4rem;
 }
 
+/* Card delle issue cliccabili */
+.issues-section .project-card {
+  cursor: pointer;
+}
+
+.issues-section .project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
 /* Spaziatura per la sezione commenti */
 .comments-section {
   margin-top: 4rem;
@@ -702,6 +712,52 @@
 .comments-section .project-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Quick Actions */
+.quick-actions {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.quick-actions h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.actions-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  text-transform: none;
+  font-weight: 500;
+}
+
+.action-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.action-button mat-icon {
+  font-size: 1.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 /* Responsive Design */

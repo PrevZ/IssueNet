@@ -1,0 +1,138 @@
+<div class="dialog-container">
+  <!-- Header -->
+  <div class="dialog-header">
+    <div class="header-content">
+      <div class="issue-title">
+        <mat-icon [class]="'type-' + data.issue.type">{{ getTypeIcon() }}</mat-icon>
+        <h2 mat-dialog-title>{{ data.issue.title }}</h2>
+      </div>
+      <div class="issue-meta">
+        <mat-chip [color]="getPriorityColor()" selected>
+          <mat-icon>flag</mat-icon>
+          {{ getPriorityLabel() }}
+        </mat-chip>
+        <mat-chip [color]="getStatusColor()" selected>
+          <mat-icon>track_changes</mat-icon>
+          {{ getStatusLabel() }}
+        </mat-chip>
+        <mat-chip color="primary" selected>
+          <mat-icon>category</mat-icon>
+          {{ getTypeLabel() }}
+        </mat-chip>
+      </div>
+    </div>
+    <button mat-icon-button mat-dialog-close class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content class="dialog-content">
+    <mat-tab-group class="issue-tabs">
+      <!-- Tab Dettagli -->
+      <mat-tab label="Dettagli">
+        <div class="tab-content">
+          <!-- Descrizione -->
+          <div class="info-section" *ngIf="data.issue.description">
+            <h3>
+              <mat-icon>description</mat-icon>
+              Descrizione
+            </h3>
+            <div class="description-content">
+              <p>{{ data.issue.description }}</p>
+            </div>
+          </div>
+
+          <!-- Informazioni principali -->
+          <div class="info-grid">
+            <!-- Assegnatario -->
+            <div class="info-card">
+              <h4>
+                <mat-icon>person</mat-icon>
+                Assegnatario
+              </h4>
+              <div class="assignee" *ngIf="getAssignedUser(); else noAssignee">
+                <mat-chip color="accent" selected>
+                  <mat-icon>account_circle</mat-icon>
+                  {{ getAssignedUser()?.full_name }}
+                </mat-chip>
+              </div>
+              <ng-template #noAssignee>
+                <span class="no-data">Non assegnato</span>
+              </ng-template>
+            </div>
+
+            <!-- Creato da -->
+            <div class="info-card">
+              <h4>
+                <mat-icon>person_add</mat-icon>
+                Creato da
+              </h4>
+              <div class="creator">
+                <mat-chip color="primary" selected>
+                  <mat-icon>account_circle</mat-icon>
+                  {{ getCreatedUser()?.full_name }}
+                </mat-chip>
+              </div>
+            </div>
+
+            <!-- Date -->
+            <div class="info-card">
+              <h4>
+                <mat-icon>schedule</mat-icon>
+                Date
+              </h4>
+              <div class="date-info">
+                <p><strong>Creata:</strong> {{ formatDate(data.issue.created_at) }}</p>
+                <p *ngIf="data.issue.updated_at !== data.issue.created_at">
+                  <strong>Modificata:</strong> {{ formatDate(data.issue.updated_at) }}
+                </p>
+                <p *ngIf="data.issue.due_date" [class.overdue]="isOverdue()">
+                  <strong>Scadenza:</strong> {{ formatDate(data.issue.due_date) }}
+                  <mat-icon *ngIf="isOverdue()" class="warning-icon">warning</mat-icon>
+                </p>
+              </div>
+            </div>
+
+            <!-- Ore -->
+            <div class="info-card" *ngIf="data.issue.estimated_hours || data.issue.actual_hours">
+              <h4>
+                <mat-icon>timer</mat-icon>
+                Ore di Lavoro
+              </h4>
+              <div class="hours-info">
+                <p *ngIf="data.issue.estimated_hours">
+                  <strong>Stimate:</strong> {{ data.issue.estimated_hours }}h
+                </p>
+                <p *ngIf="data.issue.actual_hours">
+                  <strong>Effettive:</strong> {{ data.issue.actual_hours }}h
+                </p>
+                <div class="progress-indicator" *ngIf="data.issue.estimated_hours && data.issue.actual_hours">
+                  <small>
+                    Progresso: {{ ((data.issue.actual_hours / data.issue.estimated_hours) * 100).toFixed(0) }}%
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Tab Commenti -->
+      <mat-tab label="Commenti">
+        <div class="tab-content">
+          <app-comment-section 
+            [issueId]="data.issue.id_issue"
+            [projectUsers]="data.projectUsers">
+          </app-comment-section>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="onClose()">
+      <mat-icon>close</mat-icon>
+      Chiudi
+    </button>
+  </mat-dialog-actions>
+</div>

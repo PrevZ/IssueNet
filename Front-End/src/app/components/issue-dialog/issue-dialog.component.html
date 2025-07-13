@@ -1,0 +1,166 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2 mat-dialog-title>
+      <mat-icon>{{ isEditMode ? 'edit' : 'add' }}</mat-icon>
+      {{ isEditMode ? 'Modifica Issue' : 'Nuova Issue' }}
+    </h2>
+    <button mat-icon-button mat-dialog-close class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <form [formGroup]="issueForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content class="dialog-content">
+      <!-- Titolo -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Titolo</mat-label>
+        <input matInput 
+               formControlName="title" 
+               placeholder="Es. Correggere bug nel carrello"
+               required>
+        <mat-icon matSuffix>title</mat-icon>
+        <mat-error *ngIf="issueForm.get('title')?.hasError('required')">
+          Il titolo è obbligatorio
+        </mat-error>
+        <mat-error *ngIf="issueForm.get('title')?.hasError('minlength')">
+          Il titolo deve essere di almeno 3 caratteri
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Descrizione -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descrizione</mat-label>
+        <textarea matInput 
+                  formControlName="description"
+                  placeholder="Descrivi in dettaglio il problema o la feature richiesta..."
+                  rows="4">
+        </textarea>
+        <mat-icon matSuffix>description</mat-icon>
+      </mat-form-field>
+
+      <!-- Riga con Tipo e Priorità -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="type">
+            <mat-option *ngFor="let type of typeOptions" [value]="type.value">
+              <mat-icon>{{ type.icon }}</mat-icon>
+              {{ type.label }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix>category</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Priorità</mat-label>
+          <mat-select formControlName="priority">
+            <mat-option *ngFor="let priority of priorityOptions" [value]="priority.value">
+              <span [class]="'priority-' + priority.value">{{ priority.label }}</span>
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix>flag</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- Riga con Status e Assegnatario (solo in edit mode) -->
+      <div class="form-row" *ngIf="isEditMode">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Stato</mat-label>
+          <mat-select formControlName="status">
+            <mat-option *ngFor="let status of statusOptions" [value]="status.value">
+              {{ status.label }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix>track_changes</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Assegnatario</mat-label>
+          <mat-select formControlName="assigned_to">
+            <mat-option value="">Nessuno</mat-option>
+            <mat-option *ngFor="let user of data.projectUsers" [value]="user.id_user">
+              {{ user.full_name }}
+            </mat-option>
+          </mat-select>
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- Solo assegnatario in create mode -->
+      <mat-form-field appearance="outline" class="full-width" *ngIf="!isEditMode">
+        <mat-label>Assegna a</mat-label>
+        <mat-select formControlName="assigned_to">
+          <mat-option value="">Nessuno (assegna dopo)</mat-option>
+          <mat-option *ngFor="let user of data.projectUsers" [value]="user.id_user">
+            {{ user.full_name }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+
+      <!-- Riga con Ore -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="half-width">
+          <mat-label>Ore Stimate</mat-label>
+          <input matInput 
+                 type="number" 
+                 formControlName="estimated_hours"
+                 placeholder="8"
+                 min="0.5"
+                 max="999"
+                 step="0.5">
+          <mat-icon matSuffix>schedule</mat-icon>
+          <mat-error *ngIf="issueForm.get('estimated_hours')?.hasError('min')">
+            Minimo 0.5 ore
+          </mat-error>
+          <mat-error *ngIf="issueForm.get('estimated_hours')?.hasError('max')">
+            Massimo 999 ore
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="half-width" *ngIf="isEditMode">
+          <mat-label>Ore Effettive</mat-label>
+          <input matInput 
+                 type="number" 
+                 formControlName="actual_hours"
+                 placeholder="6"
+                 min="0"
+                 max="999"
+                 step="0.5">
+          <mat-icon matSuffix>timer</mat-icon>
+          <mat-error *ngIf="issueForm.get('actual_hours')?.hasError('min')">
+            Minimo 0 ore
+          </mat-error>
+          <mat-error *ngIf="issueForm.get('actual_hours')?.hasError('max')">
+            Massimo 999 ore
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Data di scadenza -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Data di Scadenza</mat-label>
+        <input matInput 
+               [matDatepicker]="picker" 
+               formControlName="due_date"
+               placeholder="Seleziona una data">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="dialog-actions">
+      <button mat-button type="button" (click)="onCancel()">
+        <mat-icon>cancel</mat-icon>
+        Annulla
+      </button>
+      <button mat-raised-button 
+              color="primary" 
+              type="submit"
+              [disabled]="!issueForm.valid || isSubmitting">
+        <mat-icon>{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+        {{ isSubmitting ? 'Salvando...' : (isEditMode ? 'Salva Modifiche' : 'Crea Issue') }}
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>
