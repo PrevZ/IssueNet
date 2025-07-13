@@ -1,0 +1,55 @@
+
+<div class="profile-page-modern">
+  <!-- HEADER FUORI CARD -->
+  <div class="profile-header-modern">
+    <div class="profile-info">
+      <mat-icon class="profile-avatar">account_circle</mat-icon>
+      <div class="profile-title-block">
+        <h1>{{ currentUser?.full_name }}</h1>
+        <span class="role-badge">{{ currentUser?.role | titlecase }}</span>
+      </div>
+    </div>
+    <button mat-stroked-button color="warn" class="logout-btn" (click)="logout()">
+      <mat-icon>logout</mat-icon> Esci
+    </button>
+  </div>
+
+  <div class="profile-cards-row">
+    <!-- INFORMAZIONI ACCOUNT -->
+    <mat-card class="user-info-card">
+      <mat-card-title>Informazioni Account</mat-card-title>
+      <mat-card-content>
+        <div class="info-row"><span>ID:</span> <span>{{ currentUser?.id_user }}</span></div>
+        <div class="info-row"><span>Username:</span> <span>{{ currentUser?.username }}</span></div>
+        <div class="info-row"><span>Email:</span> <span>{{ currentUser?.email }}</span></div>
+        <div class="info-row"><span>Ruolo:</span> <span>{{ currentUser?.role | titlecase }}</span></div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- MODIFICA PROFILO -->
+    <mat-card class="user-edit-card">
+      <mat-card-title>Modifica Profilo</mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="profileForm" class="profile-form">
+          <mat-form-field appearance="outline" class="profile-field">
+            <mat-label>Nome completo</mat-label>
+            <input matInput formControlName="full_name" [readonly]="!isEditing">
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="profile-field">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" [readonly]="!isEditing">
+          </mat-form-field>
+          <!-- Altri campi se necessario -->
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" *ngIf="!isEditing" (click)="enableEdit()">Modifica</button>
+        <button mat-raised-button color="accent" *ngIf="isEditing" (click)="saveProfile()">Salva</button>
+        <button mat-button *ngIf="isEditing" (click)="cancelEdit()">Annulla</button>
+        <button mat-stroked-button color="secondary" (click)="openChangePasswordDialog()">Cambia Password</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
+
+

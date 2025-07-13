@@ -5,17 +5,6 @@
       <h1>Benvenuto, {{ currentUser?.full_name || 'Utente' }}!</h1>
       <p>Ecco una panoramica dei tuoi progetti e attività recenti</p>
     </div>
-    
-    <!-- Menu di navigazione rapida -->
-    <div class="quick-actions" *ngIf="currentUser?.role === 'admin'">
-      <h3>Azioni Rapide</h3>
-      <div class="actions-grid">
-        <button mat-raised-button color="primary" routerLink="/user-management" class="action-button">
-          <mat-icon>group</mat-icon>
-          Gestione Utenti
-        </button>
-      </div>
-    </div>
   </div>
 
   <!-- Statistiche generali -->
@@ -148,7 +137,7 @@
               <mat-icon>launch</mat-icon>
               Apri Board
             </button>
-            <button mat-button>
+            <button mat-button (click)="updateProject(project)">
               <mat-icon>settings</mat-icon>
               Gestisci
             </button>
@@ -178,7 +167,7 @@
       </div>
       
       <div class="projects-grid" *ngIf="userIssues.length > 0">
-        <mat-card class="project-card" *ngFor="let issue of userIssues" (click)="onIssueClick(issue)">
+        <mat-card class="project-card" *ngFor="let issue of userIssues">
           <mat-card-header>
             <div class="project-header">
               <div class="project-title-section">
@@ -300,7 +289,6 @@
             </div>
             <div class="stat" *ngIf="comment.updated_at !== comment.created_at">
               <mat-icon>edit</mat-icon>
-              <span>Modificato</span>
             </div>
           </div>
 

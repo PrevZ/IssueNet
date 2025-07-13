@@ -10,9 +10,7 @@
     </div>
     <div class="header-actions">
       <button mat-raised-button 
-              color="primary" 
-              (click)="openEditUserDialog()"
-              [disabled]="currentUser?.role !== 'admin'">
+              (click)="openEditUserDialog()">
         <mat-icon>person_add</mat-icon>
         Nuovo Utente
       </button>
@@ -105,12 +103,6 @@
               <mat-icon>clear</mat-icon>
               Pulisci
             </button>
-            <button mat-stroked-button 
-                    type="button" 
-                    (click)="exportUsers()">
-              <mat-icon>download</mat-icon>
-              Esporta
-            </button>
           </div>
         </div>
       </form>
@@ -170,9 +162,8 @@
           <ng-container matColumnDef="role">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Ruolo</th>
             <td mat-cell *matCellDef="let user">
-              <mat-chip [color]="getRoleInfo(user.role).color" selected>
-                <mat-icon>{{ getRoleInfo(user.role).icon }}</mat-icon>
-                {{ getRoleInfo(user.role).label }}
+              <mat-chip>
+                {{ user.role }}
               </mat-chip>
             </td>
           </ng-container>
@@ -189,14 +180,12 @@
                 </button>
                 <mat-menu #userMenu="matMenu">
                   <button mat-menu-item 
-                          (click)="openEditUserDialog(user)"
-                          [disabled]="!canEditUser(user)">
+                          (click)="openEditUserDialog(user)">
                     <mat-icon>edit</mat-icon>
                     Modifica
                   </button>
                   <button mat-menu-item 
                           (click)="deleteUser(user)"
-                          [disabled]="!canDeleteUser(user)"
                           class="delete-action">
                     <mat-icon>delete</mat-icon>
                     Elimina
@@ -217,13 +206,6 @@
           <p>Prova a modificare i filtri di ricerca</p>
         </div>
       </div>
-
-      <!-- Paginazione -->
-      <mat-paginator 
-        [pageSizeOptions]="[5, 10, 20, 50]"
-        [pageSize]="10"
-        [showFirstLastButtons]="true">
-      </mat-paginator>
     </mat-card-content>
   </mat-card>
 </div>

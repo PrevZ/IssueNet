@@ -1,0 +1,66 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2 mat-dialog-title>
+      <mat-icon>edit</mat-icon>
+      Modifica Progetto
+    </h2>
+    <button mat-icon-button mat-dialog-close class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+    <mat-dialog-content class="dialog-content">
+        <!-- Nome Progetto -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nome Progetto</mat-label>
+        <input matInput 
+               formControlName="name" 
+               placeholder="Es. E-commerce Platform"
+               required>
+        <mat-icon matSuffix>title</mat-icon>
+        <mat-error *ngIf="projectForm.get('name')?.hasError('required')">
+          Il nome del progetto è obbligatorio
+        </mat-error>
+        <mat-error *ngIf="projectForm.get('name')?.hasError('minlength')">
+          Il nome deve essere di almeno 3 caratteri
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Descrizione -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descrizione</mat-label>
+        <textarea matInput 
+                  formControlName="description"
+                  placeholder="Descrivi brevemente il progetto e i suoi obiettivi..."
+                  rows="4">
+        </textarea>
+        <mat-icon matSuffix>description</mat-icon>
+      </mat-form-field>
+
+        <!-- Stato Iniziale -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Stato Iniziale</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="active">Attivo</mat-option>
+          <mat-option value="archived">Archiviato</mat-option>
+        </mat-select>
+        <mat-icon matSuffix>flag</mat-icon>
+      </mat-form-field>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="dialog-actions">
+      <button mat-button type="button" mat-dialog-close>
+        <mat-icon>cancel</mat-icon>
+        Annulla
+      </button>
+      <button mat-raised-button 
+              color="primary" 
+              type="submit"
+              [disabled]="!projectForm.valid || isSubmitting">
+        <mat-icon>save</mat-icon>
+        Salva progetto
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>

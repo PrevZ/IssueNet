@@ -14,7 +14,8 @@ import { IssueService } from '../../services/issue.service';
 import { CommentService } from '../../services/comment.service';
 import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
 import { IssueDialogComponent } from '../issue-dialog/issue-dialog.component';
-import { User, Project, DashboardProject, Issue, Comment, CreateProjectRequest } from '../../models';
+import { User, Project, DashboardProject, Issue, Comment, CreateProjectRequest, UpdateProjectRequest } from '../../models';
+import { UpdateProjectDialogComponent } from '../update-project-dialog/update-project-dialog';
 
 
 
@@ -321,6 +322,27 @@ export class Dashboard implements OnInit {
     });
   }
 
+  updateProject(project: Project): void {
+    console.log('Apertura dialog modifica progetto...');
+    const dialogRef = this.dialog.open(UpdateProjectDialogComponent, {
+      width: '500px',
+      maxWidth: '90vw',
+      data: { 
+        userId: this.currentUser!.id_user,
+        project: project
+      },
+      disableClose: false,
+      autoFocus: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: UpdateProjectRequest | undefined) => {
+      if (result) {
+        console.log('Dati progetto ricevuti:', result);
+        this.handleUpdateProject(project.id_project, result);
+      }
+    });
+  }
+
   private handleCreateProject(projectData: CreateProjectRequest): void {
     this.projectService.createProject(projectData).subscribe({
       next: (newProject) => {
@@ -331,6 +353,21 @@ export class Dashboard implements OnInit {
       },
       error: (error) => {
         console.error('Errore nella creazione del progetto:', error);
+        // TODO: Implementare gestione errori con notifiche
+      }
+    });
+  }
+
+  private handleUpdateProject(projectId: number, projectData: UpdateProjectRequest): void {
+    this.projectService.updateProject(projectId, projectData).subscribe({
+      next: (updProject) => {
+        console.log('Progetto modificato con successo:', updProject);
+        // Ricarica i dati della dashboard per mostrare il nuovo progetto
+        this.loadProjectsFromBackend();
+        this.loadStatsFromBackend();
+      },
+      error: (error) => {
+        console.error('Errore nella modifica del progetto:', error);
         // TODO: Implementare gestione errori con notifiche
       }
     });

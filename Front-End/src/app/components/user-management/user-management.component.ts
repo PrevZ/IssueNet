@@ -220,13 +220,8 @@ export class UserManagementComponent implements OnInit {
     }
   }
 
-  getRoleInfo(role: string) {
-    return this.roleOptions.find(r => r.value === role) || this.roleOptions[1];
-  }
-
   canEditUser(user: User): boolean {
     // Gli admin possono modificare tutti
-    // Gli utenti possono modificare solo se stessi
     return this.currentUser?.role === 'admin' || this.currentUser?.id_user === user.id_user;
   }
 
@@ -247,10 +242,5 @@ export class UserManagementComponent implements OnInit {
   clearFilters(): void {
     this.filterForm.reset();
     this.filteredUsers = [...this.users];
-  }
-
-  exportUsers(): void {
-    // Implementazione futura per esportare la lista utenti
-    this.showSnackBar('Funzionalità di esportazione in arrivo', 'success');
   }
 }

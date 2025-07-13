@@ -42,13 +42,13 @@
       </button>
       
       <mat-menu #userMenu="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item routerLink="/user-profile">
           <mat-icon>person</mat-icon>
           <span>Profilo</span>
         </button>
-        <button mat-menu-item>
-          <mat-icon>settings</mat-icon>
-          <span>Impostazioni</span>
+        <button mat-menu-item routerLink="/user-management" *ngIf="currentUser?.role === 'admin'">
+          <mat-icon>group</mat-icon>
+          Gestione Utenti
         </button>
         <mat-divider></mat-divider>
         <button mat-menu-item (click)="logout()">
