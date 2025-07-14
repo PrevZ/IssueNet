@@ -21,11 +21,6 @@
   background-color: var(--light-gray);
 }
 
-/* Padding per pagine normali (non Home) */
-.app-main.with-padding {
-  padding: 24px 0;
-}
-
 .app-footer-wrapper {
   margin-top: auto;
   background-color: var(--white);

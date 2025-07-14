@@ -12,6 +12,7 @@ import { Contact } from './components/contact/contact';
 import { PrivacyPolicy } from './components/privacy-policy/privacy-policy';
 import { TermsOfService } from './components/terms-of-service/terms-of-service';
 import { UserProfile } from './components/user-profile/user-profile.component';
+import { IssueBoard } from './components/issue-board/issue-board';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -27,6 +28,7 @@ export const routes: Routes = [
   { path: 'privacy-policy', component: PrivacyPolicy },
   { path: 'terms-of-service', component: TermsOfService },
   { path: 'project/:id', component: ProjectBoard },
+  { path: 'issue/:id', component: IssueBoard },
   { path: 'user-profile', component: UserProfile },
   { path: '**', redirectTo: '/home' }
 ];

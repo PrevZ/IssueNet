@@ -62,6 +62,49 @@ export class Home implements OnInit {
     comments: 0
   };
 
+  // Tips e suggerimenti
+  tips = [
+    {
+      id: 1,
+      title: 'Organizza i tuoi progetti',
+      description: 'Usa la dashboard per avere una panoramica completa di tutti i tuoi progetti e issue assegnate.',
+      icon: 'lightbulb',
+      color: 'primary',
+      actionText: 'Vai alla Dashboard',
+      actionRoute: '/dashboard'
+    },
+    {
+      id: 2,
+      title: 'Collabora efficacemente',
+      description: 'Aggiungi commenti dettagliati alle issue per tenere aggiornato il team sui progressi.',
+      icon: 'forum',
+      color: 'accent',
+      actionText: 'Gestisci Issue',
+      actionRoute: '/dashboard'
+    },
+    {
+      id: 3,
+      title: 'Mantieni il profilo aggiornato',
+      description: 'Aggiorna le tue informazioni personali per una migliore esperienza di collaborazione.',
+      icon: 'person',
+      color: 'warn',
+      actionText: 'Modifica Profilo',
+      actionRoute: '/user-profile'
+    },
+    {
+      id: 4,
+      title: 'Gestione utenti (Admin)',
+      description: 'Se sei un admin, puoi gestire utenti, ruoli e permessi dalla sezione dedicata.',
+      icon: 'admin_panel_settings',
+      color: 'primary',
+      actionText: 'Gestione Utenti',
+      actionRoute: '/user-management',
+      adminOnly: true
+    }
+  ];
+
+  currentTipIndex = 0;
+
   constructor(private userService: UserService, private projectService: ProjectService, private issueService: IssueService,private commentService: CommentService) {}
 
   ngOnInit() {
@@ -69,6 +112,7 @@ export class Home implements OnInit {
       this.currentUser = user;
       if (user) {
         this.loadUserStats(user.id_user);
+        this.startTipRotation();
       }
     });
   }
@@ -96,5 +140,46 @@ export class Home implements OnInit {
   
   get currentFeature() {
     return this.features[this.currentFeatureIndex];
+  }
+
+  // Metodi per gestire i tips
+  get availableTips() {
+    return this.tips.filter(tip => {
+      if (tip.adminOnly && this.currentUser?.role !== 'admin') {
+        return false;
+      }
+      return true;
+    });
+  }
+
+  get currentTip() {
+    const tips = this.availableTips;
+    return tips[this.currentTipIndex % tips.length];
+  }
+
+  nextTip() {
+    const tips = this.availableTips;
+    this.currentTipIndex = (this.currentTipIndex + 1) % tips.length;
+  }
+
+  previousTip() {
+    const tips = this.availableTips;
+    this.currentTipIndex = this.currentTipIndex === 0 ? tips.length - 1 : this.currentTipIndex - 1;
+  }
+
+  selectTip(index: number) {
+    this.currentTipIndex = index;
+  }
+
+  private startTipRotation() {
+    // Cambia tip ogni 8 secondi
+    setInterval(() => {
+      this.nextTip();
+    }, 8000);
+  }
+
+  openGitHub() {
+    // Apri GitHub in una nuova tab
+    window.open('https://github.com/PrevZ/IssueNet.git', '_blank');
   }
 }

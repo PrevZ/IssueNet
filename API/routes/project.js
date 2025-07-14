@@ -160,17 +160,25 @@ router.put('/:id', async (req, res) => {
 
 // DELETE /api/projects/:id - Elimina un progetto
 router.delete('/:id', async (req, res) => {
+    const projectId = parseInt(req.params.id);
+    
+    // Validazione dell'ID
+    if (isNaN(projectId) || projectId <= 0) {
+        return res.status(400).json({ error: 'ID progetto non valido' });
+    }
+    
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
     try {
-        const deletedProject = await projectDAO.deleteProject(connection, req.params.id);
+        const deletedProject = await projectDAO.deleteProject(connection, projectId);
         if (deletedProject) {
+            await connection.commit();
             res.status(200).json({ message: 'Progetto eliminato con successo' });
         } else {
+            await connection.rollback();
             res.status(404).json({ error: 'Project not found' });
         }
-        await connection.commit();
     } catch (error) {
         console.error("Error deleting project:", error);
         await connection.rollback();

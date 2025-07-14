@@ -75,6 +75,9 @@
   justify-content: flex-end;
   gap: 1rem;
   background-color: #f8f9fa;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .dialog-actions button {
@@ -85,6 +88,7 @@
   border-radius: 8px;
   font-weight: 500;
   transition: all 0.3s ease;
+  min-width: 140px;
 }
 
 .dialog-actions button[mat-button] {
@@ -110,6 +114,21 @@
   background: #ccc;
   color: #999;
   cursor: not-allowed;
+}
+
+.dialog-actions button[mat-stroked-button] {
+  border: 2px solid #dc3545;
+  color: #dc3545;
+  background: #fff;
+}
+.dialog-actions button[mat-stroked-button]:hover:not(:disabled),
+.dialog-actions button[mat-stroked-button]:focus-visible {
+  background: #ffeaea;
+  color: #b71c1c;
+  border-color: #b71c1c;
+}
+.dialog-actions button[mat-stroked-button] .mat-icon {
+  color: #dc3545;
 }
 
 /* Input and Textarea Styling */
@@ -166,24 +185,21 @@ textarea.mat-input-element {
     min-width: 300px;
     padding: 0 1rem;
   }
-  
   .dialog-header,
   .dialog-actions {
     padding: 1rem;
   }
-
   .dialog-header h2 {
     font-size: 1.3rem;
   }
-
   .dialog-actions {
-    flex-direction: column;
     gap: 0.8rem;
   }
-
   .dialog-actions button {
-    width: 100%;
+    min-width: 120px;
+    width: auto;
     justify-content: center;
+    flex-shrink: 0;
   }
 }
 

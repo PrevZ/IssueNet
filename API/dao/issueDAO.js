@@ -100,7 +100,7 @@ const createIssue = async function (connection, issue) {
 
     const result = await db.execute(connection, sql, params);
     if (result.affectedRows == 0) return null;
-    else return issue;
+    else return { ...issue, id_issue: result.insertId };
 }
 
 // Aggiorna i dati di una issue esistente
@@ -127,8 +127,8 @@ const deleteIssue = async function (connection, issueId) {
     sql = `DELETE FROM issues WHERE id_issue = ?`;
     params = [issueId];
 
-    const rows = await db.execute(connection, sql, params);
-    return (!rows ? [] : rows[0]);
+    const result = await db.execute(connection, sql, params);
+    return (result.affectedRows > 0);
 }
 
 // Assegna una issue a un utente specifico

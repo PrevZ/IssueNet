@@ -79,8 +79,8 @@ const deleteProject = async function (connection, projectId) {
     sql = `DELETE FROM projects WHERE id_project = ?`;
     params = [projectId];
 
-    const rows = await db.execute(connection, sql, params);
-    return (!rows ? [] : rows[0]);
+    const result = await db.execute(connection, sql, params);
+    return result.affectedRows > 0;
 }
 
 // Ottiene statistiche di un progetto (conta le issue per status)

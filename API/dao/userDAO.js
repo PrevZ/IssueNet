@@ -61,7 +61,16 @@ const createUser = async function (connection, user) {
 
     const result = await db.execute(connection, sql, params);
     if (result.affectedRows == 0) return null;
-    else return user;
+    
+    // Restituisci l'utente con l'ID generato dal database
+    return {
+        id_user: result.insertId,
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        full_name: user.full_name,
+        role: user.role || 'developer'
+    };
 }
 
 // Aggiorna i dati di un utente esistente
@@ -88,8 +97,8 @@ const deleteUser = async function (connection, userId) {
     sql = `DELETE FROM users WHERE id_user = ?`;
     params = [userId];
 
-    const rows = await db.execute(connection, sql, params);
-    return (!rows ? [] : rows[0]);
+    const result = await db.execute(connection, sql, params);
+    return (result.affectedRows > 0);
 }
 
 // Esporta tutte le funzioni per usarle nelle route

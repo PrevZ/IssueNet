@@ -37,7 +37,7 @@
       <mat-card class="stat-card">
         <mat-card-content>
           <div class="stat-content">
-            <mat-icon class="stat-icon open-issues">bug_report</mat-icon>
+            <mat-icon class="stat-icon open-issues" aria-hidden="false">bug_report</mat-icon>
             <div class="stat-info">
               <h3>{{ stats.openIssues }}</h3>
               <p>Issue Aperte</p>
@@ -81,7 +81,7 @@
                   <mat-card-title>{{ project.name }}</mat-card-title>
                   <div class="project-status-badge">
                     <mat-icon [matBadge]="project.openIssues" matBadgeColor="warn" 
-                             matBadgeSize="small" [matBadgeHidden]="project.openIssues === 0">
+                             matBadgeSize="small" [matBadgeHidden]="project.openIssues === 0" aria-hidden="false">
                       {{ getStatusIcon(project.status) }}
                     </mat-icon>
                   </div>
@@ -175,7 +175,7 @@
                   <mat-card-title>{{ issue.title }}</mat-card-title>
                   <div class="project-status-badge">
                     <mat-icon [matBadge]="issue.id_issue" matBadgeColor="primary" 
-                             matBadgeSize="small">
+                             matBadgeSize="small" aria-hidden="false">
                       {{ getIssueTypeIcon(issue.type) }}
                     </mat-icon>
                   </div>
@@ -232,9 +232,13 @@
           </mat-card-content>
           
           <mat-card-actions>
-            <button mat-button (click)="onIssueClick(issue); $event.stopPropagation()">
-              <mat-icon>launch</mat-icon>
+            <button mat-button (click)="onProjectClick(issue); $event.stopPropagation()">
+              <mat-icon>folder_open</mat-icon>
               Vai al Progetto
+            </button>
+            <button mat-button (click)="onIssueClick(issue); $event.stopPropagation()">
+              <mat-icon>open_in_new</mat-icon>
+              Vai alla Issue
             </button>
           </mat-card-actions>
         </mat-card>
@@ -266,7 +270,7 @@
                 <mat-card-title>{{ getIssueTitleById(comment.id_issue) }}</mat-card-title>
                 <div class="project-status-badge">
                   <mat-icon [matBadge]="comment.id_comment" matBadgeColor="accent" 
-                           matBadgeSize="small">
+                           matBadgeSize="small" aria-hidden="false">
                     comment
                   </mat-icon>
                 </div>

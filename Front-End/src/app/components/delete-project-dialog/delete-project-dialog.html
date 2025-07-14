@@ -1,0 +1,31 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2 mat-dialog-title>
+      <mat-icon color="warn">delete_forever</mat-icon>
+      Elimina Progetto
+    </h2>
+    <button mat-icon-button mat-dialog-close class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content class="dialog-content">
+    <div class="confirm-message">
+      <p>
+        Sei sicuro di voler <b>eliminare questo progetto</b>?<br>
+      </p>
+      <span class="warn-text">Tutte le issue associate verranno eliminate definitivamente.</span>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button mat-dialog-close>
+      <mat-icon>cancel</mat-icon>
+      Annulla
+    </button>
+    <button mat-raised-button color="warn" (click)="onDelete()">
+      <mat-icon>delete</mat-icon>
+      Elimina
+    </button>
+  </mat-dialog-actions>
+</div>

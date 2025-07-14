@@ -184,8 +184,8 @@ router.delete('/:id', async (req, res) => {
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
     try {
-        const deletedIssue = await issueDAO.deleteIssue(connection, req.params.id);
-        if (deletedIssue) {
+        const deleted = await issueDAO.deleteIssue(connection, req.params.id);
+        if (deleted) {
             res.status(200).json({ message: 'Issue eliminata con successo' });
         } else {
             res.status(404).json({ error: 'Issue not found' });

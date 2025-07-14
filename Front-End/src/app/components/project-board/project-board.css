@@ -64,6 +64,37 @@
   box-shadow: 0 2px 8px rgba(0, 121, 191, 0.3);
 }
 
+.board-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 8px 0;
+}
+
+.board-actions button[mat-raised-button] {
+  min-width: 140px;
+  white-space: nowrap;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@media (max-width: 600px) {
+  .board-actions {
+    gap: 8px;
+    padding: 4px 0;
+  }
+  .board-actions button[mat-raised-button] {
+    min-width: 110px;
+    font-size: 0.95em;
+    padding: 0 8px;
+  }
+}
+
 /* Kanban Board */
 .kanban-board {
   flex: 1;

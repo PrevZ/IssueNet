@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,7 +7,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
+import { Subscription, filter } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { ProjectService } from '../../services/project.service';
 import { IssueService } from '../../services/issue.service';
@@ -35,7 +36,7 @@ import { UpdateProjectDialogComponent } from '../update-project-dialog/update-pr
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
-export class Dashboard implements OnInit {
+export class Dashboard implements OnInit, OnDestroy {
   currentUser: User | null = null;
   projects: DashboardProject[] = [];
   userIssues: Issue[] = [];
@@ -50,6 +51,8 @@ export class Dashboard implements OnInit {
     openIssues: 0,
     closedIssues: 0
   };
+  
+  private routerSubscription: Subscription = new Subscription();
 
   constructor(
     private userService: UserService,
@@ -67,6 +70,20 @@ export class Dashboard implements OnInit {
     if (this.currentUser) {
       this.loadDashboardData();
     }
+    
+    // Ascolta gli eventi di navigazione per ricaricare i dati quando si torna al dashboard
+    this.routerSubscription = this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        if (event.url === '/dashboard' && this.currentUser) {
+          console.log('Navigazione al dashboard rilevata, ricarico i dati');
+          this.loadDashboardData();
+        }
+      });
+  }
+  
+  ngOnDestroy(): void {
+    this.routerSubscription.unsubscribe();
   }
 
   loadDashboardData(): void {
@@ -293,6 +310,12 @@ export class Dashboard implements OnInit {
 
   onIssueClick(issue: Issue): void {
     console.log('Issue clicked:', issue);
+    // Naviga direttamente alla pagina dell'issue
+    this.router.navigate(['/issue', issue.id_issue]);
+  }
+
+  onProjectClick(issue: Issue): void {
+    console.log('Project clicked for issue:', issue);
     // Naviga alla board del progetto contenente l'issue
     this.router.navigate(['/project', issue.id_project]);
   }

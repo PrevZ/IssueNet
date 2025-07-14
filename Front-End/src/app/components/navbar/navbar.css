@@ -50,7 +50,7 @@
 
 .info-links button {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: none;
   color: var(--white);
   padding: 8px 16px;
   border-radius: var(--border-radius);
@@ -62,13 +62,11 @@
 
 .info-links button:hover {
   background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-1px);
 }
 
 .info-links button.active-info {
   background-color: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.6);
 }
 
 /* Navigation and auth containers - posizionati a destra */
@@ -103,7 +101,7 @@
 /* User button specific styling */
 .user-button {
   background-color: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: none;
 }
 
 .user-button:hover {
@@ -112,7 +110,7 @@
 
 /* Login/Register buttons */
 .auth-buttons button:first-child {
-  border: 1px solid var(--white);
+  border: none;
 }
 
 .auth-buttons button:last-child {

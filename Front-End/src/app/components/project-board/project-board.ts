@@ -15,7 +15,8 @@ import { ProjectService } from '../../services/project.service';
 import { UserService } from '../../services/user.service';
 import { IssueService } from '../../services/issue.service';
 import { IssueDialogComponent } from '../issue-dialog/issue-dialog.component';
-import { IssueDetailsDialogComponent } from '../issue-details-dialog/issue-details-dialog.component';
+import { DeleteProjectDialog } from '../delete-project-dialog/delete-project-dialog';
+import { DeleteIssueDialog } from '../delete-issue-dialog/delete-issue-dialog';
 import { Project, User, Issue, CreateIssueRequest, UpdateIssueRequest } from '../../models';
 
 interface KanbanColumn {
@@ -49,7 +50,7 @@ export class ProjectBoard implements OnInit {
   projectUsers: User[] = [];
   projectId: number = 0;
   loading = false;
-  
+
   kanbanColumns: KanbanColumn[] = [
     {
       id: 'todo',
@@ -84,11 +85,11 @@ export class ProjectBoard implements OnInit {
     private userService: UserService,
     private issueService: IssueService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.currentUser = this.userService.getCurrentUser();
-    
+
     // Ottengo l'ID del progetto dalla route
     this.route.params.subscribe(params => {
       this.projectId = +params['id'];
@@ -209,6 +210,30 @@ export class ProjectBoard implements OnInit {
     this.openIssueDetailDialog(issue);
   }
 
+  openDeleteProjectDialog(project?: Project | null): void {
+    if (!project) {
+      console.error('Nessun progetto disponibile per l\'eliminazione.');
+      return;
+    }
+    // Apre il dialog di conferma per l'eliminazione del progetto
+    const dialogRef = this.dialog.open(DeleteProjectDialog, {
+      width: '400px',
+      data: {
+        projectId: this.projectId,
+        projectName: project.name,
+        mode: 'delete'
+      },
+      disableClose: true,
+      autoFocus: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.success) {
+        this.handleDeleteProject(project);
+      }
+    });
+  }
+
   openEditIssueDialog(issue: Issue): void {
     // Apre il dialog di modifica
     const dialogRef = this.dialog.open(IssueDialogComponent, {
@@ -254,21 +279,24 @@ export class ProjectBoard implements OnInit {
   }
 
   openIssueDetailDialog(issue: Issue): void {
-    const dialogRef = this.dialog.open(IssueDetailsDialogComponent, {
-      width: '800px',
-      maxWidth: '95vw',
-      maxHeight: '90vh',
+    // Naviga alla pagina dell'issue invece di aprire un dialog
+    this.router.navigate(['/issue', issue.id_issue]);
+  }
+
+  openDeleteIssueDialog(issue: Issue): void {
+    const dialogRef = this.dialog.open(DeleteIssueDialog, {
+      width: '400px',
       data: {
-        issue: issue,
-        projectUsers: this.projectUsers
+        issueId: issue.id_issue,
+        issueTitle: issue.title
       },
-      disableClose: false,
+      disableClose: true,
       autoFocus: true
     });
-
-    dialogRef.afterClosed().subscribe(() => {
-      // Il dialog dei dettagli è solo per visualizzazione
-      // Le azioni di modifica/eliminazione vengono gestite separatamente
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.success) {
+        this.handleDeleteIssue(issue);
+      }
     });
   }
 
@@ -276,8 +304,18 @@ export class ProjectBoard implements OnInit {
     this.issueService.createIssue(issueData).subscribe({
       next: (newIssue) => {
         console.log('Issue creata con successo:', newIssue);
-        // Ricarica le issue per aggiornare la board
-        this.loadProjectIssues();
+        // Se manca l'id_issue, non aggiungere la issue alla board
+        if (!newIssue.id_issue) {
+          console.error('La nuova issue non ha un id_issue valido:', newIssue);
+          // Forza un refresh delle issue per evitare problemi
+          this.loadProjectIssues();
+          return;
+        }
+        const status = newIssue.status || 'todo';
+        const column = this.kanbanColumns.find(col => col.status === status);
+        if (column) {
+          column.issues.unshift(newIssue);
+        }
         // TODO: Mostrare notifica di successo
       },
       error: (error) => {
@@ -302,22 +340,45 @@ export class ProjectBoard implements OnInit {
     });
   }
 
-  public deleteIssue(issue: Issue): void {
-    // TODO: Aggiungere dialog di conferma
-    if (confirm(`Sei sicuro di voler eliminare l'issue "${issue.title}"?`)) {
-      this.issueService.deleteIssue(issue.id_issue).subscribe({
-        next: () => {
-          console.log('Issue eliminata con successo');
-          // Ricarica le issue per aggiornare la board
-          this.loadProjectIssues();
-          // TODO: Mostrare notifica di successo
-        },
-        error: (error) => {
-          console.error('Errore nell\'eliminazione dell\'issue:', error);
-          // TODO: Mostrare notifica di errore
-        }
-      });
+  public handleDeleteIssue(issue: Issue): void {
+    if (!issue.id_issue) {
+      console.error('ID issue non valido per la cancellazione:', issue);
+      this.loadProjectIssues(); // Forza refresh per evitare board incoerente
+      return;
     }
+    this.issueService.deleteIssue(issue.id_issue).subscribe({
+      next: () => {
+        console.log('Issue eliminata con successo');
+        this.loadProjectIssues();
+      },
+      error: (error) => {
+        console.error('Errore nell\'eliminazione dell\'issue:', error);
+        // TODO: Mostrare notifica di errore
+      }
+    });
+  }
+
+  private handleDeleteProject(project: Project): void {
+    console.log('Tentativo di eliminazione progetto:', {
+      projectId: project.id_project,
+      projectName: project.name,
+      currentProjectId: this.projectId
+    });
+    
+    this.projectService.deleteProject(project.id_project).subscribe({
+      next: () => {
+        console.log('Progetto eliminato con successo, navigazione alla dashboard');
+        this.router.navigate(['/dashboard']);
+      },
+      error: (error) => {
+        console.error('Errore nell\'eliminazione del progetto:', error);
+        if (error.status === 404) {
+          console.error('Progetto non trovato nel backend, possibile problema di sincronizzazione');
+          // Il progetto non esiste nel backend, naviga comunque alla dashboard
+          this.router.navigate(['/dashboard']);
+        }
+      }
+    });
   }
 
   goBackToDashboard(): void {

@@ -34,7 +34,7 @@ export class UpdateProjectDialogComponent implements OnInit {
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<UpdateProjectDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { userId: number; project: Project }
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initializeForm(this.data.project);

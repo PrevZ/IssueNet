@@ -16,6 +16,10 @@
           <mat-icon>add</mat-icon>
           Nuova Issue
         </button>
+        <button mat-raised-button color="primary" (click)="openDeleteProjectDialog(project)">
+          <mat-icon>delete</mat-icon>
+          Elimina Progetto
+        </button>
       </div>
     </div>
   </mat-toolbar>
@@ -44,7 +48,6 @@
                   <mat-card-title>{{ issue.title }}</mat-card-title>
                   <div class="issue-meta">
                     <mat-icon class="type-icon">{{ getTypeIcon(issue.type) }}</mat-icon>
-                    <span class="issue-id">#{{ issue.id_issue }}</span>
                   </div>
                 </div>
                 <mat-chip [color]="getPriorityColor(issue.priority)" selected class="priority-chip">
@@ -101,7 +104,7 @@
                 <mat-icon>edit</mat-icon>
               </button>
               <button mat-icon-button 
-                      (click)="deleteIssue(issue); $event.stopPropagation()" 
+                      (click)="openDeleteIssueDialog(issue); $event.stopPropagation()" 
                       matTooltip="Elimina issue"
                       class="delete-button">
                 <mat-icon>delete</mat-icon>

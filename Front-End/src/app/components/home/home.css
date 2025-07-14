@@ -325,27 +325,29 @@
 /* Welcome Section */
 .welcome-section {
   padding: 60px 0;
-  background: linear-gradient(135deg, #0079bf 0%, #005a8b 100%);
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
 }
 
 .welcome-header {
   text-align: center;
   margin-bottom: 3rem;
   padding: 2rem;
-  background: white;
+  background: linear-gradient(135deg, #0079bf 0%, #005a8b 100%);
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 15px rgba(0, 121, 191, 0.3);
 }
 
 .welcome-header h1 {
   font-size: 2.2rem;
-  color: #1976d2;
+  color: white;
   font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .welcome-header p {
   font-size: 1.2rem;
-  color: #6c757d;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
 }
 
 /* Quick Actions */
@@ -357,7 +359,7 @@
 .user-stats h2 {
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
-  color: #f8f8f8;
+  color: #333;
   font-weight: 600;
   text-align: center;
 }
@@ -372,20 +374,69 @@
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border-radius: 12px !important;
-  border: 1px solid #e9ecef;
-  background: white;
+  border: 1px solid #0079bf;
+  background: linear-gradient(135deg, #0079bf 0%, #005a8b 100%);
+  color: white;
+  position: relative;
+  overflow: hidden;
 }
 
 .action-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 121, 191, 0.15) !important;
-  border-color: #0079bf;
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3) !important;
+  background: linear-gradient(135deg, #005a8b 0%, #004a7a 100%);
 }
 
 .action-card mat-icon[mat-card-avatar] {
   font-size: 32px !important;
   height: 32px !important;
   width: 32px !important;
+  color: white !important;
+}
+
+.action-card mat-card-title {
+  color: white !important;
+}
+
+.action-card mat-card-subtitle {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Effetto decorativo per tutte le action cards */
+.action-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0 0 0 60px;
+  transition: all 0.3s ease;
+}
+
+.action-card:hover::before {
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* GitHub SVG avatar styling */
+.github-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.github-svg {
+  width: 24px;
+  height: 24px;
+  color: white;
 }
 
 /* User Stats */
@@ -399,27 +450,29 @@
   text-align: center;
   padding: 2rem 1.5rem;
   border-radius: 12px !important;
-  border: 1px solid #e9ecef;
-  background: white;
+  border: 1px solid #0079bf;
+  background: linear-gradient(135deg, #0079bf 0%, #005a8b 100%);
+  color: white;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .stat-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(13, 115, 119, 0.1) !important;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2) !important;
+  background: linear-gradient(135deg, #005a8b 0%, #004a7a 100%);
 }
 
 .stat-number {
   font-size: 2.8rem;
   font-weight: 700;
-  color: #0079bf;
+  color: white;
   margin-bottom: 0.5rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .stat-label {
   font-size: 1rem;
-  color: #6c757d;
+  color: rgba(255, 255, 255, 0.9);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-weight: 500;
@@ -487,6 +540,129 @@
   transform: translateY(-2px) !important;
 }
 
+/* Tips Section */
+.tips-section {
+  margin-top: 3rem;
+}
+
+.tips-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-weight: 600;
+  text-align: center;
+}
+
+.tips-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.tip-card {
+  border-radius: 16px !important;
+  border: 1px solid #0079bf;
+  background: linear-gradient(135deg, #0079bf 0%, #005a8b 100%);
+  color: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 121, 191, 0.2);
+}
+
+.tip-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 121, 191, 0.3);
+}
+
+.tip-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.tip-icon {
+  font-size: 2rem !important;
+  height: 2rem !important;
+  width: 2rem !important;
+  color: white !important;
+}
+
+.tip-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: white;
+}
+
+.tip-description {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.tip-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.tip-actions button[mat-raised-button] {
+  background-color: white !important;
+  color: #0079bf !important;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.tip-actions button[mat-raised-button]:hover {
+  background-color: #f8f9fa !important;
+  transform: translateY(-1px);
+}
+
+.tip-navigation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-button {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.tip-indicators {
+  display: flex;
+  gap: 6px;
+  margin: 0 8px;
+}
+
+.tip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.tip-dot:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+  transform: scale(1.2);
+}
+
+.tip-dot.active {
+  background-color: white;
+  transform: scale(1.2);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .hero-content {
@@ -524,6 +700,15 @@
 
   .hero-actions {
     justify-content: center;
+  }
+
+  .tip-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tip-navigation {
+    margin-top: 1rem;
   }
 }
 
