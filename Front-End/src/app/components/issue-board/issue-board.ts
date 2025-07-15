@@ -84,7 +84,13 @@ export class IssueBoard implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/dashboard']);
+    if (this.issue && this.issue.id_project) {
+      // Naviga alla project board del progetto specifico
+      this.router.navigate(['/project', this.issue.id_project]);
+    } else {
+      // Fallback alla dashboard se non c'è informazione sul progetto
+      this.router.navigate(['/dashboard']);
+    }
   }
 
   getPriorityColor(): string {

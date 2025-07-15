@@ -445,9 +445,8 @@ export class Dashboard implements OnInit, OnDestroy {
   }
 
   onCommentClick(comment: Comment): void {
-    // Naviga al progetto dell'issue relativa al commento
-    const projectId = this.getProjectIdByIssueId(comment.id_issue);
-    this.router.navigate(['/project', projectId]);
+    // Naviga direttamente all'issue specifica del commento
+    this.router.navigate(['/issue', comment.id_issue]);
   }
 
   getProjectIdByIssueId(issueId: number): number {

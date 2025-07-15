@@ -41,7 +41,9 @@ export class CommentService {
   }
 
   // Elimina un commento
-  deleteComment(id: number): Observable<void> {
-    return this.http.delete<void>(this.apiConfig.getApiUrl(`${this.endpoint}/${id}`));
+  deleteComment(id: number): Observable<any> {
+    return this.http.delete(this.apiConfig.getApiUrl(`${this.endpoint}/${id}`), { 
+      responseType: 'text' as 'json' 
+    });
   }
 }

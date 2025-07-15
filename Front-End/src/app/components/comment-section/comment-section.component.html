@@ -126,7 +126,7 @@
 
           <!-- Modalità modifica -->
           <div class="content-edit" *ngIf="editingCommentId === comment.id_comment">
-            <form [formGroup]="editForm" (ngSubmit)="onSubmitEdit(comment.id_comment)">
+            <form [formGroup]="editForm" (ngSubmit)="$event.preventDefault()">
               <mat-form-field appearance="outline" class="edit-field">
                 <mat-label>Modifica commento</mat-label>
                 <textarea matInput 
@@ -151,7 +151,8 @@
                 <button mat-raised-button 
                         color="primary" 
                         type="submit"
-                        [disabled]="!editForm.valid || isSubmitting">
+                        [disabled]="!editForm.valid || isSubmitting"
+                        (click)="onSubmitEdit(comment.id_comment)">
                   <mat-icon>save</mat-icon>
                   {{ isSubmitting ? 'Salvando...' : 'Salva' }}
                 </button>

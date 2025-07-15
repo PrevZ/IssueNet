@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -40,7 +40,7 @@ import { Nl2brPipe } from '../../pipes/nl2br.pipe';
   templateUrl: './comment-section.component.html',
   styleUrl: './comment-section.component.css'
 })
-export class CommentSectionComponent implements OnInit, OnDestroy {
+export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
   @Input() issueId!: number;
   @Input() projectUsers: User[] = [];
 
@@ -75,6 +75,13 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    // Reagisce ai cambiamenti di projectUsers
+    if (changes['projectUsers'] && changes['projectUsers'].currentValue) {
+      this.populateUserData();
+    }
+  }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
@@ -92,7 +99,16 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
   loadComments(): void {
     const sub = this.commentService.getCommentsByIssue(this.issueId).subscribe({
       next: (comments) => {
-        this.comments = comments;
+        // Valida e correggi le date per ogni commento
+        this.comments = comments.map(comment => {
+          if (!comment.created_at || isNaN(new Date(comment.created_at).getTime())) {
+            comment.created_at = new Date().toISOString();
+          }
+          if (!comment.updated_at || isNaN(new Date(comment.updated_at).getTime())) {
+            comment.updated_at = comment.created_at;
+          }
+          return comment;
+        });
         this.sortComments();
         this.populateUserData();
       },
@@ -104,10 +120,33 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
   }
 
   private populateUserData(): void {
+    // Se non abbiamo projectUsers, proviamo a caricarli
+    if (!this.projectUsers || this.projectUsers.length === 0) {
+      this.loadAllUsers();
+      return;
+    }
+    
     // Popola i dati utente per ogni commento
     this.comments.forEach(comment => {
-      comment.user = this.projectUsers.find(user => user.id_user === comment.id_user);
+      if (!comment.user) {
+        comment.user = this.projectUsers.find(user => user.id_user === comment.id_user);
+      }
     });
+  }
+
+  private loadAllUsers(): void {
+    const sub = this.userService.getAllUsers().subscribe({
+      next: (users) => {
+        this.projectUsers = users;
+        this.comments.forEach(comment => {
+          comment.user = this.projectUsers.find(user => user.id_user === comment.id_user);
+        });
+      },
+      error: (error) => {
+        console.error('Errore nel caricamento degli utenti:', error);
+      }
+    });
+    this.subscriptions.add(sub);
   }
 
   private sortComments(): void {
@@ -136,6 +175,14 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
 
       const sub = this.commentService.createComment(commentData).subscribe({
         next: (newComment) => {
+          // Assicurati che la data sia in formato valido
+          if (!newComment.created_at || isNaN(new Date(newComment.created_at).getTime())) {
+            newComment.created_at = new Date().toISOString();
+          }
+          if (!newComment.updated_at || isNaN(new Date(newComment.updated_at).getTime())) {
+            newComment.updated_at = newComment.created_at;
+          }
+          
           this.comments.unshift(newComment);
           this.commentForm.reset();
           this.isSubmitting = false;
@@ -163,15 +210,23 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
   }
 
   onSubmitEdit(commentId: number): void {
-    if (this.editForm.valid) {
+    console.log('onSubmitEdit called with commentId:', commentId);
+    console.log('Form valid:', this.editForm.valid);
+    console.log('Form value:', this.editForm.value);
+    console.log('isSubmitting:', this.isSubmitting);
+    
+    if (this.editForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
       
       const updateData: UpdateCommentRequest = {
         content: this.editForm.get('content')?.value.trim()
       };
 
+      console.log('Sending update request with data:', updateData);
+
       const sub = this.commentService.updateComment(commentId, updateData).subscribe({
-        next: () => {
+        next: (response) => {
+          console.log('Update successful, response:', response);
           // Aggiorna il commento nell'array locale
           const index = this.comments.findIndex(c => c.id_comment === commentId);
           if (index !== -1) {
@@ -188,20 +243,43 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
         }
       });
       this.subscriptions.add(sub);
+    } else {
+      console.log('Form validation failed or already submitting');
+      if (this.editForm.errors) {
+        console.log('Form errors:', this.editForm.errors);
+      }
     }
   }
 
   deleteComment(commentId: number): void {
+    console.log('deleteComment called with commentId:', commentId);
     if (confirm('Sei sicuro di voler eliminare questo commento?')) {
+      console.log('User confirmed deletion');
       const sub = this.commentService.deleteComment(commentId).subscribe({
-        next: () => {
+        next: (response) => {
+          console.log('Comment deleted successfully, response:', response);
           this.comments = this.comments.filter(c => c.id_comment !== commentId);
         },
         error: (error) => {
           console.error('Errore nell\'eliminazione del commento:', error);
+          console.log('Error status:', error.status);
+          console.log('Error message:', error.message);
+          
+          // Se l'errore è 404 (Not Found) o 200-299, considera l'operazione riuscita
+          if (error.status === 404 || (error.status >= 200 && error.status < 300)) {
+            console.log('Treating as successful deletion despite error response');
+            this.comments = this.comments.filter(c => c.id_comment !== commentId);
+          } else {
+            alert('Errore durante l\'eliminazione del commento. Riprova.');
+          }
+        },
+        complete: () => {
+          console.log('Delete operation completed');
         }
       });
       this.subscriptions.add(sub);
+    } else {
+      console.log('User cancelled deletion');
     }
   }
 
@@ -216,6 +294,12 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
   getTimeAgo(date: string): string {
     const now = new Date();
     const commentDate = new Date(date);
+    
+    // Verifica se la data è valida
+    if (isNaN(commentDate.getTime())) {
+      return 'Data non valida';
+    }
+    
     const diffInSeconds = Math.floor((now.getTime() - commentDate.getTime()) / 1000);
 
     if (diffInSeconds < 60) {
@@ -235,6 +319,10 @@ export class CommentSectionComponent implements OnInit, OnDestroy {
   }
 
   getUserDisplayName(comment: Comment): string {
+    if (!comment.user) {
+      console.log(`User data missing for comment ${comment.id_comment}, user ID: ${comment.id_user}`);
+      console.log('Available projectUsers:', this.projectUsers);
+    }
     return comment.user?.full_name || 'Utente sconosciuto';
   }
 
