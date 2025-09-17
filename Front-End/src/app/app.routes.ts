@@ -14,6 +14,7 @@ import { TermsOfService } from './components/terms-of-service/terms-of-service';
 import { UserProfile } from './components/user-profile/user-profile.component';
 import { IssueBoard } from './components/issue-board/issue-board';
 
+// Configurazione delle routes dell'applicazione
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: Home },

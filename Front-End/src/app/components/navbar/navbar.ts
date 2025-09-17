@@ -11,9 +11,11 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models';
+import { LogoutDialogComponent } from './logout-dialog.component';
 
 @Component({
   selector: 'app-navbar',
+  standalone: true,
   imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule, MatDividerModule, MatSnackBarModule, MatDialogModule, RouterModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css'
@@ -21,6 +23,7 @@ import { User } from '../../models';
 export class Navbar implements OnInit {
   currentUser: User | null = null;
   
+  // Costruttore - inizializza i servizi necessari
   constructor(
     private userService: UserService,
     private router: Router,
@@ -28,18 +31,29 @@ export class Navbar implements OnInit {
     private dialog: MatDialog
   ) {}
   
+  // Inizializzazione del component
   ngOnInit(): void {
-    // Sottoscrivi agli aggiornamenti dell'utente corrente
     this.userService.currentUser$.subscribe(user => {
       this.currentUser = user;
     });
   }
   
+  // Gestisce il logout dell'utente mostrando il dialog di conferma
   logout(): void {
-    // Per ora logout diretto, potremo aggiungere conferma in futuro
-    this.performLogout();
+    const dialogRef = this.dialog.open(LogoutDialogComponent, {
+      width: '400px',
+      disableClose: true,
+      panelClass: 'logout-dialog-panel'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.performLogout();
+      }
+    });
   }
   
+  // Esegue il logout completo dell'utente
   private performLogout(): void {
     // Pulisce lo stato dell'utente
     this.userService.logout();

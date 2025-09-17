@@ -1,228 +1,563 @@
-.page-container {
-  max-width: 1000px;
+/* Contact Page - EXACT Home Style Copy */
+
+/* Reset per rimuovere spazi indesiderati */
+:host {
+  display: block;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Container generale */
+.container {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
 }
 
-.contact-hero {
-  text-align: center;
-  padding: 3rem 0;
-  margin-bottom: 2rem;
+/* Hero Section - EXACT COPY from home.css */
+.hero-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  color: #333;
+  padding: 80px 0;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  margin-top: 0;
 }
 
-.contact-hero h1 {
-  font-size: 2.5rem;
+.hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-text h1 {
+  font-size: 3.5rem;
   font-weight: 700;
-  color: var(--text-dark);
   margin-bottom: 1rem;
+  line-height: 1.2;
+  color: #333;
 }
 
 .hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+  font-weight: 400;
+  color: #666;
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+  color: #555;
+}
+
+/* Features Preview - EXACT COPY from home.css */
+.features-preview {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #0079bf 0%, #005a8b 100%);
+  color: white;
+}
+
+.features-preview h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: white;
+  font-weight: 600;
+}
+
+.features-description {
+  text-align: center;
   font-size: 1.2rem;
-  color: var(--text-light);
+  line-height: 1.6;
+  margin: 0 auto 3rem;
+  max-width: 800px;
+  opacity: 1;
+  font-weight: 300;
+  color: white;
+}
+
+/* Layout Trello-style: cards a sinistra, immagine a destra - EXACT COPY */
+.features-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: flex-start;
+  margin-top: 32px;
+}
+
+/* Cards delle features a sinistra - EXACT COPY */
+.features-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 320px;
+  max-width: 350px;
+}
+
+/* EXACT COPY of feature-card-item from home.css */
+.feature-card-item {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 24px 20px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: box-shadow 0.2s, border 0.2s;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.feature-card-item:hover {
+  border: 2px solid #1976d2;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.12);
+}
+
+.feature-card-icon {
+  font-size: 36px;
+  color: #1976d2;
+  margin-right: 8px;
+}
+
+.feature-card-content h3 {
+  margin: 0 0 6px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.feature-card-content p {
+  margin: 0;
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Immagine showcase a destra - EXACT COPY */
+.features-image {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-container {
+  background: #f5f7fa;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 350px;
+  overflow: hidden;
+}
+
+/* Contact Methods Grid */
+.contact-methods-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.contact-method-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid #0079bf;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-method-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 121, 191, 0.2);
+}
+
+.contact-method-icon {
+  font-size: 3rem;
+  color: #0079bf;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.contact-method-title {
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.contact-method-info {
+  font-size: 1rem;
+  color: #666;
+  font-weight: 400;
+}
+
+/* Office Grid */
+.office-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.office-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+}
+
+.office-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 121, 191, 0.2);
+  border: 2px solid #0079bf;
+}
+
+.office-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.office-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0079bf, #005a8b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 16px rgba(0, 121, 191, 0.3);
+}
+
+.office-title {
+  font-weight: 600;
+  color: #333;
+  font-size: 1.3rem;
+}
+
+.office-address {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.office-hours {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Tips Section with CTA styling - EXACT COPY from home.css */
+.tip-card-wrapper {
   max-width: 600px;
   margin: 0 auto;
 }
 
-.contact-content {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
+.tip-display {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid #0079bf;
 }
 
-.contact-methods {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
-}
-
-.contact-card {
-  transition: all 0.3s ease;
-  height: 100%;
-}
-
-.contact-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-heavy);
-}
-
-.contact-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+.tip-display .tip-header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 12px;
+  margin-bottom: 1rem;
 }
 
-.contact-avatar.support {
-  background: linear-gradient(135deg, var(--success), #00b386);
+.tip-display .tip-icon {
+  font-size: 2rem !important;
+  height: 2rem !important;
+  width: 2rem !important;
+  color: #0079bf !important;
 }
 
-.contact-avatar.sales {
-  background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-}
-
-.contact-avatar.general {
-  background: linear-gradient(135deg, var(--warning), #ffab00);
-}
-
-.contact-avatar mat-icon {
-  color: var(--white);
-  font-size: 1.5rem;
-}
-
-.contact-details {
-  margin: 1rem 0;
-}
-
-.contact-details p {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
-  color: var(--text-light);
-}
-
-.contact-details mat-icon {
-  color: var(--primary-blue);
-  font-size: 1.2rem;
-}
-
-mat-card-actions {
-  padding: 0 16px 16px 16px;
-}
-
-mat-card-actions button {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  justify-content: center;
-}
-
-.office-info {
-  background-color: var(--white);
-  border-radius: var(--border-radius-large);
-  padding: 2.5rem;
-  box-shadow: var(--shadow-light);
-}
-
-.office-info h2 {
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--text-dark);
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.offices-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-}
-
-.office-card {
-  background-color: var(--light-gray);
-  border-radius: var(--border-radius);
-  padding: 1.5rem;
-  text-align: center;
-}
-
-.office-card h3 {
+.tip-display .tip-header h3 {
+  margin: 0;
   font-size: 1.3rem;
   font-weight: 600;
-  color: var(--primary-blue);
-  margin-bottom: 1rem;
+  color: #333;
 }
 
-.office-details p {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-  color: var(--text-light);
-  justify-content: center;
-}
-
-.office-details mat-icon {
-  color: var(--primary-blue);
-  font-size: 1.1rem;
-}
-
-.faq-section {
-  text-align: center;
-  background-color: var(--white);
-  border-radius: var(--border-radius-large);
-  padding: 2.5rem;
-  box-shadow: var(--shadow-light);
-}
-
-.faq-section h2 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: var(--text-dark);
-  margin-bottom: 1rem;
-}
-
-.faq-section p {
-  font-size: 1.1rem;
-  color: var(--text-light);
+.tip-display .tip-description {
+  font-size: 1rem;
+  line-height: 1.5;
   margin-bottom: 1.5rem;
+  color: #666;
 }
 
-.faq-section a {
-  color: var(--primary-blue);
-  text-decoration: none;
-  font-weight: 500;
+.tip-display .tip-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.faq-section a:hover {
-  text-decoration: underline;
+.tip-display .tip-actions button[mat-raised-button] {
+  background-color: #0079bf !important;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
-.faq-section button {
+.tip-display .tip-actions button[mat-raised-button]:hover {
+  background-color: #005a8b !important;
+  transform: translateY(-1px);
+}
+
+.tip-display .tip-navigation {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin: 0 auto;
+  gap: 8px;
 }
 
-/* Responsive design */
+.tip-display .nav-button {
+  color: #0079bf !important;
+  background-color: rgba(0, 121, 191, 0.1);
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.tip-display .nav-button:hover {
+  background-color: rgba(0, 121, 191, 0.2);
+}
+
+.tip-display .tip-indicators {
+  display: flex;
+  gap: 6px;
+  margin: 0 8px;
+}
+
+.tip-display .tip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(0, 121, 191, 0.4);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.tip-display .tip-dot:hover {
+  background-color: rgba(0, 121, 191, 0.7);
+  transform: scale(1.2);
+}
+
+.tip-display .tip-dot.active {
+  background-color: #0079bf;
+  transform: scale(1.2);
+}
+
+/* Call to Action Section - EXACT COPY from home.css */
+.cta-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 80px 0;
+  text-align: center;
+}
+
+.cta-content h2 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.cta-description {
+  font-size: 1.2rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 auto 2.5rem;
+  max-width: 600px;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-button-main {
+  background-color: #0079bf !important;
+  color: white !important;
+  font-weight: 600;
+  padding: 14px 32px !important;
+  font-size: 1.1rem !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 121, 191, 0.3) !important;
+  transition: all 0.3s ease !important;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.cta-button-main:hover {
+  background-color: #005a8b !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 121, 191, 0.4) !important;
+}
+
+.cta-button-secondary {
+  color: #0079bf !important;
+  border: 2px solid #0079bf !important;
+  background: transparent !important;
+  font-weight: 600;
+  padding: 12px 30px !important;
+  font-size: 1rem !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.cta-button-secondary:hover {
+  background-color: #0079bf !important;
+  color: white !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Responsive Design - EXACT COPY from home.css */
 @media (max-width: 768px) {
-  .page-container {
-    padding: 0 16px;
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
   }
-  
-  .contact-hero {
-    padding: 2rem 0;
+
+  .hero-text h1 {
+    font-size: 2.5rem;
   }
-  
-  .contact-hero h1 {
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .features-preview h2 {
     font-size: 2rem;
   }
-  
-  .hero-subtitle {
-    font-size: 1.1rem;
+
+  .features-layout {
+    flex-direction: column;
+    gap: 2rem;
   }
-  
-  .contact-methods {
+
+  .features-cards {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .feature-card-item {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .feature-card-icon {
+    margin-bottom: 0;
+    margin-right: 16px;
+  }
+
+  .features-image {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .image-container {
+    min-height: 250px;
+    padding: 16px;
+  }
+
+  .contact-methods-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
-  
-  .office-info {
+
+  .office-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .contact-method-card,
+  .office-card {
     padding: 1.5rem;
   }
-  
-  .offices-grid {
-    grid-template-columns: 1fr;
+
+  .contact-method-icon {
+    font-size: 2.5rem;
   }
-  
-  .office-details p {
-    justify-content: flex-start;
+
+  .cta-actions {
+    flex-direction: column;
+    align-items: center;
   }
-  
-  .faq-section {
-    padding: 1.5rem;
+
+  .cta-button-main,
+  .cta-button-secondary {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 0.5rem;
+  }
+
+  .tip-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tip-navigation {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 40px 0;
+  }
+
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+
+  .features-preview h2 {
+    font-size: 2rem;
+  }
+
+  .contact-method-icon {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 0 15px;
   }
 }

@@ -1,12 +1,12 @@
 <mat-toolbar color="primary" class="navbar">
   <mat-toolbar-row>
-    <!-- Logo e titolo -->
+    <!-- Logo e titolo dell'applicazione -->
     <span routerLink="/home" class="logo-link">
       <img src="assets/images/header.png" alt="IssueNet Logo" class="navbar-logo">
       IssueNet
     </span>
     
-    <!-- Link informativi sempre visibili -->
+    <!-- Link informativi sempre visibili a tutti gli utenti -->
     <div class="info-links">
       <button mat-button routerLink="/features" routerLinkActive="active-info">
         <mat-icon>star</mat-icon>
@@ -26,21 +26,24 @@
       </button>
     </div>
     
+    <!-- Spaziatore che spinge gli elementi successivi a destra -->
     <span class="spacer"></span>
     
-    <!-- Menu di navigazione quando l'utente è autenticato -->
+    <!-- Menu di navigazione per utenti loggati -->
     <div class="nav-links" *ngIf="currentUser">
       <button mat-button routerLink="/dashboard" routerLinkActive="active">
         <mat-icon>dashboard</mat-icon>
         Dashboard
       </button>
       
+      <!-- Menu dropdown dell'utente -->
       <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
         <mat-icon>person</mat-icon>
         {{ currentUser.full_name }}
         <mat-icon>arrow_drop_down</mat-icon>
       </button>
       
+      <!-- Contenuto del menu dropdown -->
       <mat-menu #userMenu="matMenu">
         <button mat-menu-item routerLink="/user-profile">
           <mat-icon>person</mat-icon>
@@ -58,7 +61,7 @@
       </mat-menu>
     </div>
     
-    <!-- Pulsanti di login/registrazione quando l'utente NON è autenticato -->
+    <!-- Autenticazione -->
     <div class="auth-buttons" *ngIf="!currentUser">
       <button mat-button routerLink="/login">
         <mat-icon>login</mat-icon>

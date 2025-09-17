@@ -1,311 +1,546 @@
-.page-container {
-  max-width: 1000px;
+/* About Page - EXACT Home Style Copy */
+
+/* Reset per rimuovere spazi indesiderati */
+:host {
+  display: block;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Container generale */
+.container {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
 }
 
-.about-hero {
-  text-align: center;
-  padding: 3rem 0;
-  margin-bottom: 2rem;
+/* Hero Section - EXACT COPY from home.css */
+.hero-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  color: #333;
+  padding: 80px 0;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  margin-top: 0;
 }
 
-.about-hero h1 {
-  font-size: 2.5rem;
+.hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-text h1 {
+  font-size: 3.5rem;
   font-weight: 700;
-  color: var(--text-dark);
   margin-bottom: 1rem;
+  line-height: 1.2;
+  color: #333;
 }
 
 .hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+  font-weight: 400;
+  color: #666;
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+  color: #555;
+}
+
+/* Features Preview - EXACT COPY from home.css */
+.features-preview {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #0079bf 0%, #005a8b 100%);
+  color: white;
+}
+
+.features-preview h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: white;
+  font-weight: 600;
+}
+
+.features-description {
+  text-align: center;
   font-size: 1.2rem;
-  color: var(--text-light);
+  line-height: 1.6;
+  margin: 0 auto 3rem;
+  max-width: 800px;
+  opacity: 1;
+  font-weight: 300;
+  color: white;
+}
+
+/* Layout Trello-style: cards a sinistra, immagine a destra - EXACT COPY */
+.features-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: flex-start;
+  margin-top: 32px;
+}
+
+/* Cards delle features a sinistra - EXACT COPY */
+.features-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 320px;
+  max-width: 350px;
+}
+
+/* EXACT COPY of feature-card-item from home.css */
+.feature-card-item {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 24px 20px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: box-shadow 0.2s, border 0.2s;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.feature-card-item:hover {
+  border: 2px solid #1976d2;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.12);
+}
+
+.feature-card-icon {
+  font-size: 36px;
+  color: #1976d2;
+  margin-right: 8px;
+}
+
+.feature-card-content h3 {
+  margin: 0 0 6px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.feature-card-content p {
+  margin: 0;
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Immagine showcase a destra - EXACT COPY */
+.features-image {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-container {
+  background: #f5f7fa;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 350px;
+  overflow: hidden;
+}
+
+/* Stats Grid - EXACT COPY from home.css */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid #0079bf;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 121, 191, 0.2);
+}
+
+.stat-number {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #0079bf;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+/* Team Grid */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.team-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid transparent;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 121, 191, 0.2);
+  border: 2px solid #0079bf;
+}
+
+.member-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0079bf, #005a8b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem auto;
+  color: white;
+  font-weight: 600;
+  font-size: 1.6rem;
+  box-shadow: 0 4px 16px rgba(0, 121, 191, 0.3);
+}
+
+.member-name {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.member-role {
+  font-size: 1rem;
+  color: #666;
+  font-weight: 400;
+}
+
+/* Tips Section with CTA styling - EXACT COPY from home.css */
+.tip-card-wrapper {
   max-width: 600px;
   margin: 0 auto;
 }
 
-.about-content {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
+.tip-display {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 2px solid #0079bf;
 }
 
-.content-card {
-  background-color: var(--white);
-  border-radius: var(--border-radius-large);
-  padding: 2.5rem;
-  box-shadow: var(--shadow-light);
-}
-
-.mission-section h2,
-.story-section h2,
-.team-section h2 {
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--text-dark);
-  margin-bottom: 1.5rem;
-}
-
-.mission-section p,
-.team-section p {
-  color: var(--text-light);
-  line-height: 1.7;
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-}
-
-/* Timeline styles */
-.timeline {
-  position: relative;
-  padding-left: 2rem;
-}
-
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 1rem;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(to bottom, var(--primary-blue), var(--secondary-blue));
-}
-
-.timeline-item {
-  position: relative;
-  margin-bottom: 2rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 1.5rem;
-}
-
-.timeline-icon {
-  position: absolute;
-  left: -2rem;
-  width: 3rem;
-  height: 3rem;
-  background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-  border-radius: 50%;
+.tip-display .tip-header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-medium);
-}
-
-.timeline-icon mat-icon {
-  color: var(--white);
-  font-size: 1.5rem;
-}
-
-.timeline-content {
-  flex: 1;
-  padding-left: 1rem;
-}
-
-.timeline-content h3 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--text-dark);
-  margin-bottom: 0.5rem;
-}
-
-.timeline-content p {
-  color: var(--text-light);
-  line-height: 1.6;
-}
-
-/* Values section */
-.values-section {
-  text-align: center;
-}
-
-.values-section h2 {
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--text-dark);
-  margin-bottom: 2rem;
-}
-
-.values-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-}
-
-.value-card {
-  background-color: var(--white);
-  border-radius: var(--border-radius-large);
-  padding: 2rem 1.5rem;
-  box-shadow: var(--shadow-light);
-  transition: all 0.3s ease;
-  text-align: center;
-}
-
-.value-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-heavy);
-}
-
-.value-card mat-icon {
-  color: var(--primary-blue);
-  font-size: 3rem;
-  width: 3rem;
-  height: 3rem;
+  gap: 12px;
   margin-bottom: 1rem;
 }
 
-.value-card h3 {
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--text-dark);
-  margin-bottom: 1rem;
+.tip-display .tip-icon {
+  font-size: 2rem !important;
+  height: 2rem !important;
+  width: 2rem !important;
+  color: #0079bf !important;
 }
 
-.value-card p {
-  color: var(--text-light);
-  line-height: 1.6;
-}
-
-/* Team stats */
-.team-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--gray);
-}
-
-.stat {
-  text-align: center;
-}
-
-.stat h3 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--primary-blue);
-  margin-bottom: 0.5rem;
-}
-
-.stat p {
-  color: var(--text-light);
-  font-weight: 500;
+.tip-display .tip-header h3 {
   margin: 0;
-}
-
-/* Contact section */
-.contact-section {
-  text-align: center;
-  background-color: var(--white);
-  border-radius: var(--border-radius-large);
-  padding: 3rem 2rem;
-  box-shadow: var(--shadow-medium);
-}
-
-.contact-section h2 {
-  font-size: 2rem;
+  font-size: 1.3rem;
   font-weight: 600;
-  color: var(--text-dark);
+  color: #333;
+}
+
+.tip-display .tip-description {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  color: #666;
+}
+
+.tip-display .tip-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.tip-display .tip-actions button[mat-raised-button] {
+  background-color: #0079bf !important;
+  color: white !important;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.tip-display .tip-actions button[mat-raised-button]:hover {
+  background-color: #005a8b !important;
+  transform: translateY(-1px);
+}
+
+.tip-display .tip-navigation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tip-display .nav-button {
+  color: #0079bf !important;
+  background-color: rgba(0, 121, 191, 0.1);
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.tip-display .nav-button:hover {
+  background-color: rgba(0, 121, 191, 0.2);
+}
+
+.tip-display .tip-indicators {
+  display: flex;
+  gap: 6px;
+  margin: 0 8px;
+}
+
+.tip-display .tip-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(0, 121, 191, 0.4);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.tip-display .tip-dot:hover {
+  background-color: rgba(0, 121, 191, 0.7);
+  transform: scale(1.2);
+}
+
+.tip-display .tip-dot.active {
+  background-color: #0079bf;
+  transform: scale(1.2);
+}
+
+/* Call to Action Section - EXACT COPY from home.css */
+.cta-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 80px 0;
+  text-align: center;
+}
+
+.cta-content h2 {
+  font-size: 2.5rem;
+  color: #333;
   margin-bottom: 1rem;
+  font-weight: 700;
 }
 
-.contact-section p {
-  font-size: 1.1rem;
-  color: var(--text-light);
-  margin-bottom: 2rem;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
+.cta-description {
+  font-size: 1.2rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 auto 2.5rem;
+  max-width: 600px;
 }
 
-.contact-buttons {
+.cta-actions {
   display: flex;
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.contact-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 12px 24px;
-  font-weight: 500;
-  border-radius: var(--border-radius);
+.cta-button-main {
+  background-color: #0079bf !important;
+  color: white !important;
+  font-weight: 600;
+  padding: 14px 32px !important;
+  font-size: 1.1rem !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 121, 191, 0.3) !important;
+  transition: all 0.3s ease !important;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
 }
 
-.contact-btn mat-icon {
-  font-size: 1.2rem;
-  width: 1.2rem;
-  height: 1.2rem;
+.cta-button-main:hover {
+  background-color: #005a8b !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 121, 191, 0.4) !important;
 }
 
-/* Responsive design */
+.cta-button-secondary {
+  color: #0079bf !important;
+  border: 2px solid #0079bf !important;
+  background: transparent !important;
+  font-weight: 600;
+  padding: 12px 30px !important;
+  font-size: 1rem !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.cta-button-secondary:hover {
+  background-color: #0079bf !important;
+  color: white !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Responsive Design - EXACT COPY from home.css */
 @media (max-width: 768px) {
-  .page-container {
-    padding: 0 16px;
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
   }
-  
-  .about-hero {
-    padding: 2rem 0;
+
+  .hero-text h1 {
+    font-size: 2.5rem;
   }
-  
-  .about-hero h1 {
-    font-size: 2rem;
-  }
-  
+
   .hero-subtitle {
-    font-size: 1.1rem;
-  }
-  
-  .content-card {
-    padding: 1.5rem;
-  }
-  
-  .timeline {
-    padding-left: 1rem;
-  }
-  
-  .timeline-icon {
-    left: -1.5rem;
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-  
-  .timeline-icon mat-icon {
     font-size: 1.2rem;
   }
-  
-  .values-grid {
+
+  .features-preview h2 {
+    font-size: 2rem;
+  }
+
+  .features-layout {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .features-cards {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .feature-card-item {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .feature-card-icon {
+    margin-bottom: 0;
+    margin-right: 16px;
+  }
+
+  .features-image {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .image-container {
+    min-height: 250px;
+    padding: 16px;
+  }
+
+  .stats-grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
-  
-  .team-stats {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
-  
-  .contact-section {
-    padding: 2rem 1rem;
+
+  .stat-card,
+  .team-card {
+    padding: 1.5rem;
   }
-  
-  .contact-buttons {
+
+  .stat-number {
+    font-size: 2.5rem;
+  }
+
+  .cta-actions {
     flex-direction: column;
     align-items: center;
   }
-  
-  .contact-btn {
+
+  .cta-button-main,
+  .cta-button-secondary {
     width: 100%;
-    max-width: 280px;
-    justify-content: center;
+    max-width: 300px;
+    margin-bottom: 0.5rem;
+  }
+
+  .tip-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tip-navigation {
+    margin-top: 1rem;
   }
 }
 
 @media (max-width: 480px) {
-  .team-stats {
-    grid-template-columns: 1fr;
+  .hero-section {
+    padding: 40px 0;
   }
-  
-  .stat h3 {
+
+  .hero-text h1 {
     font-size: 2rem;
+  }
+
+  .features-preview h2 {
+    font-size: 2rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 0 15px;
   }
 }

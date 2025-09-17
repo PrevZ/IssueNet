@@ -1,5 +1,6 @@
 import { User } from './user.model';
 
+// Interfaccia principale per un progetto
 export interface Project {
   id_project: number;
   name: string;
@@ -14,6 +15,7 @@ export interface Project {
   issuesCount?: number;
 }
 
+// Richiesta per creare un nuovo progetto
 export interface CreateProjectRequest {
   name: string;
   description?: string;
@@ -21,6 +23,7 @@ export interface CreateProjectRequest {
   status?: 'active' | 'archived';
 }
 
+// Richiesta per aggiornare un progetto esistente
 export interface UpdateProjectRequest {
   name?: string;
   description?: string;

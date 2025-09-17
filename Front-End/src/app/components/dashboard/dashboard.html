@@ -1,5 +1,5 @@
 <div class="dashboard-container">
-  <!-- Header con benvenuto -->
+  <!-- Sezione di benvenuto -->
   <div class="dashboard-header">
     <div class="welcome-section">
       <h1>Benvenuto, {{ currentUser?.full_name || 'Utente' }}!</h1>
@@ -7,7 +7,7 @@
     </div>
   </div>
 
-  <!-- Statistiche generali -->
+  <!-- Panoramica delle statistiche -->
   <div class="stats-section">
     <div class="stats-grid">
       <mat-card class="stat-card">
@@ -22,6 +22,7 @@
         </mat-card-content>
       </mat-card>
 
+      <!-- Card issue totali -->
       <mat-card class="stat-card">
         <mat-card-content>
           <div class="stat-content">
@@ -34,6 +35,7 @@
         </mat-card-content>
       </mat-card>
 
+      <!-- Card issue aperte -->
       <mat-card class="stat-card">
         <mat-card-content>
           <div class="stat-content">
@@ -46,6 +48,7 @@
         </mat-card-content>
       </mat-card>
 
+      <!-- Card issue risolte -->
       <mat-card class="stat-card">
         <mat-card-content>
           <div class="stat-content">
@@ -60,9 +63,9 @@
     </div>
   </div>
 
-  <!-- Contenuto principale -->
+  <!-- Sezioni progetti, issue e commenti -->
   <div class="main-content">
-    <!-- Sezione Progetti -->
+    <!-- Elenco dei progetti dell'utente -->
     <div class="projects-section">
       <div class="section-header">
         <h2>
@@ -252,7 +255,7 @@
       </div>
     </div>
 
-    <!-- Sezione Commenti Utente -->
+    <!-- Commenti dell'utente -->
     <div class="projects-section comments-section">
       <div class="section-header">
         <h2>
@@ -261,8 +264,11 @@
         </h2>
       </div>
     
+    <!-- Grid dei commenti se presenti -->
     <div class="projects-grid" *ngIf="userComments.length > 0">
+      <!-- Card per ogni commento -->
       <mat-card class="project-card" *ngFor="let comment of userComments">
+        <!-- Header della card commento -->
         <mat-card-header>
           <div class="project-header">
             <div class="project-title-section">
@@ -280,6 +286,7 @@
           </div>
         </mat-card-header>
         
+        <!-- Contenuto della card commento -->
         <mat-card-content>
           <!-- Statistiche del commento -->
           <div class="project-stats">
@@ -296,7 +303,7 @@
             </div>
           </div>
 
-          <!-- Data creazione -->
+          <!-- Data di creazione -->
           <div class="project-tags">
             <mat-chip-set>
               <mat-chip color="primary" selected>
@@ -305,7 +312,7 @@
             </mat-chip-set>
           </div>
 
-          <!-- Issue collegata -->
+          <!-- Issue collegata al commento -->
           <div class="project-priority">
             <mat-chip color="accent" selected>
               Issue: {{ getIssueTitleById(comment.id_issue) }}
@@ -313,6 +320,7 @@
           </div>
         </mat-card-content>
         
+        <!-- Azioni della card commento -->
         <mat-card-actions>
           <button mat-button (click)="onCommentClick(comment); $event.stopPropagation()">
             <mat-icon>launch</mat-icon>

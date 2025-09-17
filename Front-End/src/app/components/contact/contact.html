@@ -1,88 +1,247 @@
-<div class="page-container">
-  <div class="contact-hero">
-    <h1>Contattaci</h1>
-    <p class="hero-subtitle">Siamo qui per aiutarti. Scegli il modo migliore per metterti in contatto con noi.</p>
-  </div>
-
-  <div class="contact-content">
-    <div class="contact-methods">
-      <mat-card class="contact-card">
-        <mat-card-header>
-          <div mat-card-avatar class="contact-avatar support">
-            <mat-icon>support_agent</mat-icon>
-          </div>
-          <mat-card-title>Supporto Tecnico</mat-card-title>
-          <mat-card-subtitle>Per problemi tecnici e assistenza</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>Il nostro team di supporto è disponibile 24/7 per aiutarti con qualsiasi problema tecnico.</p>
-          <div class="contact-details">
-            <p><mat-icon>email</mat-icon> team&#64;issuenet.com</p>
-            <p><mat-icon>schedule</mat-icon> Risposta entro 2-4 ore</p>
-          </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-raised-button color="primary">
-            <mat-icon>email</mat-icon>
-            Contatta Supporto
-          </button>
-        </mat-card-actions>
-      </mat-card>
-
-      <mat-card class="contact-card">
-        <mat-card-header>
-          <div mat-card-avatar class="contact-avatar general">
-            <mat-icon>forum</mat-icon>
-          </div>
-          <mat-card-title>Informazioni Generali</mat-card-title>
-          <mat-card-subtitle>Per domande generali e feedback</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>Hai una domanda generale o vuoi condividere un feedback? Scrivici!</p>
-          <div class="contact-details">
-            <p><mat-icon>email</mat-icon> info&#64;issuenet.com</p>
-            <p><mat-icon>schedule</mat-icon> Risposta entro 24 ore</p>
-          </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-raised-button color="primary">
-            <mat-icon>send</mat-icon>
-            Invia messaggio
-          </button>
-        </mat-card-actions>
-      </mat-card>
+<!-- Hero Section - EXACT COPY from home -->
+<div class="hero-section">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1>Contattaci</h1>
+      <p class="hero-subtitle">Siamo qui per aiutarti</p>
+      <p class="hero-description">
+        Scegli il modo migliore per metterti in contatto con noi. Il nostro team di supporto 
+        è sempre pronto ad assisterti con qualsiasi domanda o problema tecnico.
+      </p>
     </div>
+  </div>
+</div>
 
-    <div class="office-info">
-      <h2>I Nostri Uffici</h2>
-      <div class="offices-grid">
-        <div class="office-card">
-          <h3>Sede Principale - Milano</h3>
-          <div class="office-details">
-            <p><mat-icon>location_on</mat-icon> Via Giuseppe Mazzini 45, 20123 Milano, Italia</p>
-            <p><mat-icon>phone</mat-icon> +39 02 1234 5678</p>
-            <p><mat-icon>schedule</mat-icon> Lun-Ven 9:00-18:00</p>
+<!-- Contact Content Section - EXACT COPY structure from home -->
+<div class="features-preview">
+  <div class="container">
+    <h2>Come Possiamo Aiutarti</h2>
+    <p class="features-description">
+      Scegli il canale di contatto più adatto alle tue esigenze per ricevere assistenza rapida e professionale.
+    </p>
+    
+    <div class="features-layout">
+      <!-- Cards dei metodi di contatto a sinistra -->
+      <div class="features-cards">
+        <div class="feature-card-item">
+          <mat-icon class="feature-card-icon">support_agent</mat-icon>
+          <div class="feature-card-content">
+            <h3>Supporto Tecnico</h3>
+            <p>Assistenza immediata 24/7</p>
           </div>
         </div>
         
-        <div class="office-card">
-          <h3>Ufficio Roma</h3>
-          <div class="office-details">
-            <p><mat-icon>location_on</mat-icon> Via del Corso 100, 00186 Roma, Italia</p>
-            <p><mat-icon>phone</mat-icon> +39 06 9876 5432</p>
-            <p><mat-icon>schedule</mat-icon> Lun-Ven 9:00-18:00</p>
+        <div class="feature-card-item">
+          <mat-icon class="feature-card-icon">email</mat-icon>
+          <div class="feature-card-content">
+            <h3>Email Support</h3>
+            <p>Risposte entro 24 ore</p>
+          </div>
+        </div>
+        
+        <div class="feature-card-item">
+          <mat-icon class="feature-card-icon">chat</mat-icon>
+          <div class="feature-card-content">
+            <h3>Chat Live</h3>
+            <p>Lun-Ven 9:00-18:00 CET</p>
+          </div>
+        </div>
+        
+        <div class="feature-card-item">
+          <mat-icon class="feature-card-icon">location_on</mat-icon>
+          <div class="feature-card-content">
+            <h3>Uffici Fisici</h3>
+            <p>Milano e Roma</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Contact Methods a destra -->
+      <div class="features-image">
+        <div class="image-container">
+          <div class="contact-methods-grid">
+            
+            <div class="contact-method-card">
+              <mat-icon class="contact-method-icon">support</mat-icon>
+              <div class="contact-method-title">Supporto Tecnico</div>
+              <div class="contact-method-info">support"&#64;"issuenet.com</div>
+            </div>
+
+            <div class="contact-method-card">
+              <mat-icon class="contact-method-icon">info</mat-icon>
+              <div class="contact-method-title">Informazioni</div>
+              <div class="contact-method-info">info"&#64;"issuenet.com</div>
+            </div>
+
+            <div class="contact-method-card">
+              <mat-icon class="contact-method-icon">business</mat-icon>
+              <div class="contact-method-title">Vendite</div>
+              <div class="contact-method-info">sales"&#64;"issuenet.com</div>
+            </div>
+
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="faq-section">
-      <h2>Domande Frequenti</h2>
-      <p>Prima di contattarci, dai un'occhiata alle nostre <a routerLink="/faq">FAQ</a> - potresti trovare subito la risposta che cerchi!</p>
-      <button mat-stroked-button color="primary" routerLink="/faq">
-        <mat-icon>help</mat-icon>
-        Vai alle FAQ
-      </button>
+<!-- Office Section - con sfondo chiaro -->
+<div class="cta-section">
+  <div class="container">
+    <div class="cta-content">
+      <h2>I Nostri Uffici</h2>
+      <p class="cta-description">
+        Vieni a trovarci nelle nostre sedi di Milano e Roma. Siamo sempre felici di incontrare i nostri clienti di persona.
+      </p>
+    </div>
+    
+    <div class="office-grid">
+      <div class="office-card">
+        <div class="office-header">
+          <div class="office-icon">
+            <mat-icon>location_city</mat-icon>
+          </div>
+          <h3 class="office-title">Milano - Sede Principale</h3>
+        </div>
+        <p class="office-address">
+          Via Giuseppe Mazzini 45<br>
+          20123 Milano, Italia<br>
+          Tel: +39 02 1234 5678
+        </p>
+        <div class="office-hours">
+          <strong>Orari di apertura:</strong><br>
+          Lun-Ven: 9:00-18:00<br>
+          Sabato: 9:00-13:00<br>
+          Domenica: Chiuso
+        </div>
+      </div>
+
+      <div class="office-card">
+        <div class="office-header">
+          <div class="office-icon">
+            <mat-icon>location_city</mat-icon>
+          </div>
+          <h3 class="office-title">Roma - Ufficio Sud</h3>
+        </div>
+        <p class="office-address">
+          Via del Corso 100<br>
+          00186 Roma, Italia<br>
+          Tel: +39 06 9876 5432
+        </p>
+        <div class="office-hours">
+          <strong>Orari di apertura:</strong><br>
+          Lun-Ven: 9:00-18:00<br>
+          Sabato: 9:00-13:00<br>
+          Domenica: Chiuso
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Methods Section -->
+<div class="features-preview">
+  <div class="container">
+    <h2>Metodi di Contatto</h2>
+    <p class="features-description">
+      Diversi canali per diverse esigenze. Scegli quello più adatto alla tua situazione.
+    </p>
+    
+    <div class="features-layout">
+      <!-- Contact cards a sinistra -->
+      <div class="features-cards">
+        <div class="feature-card-item">
+          <mat-icon class="feature-card-icon">emergency</mat-icon>
+          <div class="feature-card-content">
+            <h3>Emergenze</h3>
+            <p>Per problemi critici immediati</p>
+          </div>
+        </div>
+        
+        <div class="feature-card-item">
+          <mat-icon class="feature-card-icon">forum</mat-icon>
+          <div class="feature-card-content">
+            <h3>Forum Community</h3>
+            <p>Discussioni con altri utenti</p>
+          </div>
+        </div>
+        
+        <div class="feature-card-item">
+          <mat-icon class="feature-card-icon">help</mat-icon>
+          <div class="feature-card-content">
+            <h3>FAQ</h3>
+            <p>Risposte alle domande comuni</p>
+          </div>
+        </div>
+        
+        <div class="feature-card-item">
+          <mat-icon class="feature-card-icon">schedule</mat-icon>
+          <div class="feature-card-content">
+            <h3>Appuntamenti</h3>
+            <p>Consulenze personalizzate</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Contact form o informazioni a destra -->
+      <div class="features-image">
+        <div class="image-container">
+          <div class="tip-card-wrapper">
+            <div class="tip-display">
+              <div class="tip-header">
+                <mat-icon class="tip-icon">contact_support</mat-icon>
+                <h3>Contatto Rapido</h3>
+              </div>
+              <p class="tip-description">
+                Prima di contattarci, dai un'occhiata alle nostre FAQ - potresti trovare subito la risposta che cerchi! 
+                Per problemi tecnici urgenti usa il supporto prioritario, per domande generali l'email standard.
+              </p>
+              <div class="tip-actions">
+                <button mat-raised-button routerLink="/faq">
+                  <mat-icon>help</mat-icon>
+                  Vai alle FAQ
+                </button>
+                <div class="tip-navigation">
+                  <button mat-icon-button class="nav-button">
+                    <mat-icon>email</mat-icon>
+                  </button>
+                  <span class="tip-indicators">
+                    <span class="tip-dot active"></span>
+                    <span class="tip-dot"></span>
+                    <span class="tip-dot"></span>
+                  </span>
+                  <button mat-icon-button class="nav-button">
+                    <mat-icon>chat</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Final CTA Section - EXACT COPY from home -->
+<div class="cta-section">
+  <div class="container">
+    <div class="cta-content">
+      <h2>Pronto per iniziare?</h2>
+      <p class="cta-description">
+        Non aspettare oltre. Contattaci oggi stesso e scopri come IssueNet può migliorare 
+        la gestione dei tuoi progetti di sviluppo software.
+      </p>
+      <div class="cta-actions">
+        <button class="cta-button-main" mat-raised-button>
+          <mat-icon>support_agent</mat-icon>
+          Contatta Supporto
+        </button>
+        <button class="cta-button-secondary" mat-button routerLink="/features">
+          Scopri le Funzionalità
+        </button>
+      </div>
     </div>
   </div>
 </div>

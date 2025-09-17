@@ -1,5 +1,8 @@
+<!-- Container principale della pagina di registrazione -->
 <div class="register-container">
+  <!-- Card principale della registrazione -->
   <mat-card class="register-card">
+    <!-- HEADER: Logo e titolo -->
     <mat-card-header>
       <div class="register-header">
         <div class="title-section">
@@ -12,9 +15,10 @@
       </div>
     </mat-card-header>
 
+    <!-- CONTENUTO: Form di registrazione -->
     <mat-card-content>
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
-        <!-- Nome -->
+        <!-- Campo Nome -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nome</mat-label>
           <input matInput 
@@ -27,7 +31,7 @@
           </mat-error>
         </mat-form-field>
 
-        <!-- Cognome -->
+        <!-- Campo Cognome -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Cognome</mat-label>
           <input matInput 
@@ -40,7 +44,7 @@
           </mat-error>
         </mat-form-field>
 
-        <!-- Email -->
+        <!-- Campo Email -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Email</mat-label>
           <input matInput 
@@ -54,7 +58,7 @@
           </mat-error>
         </mat-form-field>
 
-        <!-- Username -->
+        <!-- Campo Username -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Username</mat-label>
           <input matInput 
@@ -67,7 +71,7 @@
           </mat-error>
         </mat-form-field>
 
-        <!-- Password -->
+        <!-- Campo Password -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Password</mat-label>
           <input matInput 
@@ -75,6 +79,7 @@
                  formControlName="password" 
                  placeholder="Crea una password sicura"
                  autocomplete="new-password">
+          <!-- Icona per mostrare/nascondere password -->
           <mat-icon matSuffix (click)="togglePasswordVisibility()" style="cursor: pointer;">
             {{ hidePassword ? 'visibility_off' : 'visibility' }}
           </mat-icon>
@@ -83,7 +88,7 @@
           </mat-error>
         </mat-form-field>
 
-        <!-- Conferma Password -->
+        <!-- Campo Conferma Password -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Conferma Password</mat-label>
           <input matInput 
@@ -91,18 +96,20 @@
                  formControlName="confirmPassword" 
                  placeholder="Ripeti la password"
                  autocomplete="new-password">
+          <!-- Icona per mostrare/nascondere conferma password -->
           <mat-icon matSuffix (click)="toggleConfirmPasswordVisibility()" style="cursor: pointer;">
             {{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}
           </mat-icon>
           <mat-error *ngIf="registerForm.get('confirmPassword')?.invalid && registerForm.get('confirmPassword')?.touched">
             {{ getErrorMessage('confirmPassword') }}
           </mat-error>
+          <!-- Errore specifico per password non corrispondenti -->
           <mat-error *ngIf="registerForm.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
             Le password non corrispondono
           </mat-error>
         </mat-form-field>
 
-        <!-- Termini e Condizioni -->
+        <!-- Sezione Termini e Condizioni -->
         <div class="terms-section">
           <mat-checkbox formControlName="acceptTerms" class="terms-checkbox">
             Accetto i <a routerLink="/terms-of-service" target="_blank">Termini e Condizioni</a> 
@@ -113,7 +120,7 @@
           </mat-error>
         </div>
 
-        <!-- Submit Button -->
+        <!-- Pulsante di submit -->
         <button mat-raised-button 
                 color="primary" 
                 type="submit" 

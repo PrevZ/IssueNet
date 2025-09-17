@@ -13,6 +13,7 @@ import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -33,6 +34,7 @@ export class Login implements OnInit {
   hidePassword = true;
   isLoading = false;
 
+  // Costruttore - inizializza i servizi necessari
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -40,6 +42,7 @@ export class Login implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
+  // Inizializzazione del component
   ngOnInit() {
     this.initForm();
     
@@ -49,14 +52,15 @@ export class Login implements OnInit {
     }
   }
 
+  // Inizializza il form di login con validatori
   private initForm() {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      rememberMe: [false]
     });
   }
 
+  // Gestisce l'invio del form di login
   onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
@@ -72,7 +76,7 @@ export class Login implements OnInit {
             panelClass: ['success-snack']
           });
           
-          // Reindirizza alla dashboard se loggato, altrimenti alla home
+          // Reindirizza alla home
           this.router.navigate(['/home']);
         },
         error: (error) => {
@@ -96,6 +100,7 @@ export class Login implements OnInit {
     }
   }
 
+  // Marca tutti i campi del form come "touched" per mostrare errori
   private markFormGroupTouched() {
     Object.keys(this.loginForm.controls).forEach(key => {
       const control = this.loginForm.get(key);
@@ -103,6 +108,7 @@ export class Login implements OnInit {
     });
   }
 
+  // Restituisce il messaggio di errore appropriato per un campo
   getErrorMessage(field: string): string {
     const control = this.loginForm.get(field);
     
@@ -118,6 +124,7 @@ export class Login implements OnInit {
     return '';
   }
 
+  // Restituisce il nome del campo per gli errori
   private getFieldName(field: string): string {
     const fieldNames: { [key: string]: string } = {
       username: 'Username',
@@ -126,6 +133,7 @@ export class Login implements OnInit {
     return fieldNames[field] || field;
   }
 
+  // Alterna la visibilità della password
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
   }

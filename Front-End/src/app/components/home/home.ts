@@ -12,6 +12,7 @@ import { IssueService } from '../../services/issue.service';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   imports: [
     CommonModule,
     RouterModule,
@@ -25,22 +26,22 @@ import { IssueService } from '../../services/issue.service';
 export class Home implements OnInit {
   currentUser: User | null = null;
   
-  // Features carousel data
+  // Features
   features = [
     {
       id: 0,
       title: 'Dashboard Intuitiva',
       description: 'Visualizza tutti i tuoi progetti e issue in un\'interfaccia chiara e organizzata.',
       icon: 'dashboard',
-      image: '/assets/dashboard-preview.svg',
+      image: '/assets/images/dashboard.png',
       alt: 'Dashboard IssueNet'
     },
     {
       id: 1,
       title: 'Collaborazione',
       description: 'Lavora in team, assegna compiti e tieni traccia dei progressi di tutti.',
-      icon: 'group_work',
-      image: '/assets/collaboration-preview.svg',
+      icon: 'group',
+      image: '/assets/images/project.png',
       alt: 'Collaborazione in team'
     },
     {
@@ -48,7 +49,7 @@ export class Home implements OnInit {
       title: 'Tracking Avanzato',
       description: 'Monitora lo stato degli issue, aggiungi commenti e tieni tutto sotto controllo.',
       icon: 'track_changes',
-      image: '/assets/tracking-preview.svg',
+      image: '/assets/images/issues.png',
       alt: 'Tracking degli issue'
     }
   ];
@@ -62,7 +63,7 @@ export class Home implements OnInit {
     comments: 0
   };
 
-  // Tips e suggerimenti
+  // Tips
   tips = [
     {
       id: 1,
@@ -105,8 +106,10 @@ export class Home implements OnInit {
 
   currentTipIndex = 0;
 
+  // Costruttore - inizializza i servizi
   constructor(private userService: UserService, private projectService: ProjectService, private issueService: IssueService,private commentService: CommentService) {}
 
+  // Inizializzazione del component
   ngOnInit() {
     this.userService.currentUser$.subscribe(user => {
       this.currentUser = user;
@@ -117,6 +120,7 @@ export class Home implements OnInit {
     });
   }
 
+  // Carica le statistiche dell'utente corrente
   loadUserStats(userId: number) {
     // Recupera progetti
     this.projectService.getUserProjectStats(userId).subscribe(stats => {
@@ -134,15 +138,17 @@ export class Home implements OnInit {
     });
   }
   
+  // Seleziona una feature specifica
   selectFeature(index: number) {
     this.currentFeatureIndex = index;
   }
   
+  // Restituisce la feature selezionata
   get currentFeature() {
     return this.features[this.currentFeatureIndex];
   }
 
-  // Metodi per gestire i tips
+  // Restituisce i tips disponibili in base al ruolo utente
   get availableTips() {
     return this.tips.filter(tip => {
       if (tip.adminOnly && this.currentUser?.role !== 'admin') {
@@ -152,25 +158,30 @@ export class Home implements OnInit {
     });
   }
 
+  // Restituisce il tip correntemente visualizzato
   get currentTip() {
     const tips = this.availableTips;
     return tips[this.currentTipIndex % tips.length];
   }
 
+  // Naviga al tip successivo
   nextTip() {
     const tips = this.availableTips;
     this.currentTipIndex = (this.currentTipIndex + 1) % tips.length;
   }
 
+  // Naviga al tip precedente
   previousTip() {
     const tips = this.availableTips;
     this.currentTipIndex = this.currentTipIndex === 0 ? tips.length - 1 : this.currentTipIndex - 1;
   }
 
+  // Seleziona un tip specifico
   selectTip(index: number) {
     this.currentTipIndex = index;
   }
 
+  // Avvia la rotazione automatica dei tips
   private startTipRotation() {
     // Cambia tip ogni 8 secondi
     setInterval(() => {
@@ -178,6 +189,7 @@ export class Home implements OnInit {
     }, 8000);
   }
 
+  // Apre il repository GitHub in una nuova scheda
   openGitHub() {
     // Apri GitHub in una nuova tab
     window.open('https://github.com/PrevZ/IssueNet.git', '_blank');

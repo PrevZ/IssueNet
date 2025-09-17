@@ -1,0 +1,32 @@
+<!-- Dialog per conferma logout -->
+<div class="trello-dialog">
+  <!-- Header con icona e titolo -->
+  <div class="trello-header">
+    <div class="header-content">
+      <h2 mat-dialog-title>Uscire da IssueNet?</h2>
+    </div>
+  </div>
+  
+  <!-- Contenuto principale -->
+  <div mat-dialog-content class="trello-content">
+    <p class="main-message">Verrai disconnesso dall'applicazione e dovrai effettuare nuovamente l'accesso.</p>
+  </div>
+  
+  <!-- Azioni -->
+  <div mat-dialog-actions class="trello-actions">
+    <button 
+      mat-raised-button 
+      (click)="confirmLogout()" 
+      class="trello-confirm-btn">
+      Esci
+    </button>
+    
+    <button 
+      mat-button 
+      (click)="cancelLogout()" 
+      class="trello-cancel-btn"
+      cdkFocusInitial>
+      Annulla
+    </button>
+  </div>
+</div>

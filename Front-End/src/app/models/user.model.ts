@@ -1,3 +1,4 @@
+// Interfaccia principale per l'utente
 export interface User {
   id_user: number;
   username: string;
@@ -7,6 +8,7 @@ export interface User {
   role: 'admin' | 'developer' | 'tester';
 }
 
+// Richiesta per creare un nuovo utente
 export interface CreateUserRequest {
   username: string;
   email: string;
@@ -15,6 +17,7 @@ export interface CreateUserRequest {
   role?: 'admin' | 'developer' | 'tester';
 }
 
+// Richiesta per aggiornare un utente esistente
 export interface UpdateUserRequest {
   username?: string;
   email?: string;
@@ -23,6 +26,7 @@ export interface UpdateUserRequest {
   role?: 'admin' | 'developer' | 'tester';
 }
 
+// Richiesta per registrazione di un nuovo utente
 export interface RegisterRequest {
   firstName: string;
   lastName: string;
@@ -32,12 +36,14 @@ export interface RegisterRequest {
   role?: 'admin' | 'developer' | 'tester';
 }
 
+// Richiesta per il login
 export interface LoginRequest {
   username: string;
   password: string;
 }
 
+// Risposta del login con dati utente
 export interface LoginResponse {
   user: User;
-  token?: string; // Se utilizzi JWT
+  token?: string; 
 }

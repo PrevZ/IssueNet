@@ -1,182 +1,404 @@
-.page-container {
-  max-width: 800px;
+/* FAQ Page - EXACT Home Style Copy */
+
+/* Reset per rimuovere spazi indesiderati */
+:host {
+  display: block;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Container generale */
+.container {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
 }
 
-.faq-hero {
-  text-align: center;
-  padding: 3rem 0;
-  margin-bottom: 2rem;
+/* Hero Section - EXACT COPY from home.css */
+.hero-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  color: #333;
+  padding: 80px 0;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  margin-top: 0;
 }
 
-.faq-hero h1 {
-  font-size: 2.5rem;
+.hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-text h1 {
+  font-size: 3.5rem;
   font-weight: 700;
-  color: var(--text-dark);
   margin-bottom: 1rem;
+  line-height: 1.2;
+  color: #333;
 }
 
 .hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.8;
+  font-weight: 400;
+  color: #666;
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+  color: #555;
+}
+
+/* Features Preview - EXACT COPY from home.css */
+.features-preview {
+  padding: 80px 0;
+  background: linear-gradient(135deg, #0079bf 0%, #005a8b 100%);
+  color: white;
+}
+
+.features-preview h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: white;
+  font-weight: 600;
+}
+
+.features-description {
+  text-align: center;
   font-size: 1.2rem;
-  color: var(--text-light);
-  max-width: 600px;
+  line-height: 1.6;
+  margin: 0 auto 3rem;
+  max-width: 800px;
+  opacity: 1;
+  font-weight: 300;
+  color: white;
+}
+
+/* Layout Trello-style: cards a sinistra, immagine a destra - EXACT COPY */
+.features-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  align-items: flex-start;
+  margin-top: 32px;
+}
+
+/* Cards delle features a sinistra - EXACT COPY */
+.features-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 320px;
+  max-width: 350px;
+}
+
+/* EXACT COPY of feature-card-item from home.css */
+.feature-card-item {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 24px 20px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: box-shadow 0.2s, border 0.2s;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.feature-card-item:hover {
+  border: 2px solid #1976d2;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.12);
+}
+
+.feature-card-icon {
+  font-size: 36px;
+  color: #1976d2;
+  margin-right: 8px;
+}
+
+.feature-card-content h3 {
+  margin: 0 0 6px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.feature-card-content p {
+  margin: 0;
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Immagine showcase a destra - EXACT COPY */
+.features-image {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-container {
+  background: #f5f7fa;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 350px;
+  overflow: hidden;
+}
+
+/* FAQ Container */
+.faq-container {
+  max-width: 800px;
   margin: 0 auto;
 }
 
-.faq-content {
-  margin-bottom: 3rem;
-}
-
-/* Stili per l'accordion */
-mat-accordion {
-  display: block;
-}
-
-mat-expansion-panel {
-  background-color: var(--white);
-  border-radius: var(--border-radius-large) !important;
-  box-shadow: var(--shadow-light);
-  margin-bottom: 1rem;
+/* FAQ Item - using EXACT feature-card-item style */
+.faq-item {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+  border: 2px solid transparent;
+  transition: box-shadow 0.2s, border 0.2s;
   overflow: hidden;
-  border: none !important;
 }
 
-mat-expansion-panel:not(.mat-expanded) {
-  border-radius: var(--border-radius-large) !important;
+.faq-item:hover {
+  border: 2px solid #1976d2;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.12);
 }
 
-mat-expansion-panel.mat-expanded {
-  border-radius: var(--border-radius-large) !important;
-}
-
-mat-expansion-panel-header {
-  padding: 1.5rem !important;
-  height: auto !important;
-  transition: all 0.3s ease;
-}
-
-mat-expansion-panel-header:hover {
-  background-color: var(--primary-blue-light) !important;
-}
-
-mat-panel-title {
+/* FAQ Question (clickable header) */
+.faq-question {
+  padding: 24px;
+  cursor: pointer;
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  background: #fff;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-size: 1.2rem;
   font-weight: 600;
-  color: var(--text-dark);
-  font-size: 1.1rem;
+  color: #333;
+  transition: background-color 0.2s;
 }
 
-mat-panel-title mat-icon {
-  color: var(--primary-blue);
-  font-size: 1.5rem;
-  width: 1.5rem;
-  height: 1.5rem;
+.faq-question:hover {
+  background-color: #f8f9fa;
 }
 
-mat-expansion-panel-content {
-  padding: 0 1.5rem 1.5rem !important;
-}
-
-mat-expansion-panel-content p {
-  color: var(--text-light);
-  line-height: 1.6;
-  font-size: 1rem;
+.faq-question-text {
+  flex: 1;
   margin: 0;
 }
 
-.contact-section {
+.faq-toggle {
+  color: #1976d2;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  margin-left: 16px;
+}
+
+.faq-item.active .faq-toggle {
+  transform: rotate(45deg);
+}
+
+/* FAQ Answer */
+.faq-answer {
+  padding: 0 24px 24px 24px;
+  color: #666;
+  line-height: 1.6;
+  font-size: 1rem;
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Call to Action Section - EXACT COPY from home.css */
+.cta-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 80px 0;
   text-align: center;
-  background-color: var(--white);
-  border-radius: var(--border-radius-large);
-  padding: 3rem 2rem;
-  box-shadow: var(--shadow-medium);
-  margin-bottom: 2rem;
 }
 
-.contact-section h2 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: var(--text-dark);
+.cta-content h2 {
+  font-size: 2.5rem;
+  color: #333;
   margin-bottom: 1rem;
+  font-weight: 700;
 }
 
-.contact-section p {
-  font-size: 1.1rem;
-  color: var(--text-light);
-  margin-bottom: 2rem;
+.cta-description {
+  font-size: 1.2rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 auto 2.5rem;
+  max-width: 600px;
 }
 
-.contact-buttons {
+.cta-actions {
   display: flex;
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.contact-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 12px 24px;
-  font-weight: 500;
-  border-radius: var(--border-radius);
+.cta-button-main {
+  background-color: #0079bf !important;
+  color: white !important;
+  font-weight: 600;
+  padding: 14px 32px !important;
+  font-size: 1.1rem !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 121, 191, 0.3) !important;
+  transition: all 0.3s ease !important;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
 }
 
-.contact-btn mat-icon {
-  font-size: 1.2rem;
-  width: 1.2rem;
-  height: 1.2rem;
+.cta-button-main:hover {
+  background-color: #005a8b !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(0, 121, 191, 0.4) !important;
 }
 
-/* Responsive design */
+.cta-button-secondary {
+  color: #0079bf !important;
+  border: 2px solid #0079bf !important;
+  background: transparent !important;
+  font-weight: 600;
+  padding: 12px 30px !important;
+  font-size: 1rem !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.cta-button-secondary:hover {
+  background-color: #0079bf !important;
+  color: white !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Responsive Design - EXACT COPY from home.css */
 @media (max-width: 768px) {
-  .page-container {
-    padding: 0 16px;
+  .hero-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
   }
-  
-  .faq-hero {
-    padding: 2rem 0;
+
+  .hero-text h1 {
+    font-size: 2.5rem;
   }
-  
-  .faq-hero h1 {
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .features-preview h2 {
     font-size: 2rem;
   }
-  
-  .hero-subtitle {
+
+  .features-layout {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .features-cards {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .feature-card-item {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .feature-card-icon {
+    margin-bottom: 0;
+    margin-right: 16px;
+  }
+
+  .features-image {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .image-container {
+    min-height: 250px;
+    padding: 16px;
+  }
+
+  .faq-question {
+    padding: 20px;
     font-size: 1.1rem;
   }
-  
-  mat-expansion-panel-header {
-    padding: 1rem !important;
+
+  .faq-answer {
+    padding: 0 20px 20px 20px;
   }
-  
-  mat-panel-title {
-    font-size: 1rem;
-  }
-  
-  mat-expansion-panel-content {
-    padding: 0 1rem 1rem !important;
-  }
-  
-  .contact-section {
-    padding: 2rem 1rem;
-  }
-  
-  .contact-section h2 {
-    font-size: 1.5rem;
-  }
-  
-  .contact-buttons {
+
+  .cta-actions {
     flex-direction: column;
     align-items: center;
   }
-  
-  .contact-btn {
+
+  .cta-button-main,
+  .cta-button-secondary {
     width: 100%;
-    max-width: 280px;
-    justify-content: center;
+    max-width: 300px;
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 40px 0;
+  }
+
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+
+  .features-preview h2 {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 0 15px;
   }
 }
