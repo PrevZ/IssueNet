@@ -49,6 +49,10 @@
           <mat-icon>person</mat-icon>
           <span>Profilo</span>
         </button>
+        <button mat-menu-item routerLink="/edit-user">
+          <mat-icon>edit</mat-icon>
+          <span>Opzioni</span>
+        </button>
         <button mat-menu-item routerLink="/user-management" *ngIf="currentUser?.role === 'admin'">
           <mat-icon>group</mat-icon>
           Gestione Utenti

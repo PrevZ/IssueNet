@@ -6,10 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatChipsModule } from '@angular/material/chips';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user.model';
 import { MatDividerModule } from '@angular/material/divider';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -22,82 +22,33 @@ import { MatDividerModule } from '@angular/material/divider';
     MatInputModule,
     MatToolbarModule,
     MatChipsModule,
-    ReactiveFormsModule,
-    MatDividerModule
+    MatDividerModule,
+    RouterModule
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
 export class UserProfile implements OnInit {
   currentUser: User | null = null;
-  profileForm: FormGroup;
-  isEditing = false;
 
-  userStats = {
-    totalProjects: 0,
-    totalIssues: 0,
-    comments: 0
-  };
-
-  constructor(private userService: UserService, private fb: FormBuilder) {
-    this.profileForm = this.fb.group({
-      full_name: [''],
-      email: [''],
-      // aggiungi altri campi se necessario
-    });
-  }
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.userService.currentUser$.subscribe(user => {
       this.currentUser = user;
-      if (user) {
-        this.profileForm.patchValue({
-          full_name: user.full_name,
-          email: user.email
-        });
-      }
     });
   }
 
-  enableEdit() {
-    this.isEditing = true;
-    this.profileForm.enable();
-  }
-
-  saveProfile() {
-    if (this.profileForm.valid && this.currentUser) {
-      const userId = this.currentUser.id_user;
-      // Prendi solo i campi modificabili
-      const userData = {
-        full_name: this.profileForm.value.full_name,
-        email: this.profileForm.value.email
-        // aggiungi altri campi modificabili se necessario
-      };
-      this.userService.updateProfile(userId, userData).subscribe(() => {
-        this.isEditing = false;
-        // Aggiorna lo stato globale se necessario
-      });
-    }
-  }
-
-  cancelEdit() {
-    this.isEditing = false;
-    if (this.currentUser) {
-      this.profileForm.patchValue({
-        full_name: this.currentUser.full_name,
-        email: this.currentUser.email
-      });
-    }
-    this.profileForm.disable();
+  getInitials(): string {
+    if (!this.currentUser?.full_name) return '';
+    return this.currentUser.full_name
+      .split(' ')
+      .map(name => name.charAt(0).toUpperCase())
+      .join('')
+      .substring(0, 2);
   }
 
   logout() {
     this.userService.logout();
-    // Puoi aggiungere un redirect se necessario
-  }
-
-  openChangePasswordDialog() {
-    // Stub: mostra un alert o apri un dialog
-    alert('Funzionalità in sviluppo!');
   }
 }

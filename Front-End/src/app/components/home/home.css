@@ -177,10 +177,11 @@
 /* Cards delle features a sinistra */
 .features-cards {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 24px;
-  min-width: 320px;
-  max-width: 350px;
+  justify-content: center;
+  width: 100%;
 }
 
 .feature-card-item {
@@ -194,6 +195,9 @@
   display: flex;
   align-items: flex-start;
   gap: 16px;
+  flex: 1;
+  min-width: 280px;
+  max-width: 320px;
 }
 
 .feature-card-item:hover {
@@ -667,6 +671,7 @@
     text-align: left;
     width: 100%;
     max-width: 400px;
+    min-width: auto;
   }
 
   .feature-card-icon {

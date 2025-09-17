@@ -71,15 +71,30 @@ export class UserService {
     return this.currentUserSubject.value !== null;
   }
 
+  // Aggiorna manualmente l'utente corrente
+  updateCurrentUser(user: User): void {
+    console.log('UserService: updating current user to:', user);
+    this.currentUserSubject.next(user);
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    console.log('UserService: current user updated and saved to localStorage');
+  }
+
   // Aggiorna profilo utente
   updateProfile(id: number, userData: Partial<User>): Observable<User> {
     return this.http.put<User>(this.apiConfig.getApiUrl(`${this.endpoint}/${id}`), userData)
       .pipe(
         tap(updatedUser => {
+          console.log('Frontend: received updated user:', updatedUser);
+          console.log('Frontend: current user before update:', this.currentUserSubject.value);
+
           // Aggiorna l'utente corrente se è quello che stiamo modificando
           if (this.currentUserSubject.value?.id_user === id) {
+            console.log('Frontend: updating current user');
             this.currentUserSubject.next(updatedUser);
             localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+            console.log('Frontend: localStorage updated');
+          } else {
+            console.log('Frontend: ID mismatch, not updating current user');
           }
         })
       );
@@ -122,5 +137,10 @@ export class UserService {
   // Ottieni utenti per ruolo
   getUsersByRole(role: string): Observable<User[]> {
     return this.http.get<User[]>(this.apiConfig.getApiUrl(`${this.endpoint}/role/${role}`));
+  }
+
+  // Cambia password utente
+  changePassword(userId: number, passwordData: {currentPassword: string, newPassword: string}): Observable<any> {
+    return this.http.post(this.apiConfig.getApiUrl(`${this.endpoint}/${userId}/change-password`), passwordData);
   }
 }

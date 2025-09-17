@@ -1,0 +1,109 @@
+<div class="trello-profile-container">
+  <!-- Trello-style Header -->
+  <div class="trello-header">
+    <div class="profile-avatar-section">
+      <div class="avatar-circle">
+        <span class="avatar-initials">{{ getInitials() }}</span>
+      </div>
+      <div class="profile-info">
+        <h1 class="user-name">Modifica Profilo</h1>
+        <span class="user-role-badge" [class]="'role-' + currentUser?.role">
+          {{ currentUser?.role | titlecase }}
+        </span>
+      </div>
+    </div>
+
+    <button class="cancel-btn" (click)="onCancel()">
+      <mat-icon>close</mat-icon>
+      Annulla
+    </button>
+  </div>
+
+  <!-- Decorative Separator -->
+  <div class="separator-container">
+    <div class="separator-line"></div>
+    <div class="separator-icon">
+      <mat-icon>edit</mat-icon>
+    </div>
+    <div class="separator-line"></div>
+  </div>
+
+  <!-- Trello-style Card -->
+  <div class="trello-card">
+    <div class="card-header">
+      <h2>Modifica Informazioni</h2>
+    </div>
+
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="edit-form">
+      <div class="card-content">
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Nome Completo</mat-label>
+            <input matInput formControlName="full_name" placeholder="Inserisci il tuo nome completo">
+            <mat-icon matSuffix>person</mat-icon>
+            <mat-error *ngIf="editForm.get('full_name')?.hasError('required')">
+              Il nome è obbligatorio
+            </mat-error>
+            <mat-error *ngIf="editForm.get('full_name')?.hasError('minlength')">
+              Il nome deve essere di almeno 2 caratteri
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" placeholder="Inserisci la tua email">
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="editForm.get('email')?.hasError('required')">
+              L'email è obbligatoria
+            </mat-error>
+            <mat-error *ngIf="editForm.get('email')?.hasError('email')">
+              Inserisci un'email valida
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="form-field">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" placeholder="Inserisci il tuo username">
+            <mat-icon matSuffix>alternate_email</mat-icon>
+            <mat-error *ngIf="editForm.get('username')?.hasError('required')">
+              L'username è obbligatorio
+            </mat-error>
+            <mat-error *ngIf="editForm.get('username')?.hasError('minlength')">
+              L'username deve essere di almeno 3 caratteri
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-info">
+          <mat-icon class="info-icon">info</mat-icon>
+          <p>Le modifiche verranno applicate immediatamente dopo il salvataggio.</p>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="editForm.invalid || isLoading"
+          class="save-btn">
+          <mat-icon>save</mat-icon>
+          {{ isLoading ? 'Salvando...' : 'Salva Modifiche' }}
+        </button>
+
+        <button
+          mat-button
+          type="button"
+          (click)="onCancel()"
+          class="cancel-action-btn">
+          <mat-icon>close</mat-icon>
+          Annulla
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

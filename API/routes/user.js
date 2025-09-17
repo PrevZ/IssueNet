@@ -131,10 +131,21 @@ router.put('/:id', async (req, res) => {
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
     try {
-        const updatedUser = req.body;
-        const result = await userDAO.updateUser(connection, req.params.id, updatedUser);
+        const updatedUserData = req.body;
+        const result = await userDAO.updateUser(connection, req.params.id, updatedUserData);
         if (result) {
-            res.status(200).json({ message: 'Contatto aggiornato con successo', user: updatedUser });
+            // Recupera l'utente aggiornato dal database per restituire tutti i campi
+            const updatedUsers = await userDAO.getUserById(connection, req.params.id);
+            console.log('Backend: getUserById result:', updatedUsers);
+            if (updatedUsers.length > 0) {
+                const completeUser = updatedUsers[0];
+                // Rimuovi la password dalla risposta
+                delete completeUser.password;
+                console.log('Backend: sending user response:', completeUser);
+                res.status(200).json(completeUser);
+            } else {
+                res.status(404).json({ error: 'User not found after update' });
+            }
         } else {
             res.status(404).json({ error: 'User not found' });
         }
@@ -340,5 +351,66 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// Esporta il router 
+// POST /api/users/:id/change-password - Cambia la password di un utente
+router.post('/:id/change-password', async (req, res) => {
+    const connection = await db.getConnection();
+    await connection.beginTransaction();
+    res.setHeader('Content-Type', 'application/json');
+    try {
+        const { currentPassword, newPassword } = req.body;
+        const userId = req.params.id;
+
+        if (!currentPassword || !newPassword) {
+            return res.status(400).json({
+                error: 'Password attuale e nuova password sono obbligatorie'
+            });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                error: 'La nuova password deve essere di almeno 6 caratteri'
+            });
+        }
+
+        // Trova l'utente per verificare la password attuale
+        const users = await userDAO.getUserById(connection, userId);
+        if (users.length === 0) {
+            return res.status(404).json({ error: 'Utente non trovato' });
+        }
+
+        const user = users[0];
+
+        // Verifica la password attuale (in produzione dovresti usare hashing)
+        if (user.password !== currentPassword) {
+            return res.status(401).json({ error: 'Password attuale non corretta' });
+        }
+
+        // Verifica che la nuova password sia diversa da quella attuale
+        if (currentPassword === newPassword) {
+            return res.status(400).json({ error: 'La nuova password deve essere diversa da quella attuale' });
+        }
+
+        // Aggiorna la password (in produzione, dovresti hashare la nuova password)
+        const updateResult = await userDAO.updateUser(connection, userId, { password: newPassword });
+
+        if (updateResult) {
+            await connection.commit();
+            res.status(200).json({
+                message: 'Password cambiata con successo',
+                success: true
+            });
+        } else {
+            await connection.rollback();
+            res.status(500).json({ error: 'Errore durante il cambio password' });
+        }
+    } catch (error) {
+        console.error("Error changing password:", error);
+        await connection.rollback();
+        res.status(500).json({ error: error.message });
+    } finally {
+        await connection.end();
+    }
+});
+
+// Esporta il router
 module.exports = router;

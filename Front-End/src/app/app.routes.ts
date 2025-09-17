@@ -12,6 +12,8 @@ import { Contact } from './components/contact/contact';
 import { PrivacyPolicy } from './components/privacy-policy/privacy-policy';
 import { TermsOfService } from './components/terms-of-service/terms-of-service';
 import { UserProfile } from './components/user-profile/user-profile.component';
+import { EditUser } from './components/edit-user/edit-user';
+import { ChangePassword } from './components/change-password/change-password';
 import { IssueBoard } from './components/issue-board/issue-board';
 
 // Configurazione delle routes dell'applicazione
@@ -31,5 +33,7 @@ export const routes: Routes = [
   { path: 'project/:id', component: ProjectBoard },
   { path: 'issue/:id', component: IssueBoard },
   { path: 'user-profile', component: UserProfile },
+  { path: 'edit-user', component: EditUser },
+  { path: 'change-password', component: ChangePassword },
   { path: '**', redirectTo: '/home' }
 ];
