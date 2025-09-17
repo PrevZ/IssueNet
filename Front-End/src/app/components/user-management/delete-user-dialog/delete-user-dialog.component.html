@@ -1,0 +1,51 @@
+<div class="delete-dialog-container">
+  <div class="dialog-header">
+    <mat-icon class="warning-icon">warning</mat-icon>
+    <h2 mat-dialog-title>Conferma Eliminazione</h2>
+  </div>
+
+  <div mat-dialog-content class="dialog-content">
+    <p class="warning-text">
+      Sei sicuro di voler eliminare il tuo account?
+    </p>
+
+    <div class="user-info">
+      <div class="user-detail">
+        <strong>Nome:</strong> {{ data.user.full_name }}
+      </div>
+      <div class="user-detail">
+        <strong>Email:</strong> {{ data.user.email }}
+      </div>
+      <div class="user-detail">
+        <strong>Username:</strong> {{ data.user.username }}
+      </div>
+    </div>
+
+    <div class="warning-notice">
+      <mat-icon class="notice-icon">info</mat-icon>
+      <p>
+        <strong>Attenzione:</strong> Questa azione non può essere annullata.
+        Tutti i tuoi dati verranno eliminati permanentemente.
+      </p>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="dialog-actions">
+    <button
+      mat-button
+      (click)="onCancel()"
+      class="cancel-btn">
+      <mat-icon>close</mat-icon>
+      Annulla
+    </button>
+
+    <button
+      mat-raised-button
+      color="warn"
+      (click)="onConfirm()"
+      class="delete-btn">
+      <mat-icon>delete_forever</mat-icon>
+      Elimina Account
+    </button>
+  </div>
+</div>

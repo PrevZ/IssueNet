@@ -1,38 +1,47 @@
+/* Trello-style Container */
 .user-management-container {
   max-width: 1200px;
   margin: 0 auto;
-  background: #f4f5f7;
+  background: linear-gradient(135deg, #0079bf 0%, #026aa7 100%);
   min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  padding: 24px 16px;
 }
 
-/* Header */
+/* Trello-style Header */
 .management-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 2rem;
-  background: #fff;
-  color: #222;
-  padding: 2rem 2.5rem;
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+  margin-bottom: 24px;
+  background: white;
+  color: #172b4d;
+  padding: 24px 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #dfe1e6;
 }
 
 .header-content h1 {
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 8px 0;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  font-size: 2rem;
-  font-weight: 700;
-  color: #1976d2;
+  gap: 12px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #0079bf;
+  letter-spacing: -0.01em;
+}
+
+.header-content h1 mat-icon {
+  color: #0079bf;
 }
 
 .header-content p {
   margin: 0;
-  opacity: 0.9;
-  font-size: 1.1rem;
-  color: #555;
+  font-size: 14px;
+  color: #5e6c84;
+  font-weight: 400;
 }
 
 .header-actions {
@@ -40,72 +49,77 @@
   gap: 1rem;
 }
 
-/* Statistiche */
+/* Trello-style Statistics */
 .stats-section {
-  margin-bottom: 2rem;
+  margin-bottom: 24px;
 }
 
 .stats-grid {
   display: flex;
-  gap: 2rem;
+  gap: 16px;
   flex-wrap: wrap;
   justify-content: flex-start;
 }
 
 .stat-card {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   min-width: 220px;
   flex: 1 1 220px;
-  transition: box-shadow 0.2s, border 0.2s;
-  border: 1.5px solid #e0e0e0;
+  transition: all 0.2s ease;
+  border: 1px solid #dfe1e6;
   margin-bottom: 0;
 }
 
 .stat-card:hover {
-  box-shadow: 0 8px 24px rgba(25,118,210,0.12);
-  border: 2px solid #1976d2;
+  box-shadow: 0 2px 8px rgba(0, 121, 191, 0.2);
+  transform: translateY(-1px);
+  border-color: #0079bf;
 }
 
 .stat-content {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
-  padding: 1.5rem 1rem;
+  gap: 16px;
+  padding: 20px 16px;
 }
 
 .stat-icon {
-  font-size: 2.5rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(135deg, #0079bf 0%, #026aa7 100%);
+  color: white;
 }
 
 .stat-info h3 {
   margin: 0;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #1976d2;
+  font-size: 24px;
+  font-weight: 600;
+  color: #0079bf;
+  line-height: 1.2;
 }
 
 .stat-info p {
   margin: 0;
-  color: #666;
-  font-size: 0.95rem;
-  font-weight: 500;
+  color: #5e6c84;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 4px;
 }
 
-/* Filtri */
+/* Trello-style Filters */
 .filters-card {
-  margin-bottom: 2rem;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  border: 1.5px solid #e0e0e0;
+  margin-bottom: 24px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #dfe1e6;
 }
 
 .filters-form {
@@ -133,12 +147,12 @@
   margin-bottom: 1.25rem;
 }
 
-/* Tabella */
+/* Trello-style Table */
 .users-table-card {
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #dfe1e6;
 }
 
 .table-header {
@@ -152,9 +166,14 @@
   margin: 0;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #1976d2;
-  font-weight: 700;
+  gap: 8px;
+  color: #0079bf;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.table-header h2 mat-icon {
+  color: #0079bf;
 }
 
 .loading-container {
@@ -176,21 +195,26 @@
 .users-table {
   width: 100%;
   border-collapse: collapse;
-  background: #f9fafb;
-  border-radius: 12px;
+  background: white;
+  border-radius: 8px;
   overflow: hidden;
 }
 
 .users-table th {
-  background-color: #f4f5f7;
+  background: linear-gradient(135deg, #0079bf 0%, #026aa7 100%);
   font-weight: 600;
-  color: #1976d2;
-  border-bottom: 2px solid #e0e0e0;
+  color: white;
+  border-bottom: 1px solid #026aa7;
+  padding: 12px 16px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .users-table td {
-  border-bottom: 1px solid #e0e0e0;
-  padding: 1rem 0.75rem;
+  border-bottom: 1px solid #dfe1e6;
+  padding: 16px;
+  color: #172b4d;
 }
 
 /* User info styling */
@@ -213,31 +237,36 @@
 }
 
 .user-name {
-  font-weight: 500;
-  color: #333;
-  font-size: 0.95rem;
+  font-weight: 600;
+  color: #172b4d;
+  font-size: 14px;
 }
 
 .user-id {
-  font-size: 0.8rem;
-  color: #6c757d;
+  font-size: 12px;
+  color: #5e6c84;
 }
 
 .username {
-  font-family: 'Courier New', monospace;
+  font-family: 'Monaco', 'Menlo', monospace;
   background: #f4f5f7;
-  padding: 0.25rem 0.5rem;
+  padding: 4px 8px;
   border-radius: 4px;
-  font-size: 0.9rem;
+  font-size: 12px;
+  color: #5e6c84;
+  border: 1px solid #dfe1e6;
 }
 
 .email {
-  color: #1976d2;
+  color: #0079bf;
   text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .email:hover {
   text-decoration: underline;
+  color: #026aa7;
 }
 
 /* Azioni */
@@ -247,7 +276,11 @@
 }
 
 .delete-action {
-  color: #dc3545 !important;
+  color: #b04632 !important;
+}
+
+.delete-action:hover {
+  background-color: #ffebe6 !important;
 }
 
 /* No results */
@@ -330,9 +363,23 @@
   }
 }
 
-/* Material overrides */
+/* Material overrides - Trello style */
 ::ng-deep .mat-mdc-table .mdc-data-table__row:hover .mdc-data-table__cell {
-  background-color: #f8f9fa;
+  background: linear-gradient(90deg, #f4f5f7 0%, rgba(0, 121, 191, 0.05) 100%);
+}
+
+/* Trello-style buttons */
+::ng-deep .mat-mdc-raised-button.mat-primary {
+  background: linear-gradient(135deg, #0079bf 0%, #026aa7 100%) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 2px 4px rgba(0, 121, 191, 0.2) !important;
+}
+
+::ng-deep .mat-mdc-raised-button.mat-primary:hover {
+  background: linear-gradient(135deg, #026aa7 0%, #005a8b 100%) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 121, 191, 0.3) !important;
 }
 
 ::ng-deep .mat-mdc-chip.mat-mdc-standard-chip {

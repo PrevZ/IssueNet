@@ -20,6 +20,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { User, CreateUserRequest, UpdateUserRequest } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
+import { DeleteUserDialogComponent } from './delete-user-dialog/delete-user-dialog.component';
 
 @Component({
   selector: 'app-user-management',
@@ -204,20 +205,29 @@ export class UserManagementComponent implements OnInit {
       return;
     }
 
-    if (confirm(`Sei sicuro di voler eliminare l'utente ${user.full_name}?`)) {
-      this.userService.deleteUser(user.id_user).subscribe({
-        next: () => {
-          this.users = this.users.filter(u => u.id_user !== user.id_user);
-          this.applyFilters();
-          this.calculateStats();
-          this.showSnackBar('Utente eliminato con successo', 'success');
-        },
-        error: (error) => {
-          console.error('Errore nell\'eliminazione dell\'utente:', error);
-          this.showSnackBar('Errore nell\'eliminazione dell\'utente', 'error');
-        }
-      });
-    }
+    const dialogRef = this.dialog.open(DeleteUserDialogComponent, {
+      width: '500px',
+      maxWidth: '90vw',
+      data: { user },
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.userService.deleteUser(user.id_user).subscribe({
+          next: () => {
+            this.users = this.users.filter(u => u.id_user !== user.id_user);
+            this.applyFilters();
+            this.calculateStats();
+            this.showSnackBar('Utente eliminato con successo', 'success');
+          },
+          error: (error) => {
+            console.error('Errore nell\'eliminazione dell\'utente:', error);
+            this.showSnackBar('Errore nell\'eliminazione dell\'utente', 'error');
+          }
+        });
+      }
+    });
   }
 
   canEditUser(user: User): boolean {
