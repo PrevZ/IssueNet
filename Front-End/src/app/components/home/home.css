@@ -109,6 +109,38 @@
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  animation: logoFloat 4s ease-in-out infinite, logoGlow 3s ease-in-out infinite alternate;
+  transition: transform 0.3s ease;
+  border-radius: 12px;
+}
+
+.hero-logo:hover {
+  transform: scale(1.05) rotate(2deg);
+  animation-play-state: paused;
+}
+
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-8px) rotate(-1deg);
+  }
+}
+
+@keyframes logoGlow {
+  0% {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1)) drop-shadow(0 0 20px rgba(0, 121, 191, 0.3));
+  }
+  100% {
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1)) drop-shadow(0 0 30px rgba(0, 121, 191, 0.6));
+  }
 }
 
 .hero-icon {
@@ -152,6 +184,16 @@
   gap: 40px;
   align-items: flex-start;
   margin-top: 32px;
+}
+
+/* Layout specifico per utenti autenticati - cards a destra */
+.features-preview .features-layout {
+  justify-content: flex-end;
+}
+
+.features-preview .features-cards {
+  max-width: 500px;
+  margin-left: auto;
 }
 
 /* Features layout responsive */
