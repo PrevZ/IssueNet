@@ -384,4 +384,14 @@ export class ProjectBoard implements OnInit {
   goBackToDashboard(): void {
     this.router.navigate(['/dashboard']);
   }
+
+  // Verifica se l'utente corrente è admin
+  isAdmin(): boolean {
+    return this.currentUser?.role === 'admin';
+  }
+
+  // Verifica se l'utente può creare issue (admin o developer)
+  canCreateIssue(): boolean {
+    return this.currentUser?.role === 'admin' || this.currentUser?.role === 'developer';
+  }
 }

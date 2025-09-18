@@ -12,11 +12,11 @@
         </div>
       </div>
       <div class="board-actions">
-        <button mat-raised-button color="primary" (click)="openCreateIssueDialog()">
+        <button mat-raised-button color="primary" (click)="openCreateIssueDialog()" *ngIf="canCreateIssue()">
           <mat-icon>add</mat-icon>
           Nuova Issue
         </button>
-        <button mat-raised-button color="primary" (click)="openDeleteProjectDialog(project)">
+        <button mat-raised-button color="primary" (click)="openDeleteProjectDialog(project)" *ngIf="isAdmin()">
           <mat-icon>delete</mat-icon>
           Elimina Progetto
         </button>
@@ -103,10 +103,11 @@
                       class="edit-button">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button mat-icon-button 
-                      (click)="openDeleteIssueDialog(issue); $event.stopPropagation()" 
+              <button mat-icon-button
+                      (click)="openDeleteIssueDialog(issue); $event.stopPropagation()"
                       matTooltip="Elimina issue"
-                      class="delete-button">
+                      class="delete-button"
+                      *ngIf="isAdmin()">
                 <mat-icon>delete</mat-icon>
               </button>
             </mat-card-actions>
