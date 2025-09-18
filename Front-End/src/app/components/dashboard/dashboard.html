@@ -140,15 +140,15 @@
               <mat-icon>launch</mat-icon>
               Apri Board
             </button>
-            <button mat-button (click)="updateProject(project)">
+            <button mat-button (click)="updateProject(project)" *ngIf="isAdmin()">
               <mat-icon>settings</mat-icon>
               Gestisci
             </button>
           </mat-card-actions>
         </mat-card>
         
-        <!-- Card per aggiungere nuovo progetto -->
-        <mat-card class="project-card add-project-card" (click)="createNewProject()">
+        <!-- Card per aggiungere nuovo progetto (solo admin) -->
+        <mat-card class="project-card add-project-card" (click)="createNewProject()" *ngIf="isAdmin()">
           <mat-card-content>
             <div class="add-project-content">
               <mat-icon>add_circle_outline</mat-icon>

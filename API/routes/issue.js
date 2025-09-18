@@ -2,11 +2,12 @@
 const express = require('express');
 const db = require('../services/database');
 const issueDAO = require('../dao/issueDAO');
+const { authenticateToken, requireRole, optionalAuth } = require('../middleware/auth');
 
 const router = express.Router();
 
-// GET /api/issues - Ottiene tutte le issue con filtri opzionali
-router.get('/', async (req, res) => {
+// GET /api/issues - Ottiene tutte le issue con filtri opzionali (solo utenti autenticati)
+router.get('/', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -20,11 +21,17 @@ router.get('/', async (req, res) => {
     }
 });
 
-// GET /api/issues/my/:userId - Ottiene le issue assegnate a un utente (Dashboard "Le mie issue")
-router.get('/my/:userId', async (req, res) => {
+// GET /api/issues/my/:userId - Ottiene le issue assegnate a un utente (utente stesso o admin)
+router.get('/my/:userId', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
+        // Verifica autorizzazioni: solo l'utente stesso o admin possono vedere le proprie issue
+        const requestedUserId = parseInt(req.params.userId);
+        if (req.user.role !== 'admin' && req.user.userId !== requestedUserId) {
+            return res.status(403).json({ error: 'Non autorizzato ad accedere alle issue di questo utente' });
+        }
+
         const issues = await issueDAO.getIssuesByAssignee(connection, req.params.userId);
         res.json(issues);
     } catch (error) {
@@ -35,8 +42,8 @@ router.get('/my/:userId', async (req, res) => {
     }
 });
 
-// GET /api/issues/project/:projectId - Ottiene tutte le issue di un progetto
-router.get('/project/:projectId', async (req, res) => {
+// GET /api/issues/project/:projectId - Ottiene tutte le issue di un progetto (solo utenti autenticati)
+router.get('/project/:projectId', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -50,8 +57,8 @@ router.get('/project/:projectId', async (req, res) => {
     }
 });
 
-// GET /api/issues/project/:projectId/kanban - Ottiene issue organizzate per Kanban board
-router.get('/project/:projectId/kanban', async (req, res) => {
+// GET /api/issues/project/:projectId/kanban - Ottiene issue organizzate per Kanban board (solo utenti autenticati)
+router.get('/project/:projectId/kanban', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -70,8 +77,8 @@ router.get('/project/:projectId/kanban', async (req, res) => {
     }
 });
 
-// GET /api/issues/priority/:priority - Filtra issue per priorità (low/medium/high/critical)
-router.get('/priority/:priority', async (req, res) => {
+// GET /api/issues/priority/:priority - Filtra issue per priorità (solo utenti autenticati)
+router.get('/priority/:priority', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -85,8 +92,8 @@ router.get('/priority/:priority', async (req, res) => {
     }
 });
 
-// GET /api/issues/type/:type - Filtra issue per tipo (bug/feature/task/improvement)
-router.get('/type/:type', async (req, res) => {
+// GET /api/issues/type/:type - Filtra issue per tipo (solo utenti autenticati)
+router.get('/type/:type', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -100,8 +107,8 @@ router.get('/type/:type', async (req, res) => {
     }
 });
 
-// GET /api/issues/status/:status - Filtra issue per status (todo/in_progress/in_review/done)
-router.get('/status/:status', async (req, res) => {
+// GET /api/issues/status/:status - Filtra issue per status (solo utenti autenticati)
+router.get('/status/:status', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -115,8 +122,8 @@ router.get('/status/:status', async (req, res) => {
     }
 });
 
-// GET /api/issues/:id - Ottiene una issue specifica tramite ID
-router.get('/:id', async (req, res) => {
+// GET /api/issues/:id - Ottiene una issue specifica tramite ID (solo utenti autenticati)
+router.get('/:id', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -133,8 +140,8 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// POST /api/issues - Crea una nuova issue
-router.post('/', async (req, res) => {
+// POST /api/issues - Crea una nuova issue (solo developer/admin)
+router.post('/', authenticateToken, requireRole(['developer', 'admin']), async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
@@ -155,12 +162,27 @@ router.post('/', async (req, res) => {
     }
 });
 
-// PUT /api/issues/:id - Aggiorna una issue esistente
-router.put('/:id', async (req, res) => {
+// PUT /api/issues/:id - Aggiorna una issue esistente (solo assegnatario, creatore o admin)
+router.put('/:id', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
     try {
+        // Verifica autorizzazioni: solo assegnatario, creatore o admin possono modificare
+        const issueResult = await issueDAO.getIssueById(connection, req.params.id);
+        if (issueResult.length === 0) {
+            return res.status(404).json({ error: 'Issue non trovata' });
+        }
+
+        const issue = issueResult[0];
+        const canModify = req.user.role === 'admin' ||
+                         req.user.userId === issue.created_by ||
+                         req.user.userId === issue.assigned_to;
+
+        if (!canModify) {
+            return res.status(403).json({ error: 'Non autorizzato a modificare questa issue' });
+        }
+
         const updatedIssue = req.body;
         const result = await issueDAO.updateIssue(connection, req.params.id, updatedIssue);
         if (result) {
@@ -178,8 +200,8 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-// DELETE /api/issues/:id - Elimina una issue
-router.delete('/:id', async (req, res) => {
+// DELETE /api/issues/:id - Elimina una issue (solo admin)
+router.delete('/:id', authenticateToken, requireRole(['admin']), async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');

@@ -2,11 +2,12 @@
 const express = require('express');
 const db = require('../services/database');
 const commentDAO = require('../dao/commentDAO');
+const { authenticateToken, requireRole, optionalAuth } = require('../middleware/auth');
 
 const router = express.Router();
 
-// GET /api/comments - Ottiene tutti i commenti con filtri opzionali
-router.get('/', async (req, res) => {
+// GET /api/comments - Ottiene tutti i commenti con filtri opzionali (solo admin)
+router.get('/', authenticateToken, requireRole(['admin']), async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -20,8 +21,8 @@ router.get('/', async (req, res) => {
     }
 });
 
-// GET /api/comments/issue/:issueId - Ottiene tutti i commenti di una issue specifica
-router.get('/issue/:issueId', async (req, res) => {
+// GET /api/comments/issue/:issueId - Ottiene tutti i commenti di una issue specifica (solo utenti autenticati)
+router.get('/issue/:issueId', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -35,11 +36,17 @@ router.get('/issue/:issueId', async (req, res) => {
     }
 });
 
-// GET /api/comments/user/:userId - Ottiene tutti i commenti di un utente specifico
-router.get('/user/:userId', async (req, res) => {
+// GET /api/comments/user/:userId - Ottiene tutti i commenti di un utente specifico (utente stesso o admin)
+router.get('/user/:userId', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
+        // Verifica autorizzazioni: solo l'utente stesso o admin possono vedere i propri commenti
+        const requestedUserId = parseInt(req.params.userId);
+        if (req.user.role !== 'admin' && req.user.userId !== requestedUserId) {
+            return res.status(403).json({ error: 'Non autorizzato ad accedere ai commenti di questo utente' });
+        }
+
         const comments = await commentDAO.getCommentsByUser(connection, req.params.userId);
         res.json(comments);
     } catch (error) {
@@ -50,8 +57,8 @@ router.get('/user/:userId', async (req, res) => {
     }
 });
 
-// GET /api/comments/issue/:issueId/count - Conta i commenti di una issue
-router.get('/issue/:issueId/count', async (req, res) => {
+// GET /api/comments/issue/:issueId/count - Conta i commenti di una issue (solo utenti autenticati)
+router.get('/issue/:issueId/count', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -65,8 +72,8 @@ router.get('/issue/:issueId/count', async (req, res) => {
     }
 });
 
-// GET /api/comments/:id - Ottiene un commento specifico tramite ID
-router.get('/:id', async (req, res) => {
+// GET /api/comments/:id - Ottiene un commento specifico tramite ID (solo utenti autenticati)
+router.get('/:id', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -83,8 +90,8 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// POST /api/comments - Crea un nuovo commento
-router.post('/', async (req, res) => {
+// POST /api/comments - Crea un nuovo commento (solo utenti autenticati)
+router.post('/', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
@@ -105,12 +112,23 @@ router.post('/', async (req, res) => {
     }
 });
 
-// PUT /api/comments/:id - Aggiorna il contenuto di un commento
-router.put('/:id', async (req, res) => {
+// PUT /api/comments/:id - Aggiorna il contenuto di un commento (solo autore o admin)
+router.put('/:id', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
     try {
+        // Verifica autorizzazioni: solo l'autore del commento o admin possono modificarlo
+        const commentResult = await commentDAO.getCommentById(connection, req.params.id);
+        if (commentResult.length === 0) {
+            return res.status(404).json({ error: 'Commento non trovato' });
+        }
+
+        const comment = commentResult[0];
+        if (req.user.role !== 'admin' && req.user.userId !== comment.created_by) {
+            return res.status(403).json({ error: 'Non autorizzato a modificare questo commento' });
+        }
+
         const result = await commentDAO.updateComment(connection, req.params.id, req.body.content);
         if (result) {
             res.status(200).json({ message: 'Commento aggiornato con successo'});
@@ -127,12 +145,23 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-// DELETE /api/comments/:id - Elimina un commento
-router.delete('/:id', async (req, res) => {
+// DELETE /api/comments/:id - Elimina un commento (solo autore o admin)
+router.delete('/:id', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
     try {
+        // Verifica autorizzazioni: solo l'autore del commento o admin possono eliminarlo
+        const commentResult = await commentDAO.getCommentById(connection, req.params.id);
+        if (commentResult.length === 0) {
+            return res.status(404).json({ error: 'Commento non trovato' });
+        }
+
+        const comment = commentResult[0];
+        if (req.user.role !== 'admin' && req.user.userId !== comment.created_by) {
+            return res.status(403).json({ error: 'Non autorizzato a eliminare questo commento' });
+        }
+
         const deletedComment = await commentDAO.deleteComment(connection, req.params.id);
         if (deletedComment) {
             res.status(200).json({ message: 'Commento eliminato con successo' });

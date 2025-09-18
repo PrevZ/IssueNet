@@ -1,12 +1,20 @@
 // Importa le dipendenze necessarie
 const express = require('express');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const db = require('../services/database');
 const userDAO = require('../dao/userDAO');
+const { authenticateToken, requireRole } = require('../middleware/auth');
 
 const router = express.Router();
 
-// GET /api/users - Ottiene tutti gli utenti con filtri opzionali
-router.get('/', async (req, res) => {
+// Configurazione per bcrypt e JWT
+const SALT_ROUNDS = 12;
+const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
+const JWT_EXPIRES_IN = '24h';
+
+// GET /api/users - Ottiene tutti gli utenti con filtri opzionali (solo admin)
+router.get('/', authenticateToken, requireRole(['admin']), async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -107,16 +115,26 @@ router.get('/check/email/:email', async (req, res) => {
     }
 });
 
-// GET /api/users/:id - Ottiene un utente specifico tramite ID
-router.get('/:id', async (req, res) => {
+// GET /api/users/:id - Ottiene un utente specifico tramite ID (utente stesso o admin)
+router.get('/:id', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
+        // Verifica che l'utente possa accedere ai dati (se stesso o admin)
+        const requestedId = parseInt(req.params.id);
+        if (req.user.role !== 'admin' && req.user.userId !== requestedId) {
+            return res.status(403).json({ error: 'Non autorizzato ad accedere a questi dati' });
+        }
+
         const users = await userDAO.getUserById(connection, req.params.id);
         if (users.length === 0) {
             return res.status(404).json({ error: 'User not found' });
         }
-        res.json(users[0]);
+
+        // Rimuovi la password dalla risposta
+        const userResponse = { ...users[0] };
+        delete userResponse.password;
+        res.json(userResponse);
     } catch (error) {
         console.error("Error fetching users:", error);
         res.status(500).json({ error: error.message });
@@ -125,12 +143,18 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// PUT /api/users/:id - Aggiorna un utente esistente
-router.put('/:id', async (req, res) => {
+// PUT /api/users/:id - Aggiorna un utente esistente (utente stesso o admin)
+router.put('/:id', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
     try {
+        // Verifica che l'utente possa modificare i dati (se stesso o admin)
+        const targetId = parseInt(req.params.id);
+        if (req.user.role !== 'admin' && req.user.userId !== targetId) {
+            return res.status(403).json({ error: 'Non autorizzato a modificare questi dati' });
+        }
+
         const updatedUserData = req.body;
         const result = await userDAO.updateUser(connection, req.params.id, updatedUserData);
         if (result) {
@@ -159,8 +183,8 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-// DELETE /api/users/:id - Elimina un utente
-router.delete('/:id', async (req, res) => {
+// DELETE /api/users/:id - Elimina un utente (solo admin)
+router.delete('/:id', authenticateToken, requireRole(['admin']), async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
@@ -182,7 +206,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 // POST /api/users - Crea un nuovo utente (solo per admin)
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, requireRole(['admin']), async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
@@ -208,11 +232,14 @@ router.post('/', async (req, res) => {
             return res.status(409).json({ error: 'Email già presente' });
         }
 
+        // Hash della password prima di creare l'utente
+        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
         // Crea il nuovo utente
         const userData = {
             username,
             email,
-            password, // In produzione, dovresti hashare la password
+            password: hashedPassword,
             full_name,
             role: role || 'developer' // Default role
         };
@@ -271,11 +298,14 @@ router.post('/register', async (req, res) => {
             return res.status(409).json({ error: 'Email presente' });
         }
 
+        // Hash della password prima di creare l'utente
+        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
         // Crea il nuovo utente
         const userData = {
             username,
             email,
-            password, // In produzione, dovresti hashare la password
+            password: hashedPassword,
             full_name,
             role: role || 'developer' // Default role
         };
@@ -313,52 +343,91 @@ router.post('/register', async (req, res) => {
 // POST /api/users/login - Autentica un utente
 router.post('/login', async (req, res) => {
     const connection = await db.getConnection();
+    await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
     try {
         const { username, password } = req.body;
-        
+
         if (!username || !password) {
             return res.status(400).json({ error: 'Username e password sono obbligatori' });
         }
-        
+
         // Trova l'utente per username
         const users = await userDAO.getUserByUsername(connection, username);
         if (users.length === 0) {
             return res.status(401).json({ error: 'Credenziali non valide' });
         }
-        
+
         const user = users[0];
-        
-        // Verifica la password (in produzione dovresti usare hashing)
-        if (user.password !== password) {
+        let isPasswordValid = false;
+
+        // Controlla se la password è già hashata (inizia con $2b$ per bcrypt)
+        if (user.password.startsWith('$2b$')) {
+            // Password già hashata - usa bcrypt per confrontare
+            isPasswordValid = await bcrypt.compare(password, user.password);
+        } else {
+            // Password in chiaro - confronto diretto e migrazione immediata
+            isPasswordValid = (user.password === password);
+
+            if (isPasswordValid) {
+                // Migra la password hashando quella corrente
+                const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+                await userDAO.updateUser(connection, user.id_user, {
+                    password: hashedPassword
+                });
+                console.log(`Password migrata per utente: ${username}`);
+            }
+        }
+
+        if (!isPasswordValid) {
             return res.status(401).json({ error: 'Credenziali non valide' });
         }
-        
+
+        // Genera JWT token
+        const token = jwt.sign(
+            {
+                userId: user.id_user,
+                username: user.username,
+                role: user.role
+            },
+            JWT_SECRET,
+            { expiresIn: JWT_EXPIRES_IN }
+        );
+
         // Login riuscito - rimuovi la password dalla risposta
         const userResponse = { ...user };
         delete userResponse.password;
-        
+
+        await connection.commit();
+
         res.json({
             user: userResponse,
-            token: 'dummy-jwt-token', // In produzione, genera un vero JWT
+            token: token,
             message: 'Login effettuato con successo'
         });
     } catch (error) {
         console.error("Error during login:", error);
+        await connection.rollback();
         res.status(500).json({ error: error.message });
     } finally {
         await connection.end();
     }
 });
 
-// POST /api/users/:id/change-password - Cambia la password di un utente
-router.post('/:id/change-password', async (req, res) => {
+// POST /api/users/:id/change-password - Cambia la password di un utente (utente stesso o admin)
+router.post('/:id/change-password', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
     try {
         const { currentPassword, newPassword } = req.body;
         const userId = req.params.id;
+
+        // Verifica che l'utente possa cambiare la password (se stesso o admin)
+        const targetId = parseInt(userId);
+        if (req.user.role !== 'admin' && req.user.userId !== targetId) {
+            return res.status(403).json({ error: 'Non autorizzato a cambiare questa password' });
+        }
 
         if (!currentPassword || !newPassword) {
             return res.status(400).json({
@@ -380,8 +449,18 @@ router.post('/:id/change-password', async (req, res) => {
 
         const user = users[0];
 
-        // Verifica la password attuale (in produzione dovresti usare hashing)
-        if (user.password !== currentPassword) {
+        // Verifica la password attuale con supporto per hash e plain text
+        let isCurrentPasswordValid = false;
+
+        if (user.password.startsWith('$2b$')) {
+            // Password già hashata - usa bcrypt
+            isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password);
+        } else {
+            // Password in chiaro - confronto diretto
+            isCurrentPasswordValid = (user.password === currentPassword);
+        }
+
+        if (!isCurrentPasswordValid) {
             return res.status(401).json({ error: 'Password attuale non corretta' });
         }
 
@@ -390,8 +469,11 @@ router.post('/:id/change-password', async (req, res) => {
             return res.status(400).json({ error: 'La nuova password deve essere diversa da quella attuale' });
         }
 
-        // Aggiorna la password (in produzione, dovresti hashare la nuova password)
-        const updateResult = await userDAO.updateUser(connection, userId, { password: newPassword });
+        // Hash della nuova password
+        const hashedNewPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
+
+        // Aggiorna la password con il nuovo hash
+        const updateResult = await userDAO.updateUser(connection, userId, { password: hashedNewPassword });
 
         if (updateResult) {
             await connection.commit();

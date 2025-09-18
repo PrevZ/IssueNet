@@ -454,4 +454,9 @@ export class Dashboard implements OnInit, OnDestroy {
     const issue = this.userIssues.find(issue => issue.id_issue === issueId);
     return issue ? issue.id_project : 1; // Default a progetto 1 se non trovato
   }
+
+  // Verifica se l'utente corrente è admin
+  isAdmin(): boolean {
+    return this.currentUser?.role === 'admin';
+  }
 }

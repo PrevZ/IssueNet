@@ -2,11 +2,12 @@
 const express = require('express');
 const db = require('../services/database');
 const projectDAO = require('../dao/projectDAO');
+const { authenticateToken, requireRole, optionalAuth } = require('../middleware/auth');
 
 const router = express.Router();
 
-// GET /api/projects - Ottiene tutti i progetti con filtri opzionali
-router.get('/', async (req, res) => {
+// GET /api/projects - Ottiene tutti i progetti con filtri opzionali (solo utenti autenticati)
+router.get('/', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -20,11 +21,17 @@ router.get('/', async (req, res) => {
     }
 });
 
-// GET /api/projects/user/:userId - Trova progetti creati da un utente specifico
-router.get('/user/:userId', async (req, res) => {
+// GET /api/projects/user/:userId - Trova progetti creati da un utente specifico (utente stesso o admin)
+router.get('/user/:userId', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
+        // Verifica autorizzazioni: solo l'utente stesso o admin possono vedere i propri progetti
+        const requestedUserId = parseInt(req.params.userId);
+        if (req.user.role !== 'admin' && req.user.userId !== requestedUserId) {
+            return res.status(403).json({ error: 'Non autorizzato ad accedere ai progetti di questo utente' });
+        }
+
         const projects = await projectDAO.getProjectsByCreator(connection, req.params.userId);
         res.json(projects);
     } catch (error) {
@@ -35,11 +42,17 @@ router.get('/user/:userId', async (req, res) => {
     }
 });
 
-// GET /api/projects/user/:userId/stats - Ottiene statistiche aggregate per tutti i progetti dell'utente
-router.get('/user/:userId/stats', async (req, res) => {
+// GET /api/projects/user/:userId/stats - Ottiene statistiche aggregate per tutti i progetti dell'utente (utente stesso o admin)
+router.get('/user/:userId/stats', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
+        // Verifica autorizzazioni: solo l'utente stesso o admin
+        const requestedUserId = parseInt(req.params.userId);
+        if (req.user.role !== 'admin' && req.user.userId !== requestedUserId) {
+            return res.status(403).json({ error: 'Non autorizzato ad accedere alle statistiche di questo utente' });
+        }
+
         const stats = await projectDAO.getUserProjectStats(connection, req.params.userId);
         res.json(stats);
     } catch (error) {
@@ -50,11 +63,17 @@ router.get('/user/:userId/stats', async (req, res) => {
     }
 });
 
-// GET /api/projects/user/:userId/enhanced - Ottiene progetti con statistiche integrate
-router.get('/user/:userId/enhanced', async (req, res) => {
+// GET /api/projects/user/:userId/enhanced - Ottiene progetti con statistiche integrate (utente stesso o admin)
+router.get('/user/:userId/enhanced', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
+        // Verifica autorizzazioni: solo l'utente stesso o admin
+        const requestedUserId = parseInt(req.params.userId);
+        if (req.user.role !== 'admin' && req.user.userId !== requestedUserId) {
+            return res.status(403).json({ error: 'Non autorizzato ad accedere ai progetti di questo utente' });
+        }
+
         const projects = await projectDAO.getEnhancedProjectsByUser(connection, req.params.userId);
         res.json(projects);
     } catch (error) {
@@ -65,8 +84,8 @@ router.get('/user/:userId/enhanced', async (req, res) => {
     }
 });
 
-// GET /api/projects/status/:status - Trova progetti per status (active/archived)
-router.get('/status/:status', async (req, res) => {
+// GET /api/projects/status/:status - Trova progetti per status (active/archived) (solo admin)
+router.get('/status/:status', authenticateToken, requireRole(['admin']), async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -80,8 +99,8 @@ router.get('/status/:status', async (req, res) => {
     }
 });
 
-// GET /api/projects/:id/stats - Ottiene statistiche di un progetto (numero di issue per priorità/status)
-router.get('/:id/stats', async (req, res) => {
+// GET /api/projects/:id/stats - Ottiene statistiche di un progetto (solo utenti autenticati)
+router.get('/:id/stats', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -95,8 +114,8 @@ router.get('/:id/stats', async (req, res) => {
     }
 });
 
-// GET /api/projects/:id - Ottiene un progetto specifico tramite ID
-router.get('/:id', async (req, res) => {
+// GET /api/projects/:id - Ottiene un progetto specifico tramite ID (solo utenti autenticati)
+router.get('/:id', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -113,8 +132,8 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// POST /api/projects - Crea un nuovo progetto
-router.post('/', async (req, res) => {
+// POST /api/projects - Crea un nuovo progetto (solo admin)
+router.post('/', authenticateToken, requireRole(['admin']), async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
@@ -135,12 +154,23 @@ router.post('/', async (req, res) => {
     }
 });
 
-// PUT /api/projects/:id - Aggiorna un progetto esistente
-router.put('/:id', async (req, res) => {
+// PUT /api/projects/:id - Aggiorna un progetto esistente (solo admin o creatore del progetto)
+router.put('/:id', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
     try {
+        // Verifica autorizzazioni: solo admin o creatore del progetto
+        const projectResult = await projectDAO.getProjectById(connection, req.params.id);
+        if (projectResult.length === 0) {
+            return res.status(404).json({ error: 'Progetto non trovato' });
+        }
+
+        const project = projectResult[0];
+        if (req.user.role !== 'admin' && req.user.userId !== project.created_by) {
+            return res.status(403).json({ error: 'Non autorizzato a modificare questo progetto' });
+        }
+
         const updatedProject = req.body;
         const result = await projectDAO.updateProject(connection, req.params.id, updatedProject);
         if (result) {
@@ -158,8 +188,8 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-// DELETE /api/projects/:id - Elimina un progetto
-router.delete('/:id', async (req, res) => {
+// DELETE /api/projects/:id - Elimina un progetto (solo admin)
+router.delete('/:id', authenticateToken, requireRole(['admin']), async (req, res) => {
     const projectId = parseInt(req.params.id);
     
     // Validazione dell'ID
