@@ -9,8 +9,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { CreateIssueRequest, UpdateIssueRequest, Issue } from '../../models/issue.model';
-import { User } from '../../models/user.model';
+import { CreateIssueRequest, UpdateIssueRequest, Issue } from '../../../models/issue.model';
+import { User } from '../../../models/user.model';
 
 export interface IssueDialogData {
   projectId: number;

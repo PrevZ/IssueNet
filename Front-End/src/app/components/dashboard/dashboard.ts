@@ -14,7 +14,7 @@ import { ProjectService } from '../../services/project.service';
 import { IssueService } from '../../services/issue.service';
 import { CommentService } from '../../services/comment.service';
 import { CreateProjectDialogComponent } from '../dashboard/create-project-dialog/create-project-dialog.component';
-import { IssueDialogComponent } from '../issue-dialog/issue-dialog.component';
+import { IssueDialogComponent } from '../project-board/issue-dialog/issue-dialog.component';
 import { User, Project, DashboardProject, Issue, Comment, CreateProjectRequest, UpdateProjectRequest } from '../../models';
 import { UpdateProjectDialogComponent } from '../dashboard/update-project-dialog/update-project-dialog';
 
