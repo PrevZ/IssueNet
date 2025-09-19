@@ -1,90 +1,239 @@
-<!-- Hero Section - EXACT COPY from home -->
+<!-- Hero Section con design moderno -->
 <div class="hero-section">
   <div class="hero-content">
     <div class="hero-text">
       <h1>Funzionalità Principali</h1>
       <p class="hero-subtitle">Tutto quello che serve per gestire i tuoi progetti</p>
       <p class="hero-description">
-        Scopri le potenti funzionalità di IssueNet che aiutano migliaia di team a organizzare, 
+        Scopri le potenti funzionalità di IssueNet che aiutano migliaia di team a organizzare,
         tracciare e risolvere issue in modo efficiente. Dalla gestione dei bug agli analytics avanzati.
       </p>
     </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="stat-number">50+</span>
+        <span class="stat-label">Funzionalità</span>
+      </div>
+      <div class="hero-stat">
+        <span class="stat-number">99.9%</span>
+        <span class="stat-label">Uptime</span>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- Features Content Section - EXACT COPY structure from home -->
-<div class="features-preview">
+<!-- Features Timeline Section - Nuovo Layout -->
+<div class="features-timeline-section">
   <div class="container">
-    <h2>Funzionalità Complete</h2>
-    <p class="features-description">
-      Esplora tutte le funzionalità che rendono IssueNet la scelta ideale per il tuo team di sviluppo.
+    <h2>Esplora le Funzionalità</h2>
+    <p class="section-description">
+      Naviga attraverso le nostre funzionalità principali. Clicca su ogni elemento della timeline per vedere i dettagli.
     </p>
-    
-    <div class="features-layout">
-      <!-- Cards delle feature a sinistra -->
-      <div class="features-cards">
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">dashboard</mat-icon>
-          <div class="feature-card-content">
-            <h3>Dashboard Intuitiva</h3>
-            <p>Vista d'insieme chiara di progetti e task</p>
+
+    <!-- Timeline Layout: timeline a sinistra, showcase a destra -->
+    <div class="timeline-layout">
+      <!-- Timeline verticale a sinistra -->
+      <div class="features-timeline">
+        <div class="timeline-item active" data-feature="dashboard">
+          <div class="timeline-connector"></div>
+          <div class="timeline-content">
+            <div class="timeline-icon">
+              <mat-icon>dashboard</mat-icon>
+            </div>
+            <div class="timeline-info">
+              <h3>Dashboard Intuitiva</h3>
+              <p>Vista d'insieme completa</p>
+            </div>
           </div>
         </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">view_kanban</mat-icon>
-          <div class="feature-card-content">
-            <h3>Board Kanban</h3>
-            <p>Organizza il lavoro visualmente</p>
+
+        <div class="timeline-item" data-feature="kanban">
+          <div class="timeline-connector"></div>
+          <div class="timeline-content">
+            <div class="timeline-icon">
+              <mat-icon>view_kanban</mat-icon>
+            </div>
+            <div class="timeline-info">
+              <h3>Board Kanban</h3>
+              <p>Organizzazione visuale</p>
+            </div>
           </div>
         </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">bug_report</mat-icon>
-          <div class="feature-card-content">
-            <h3>Gestione Issue</h3>
-            <p>Traccia bug e feature request</p>
+
+        <div class="timeline-item" data-feature="issues">
+          <div class="timeline-connector"></div>
+          <div class="timeline-content">
+            <div class="timeline-icon">
+              <mat-icon>bug_report</mat-icon>
+            </div>
+            <div class="timeline-info">
+              <h3>Gestione Issue</h3>
+              <p>Tracking completo</p>
+            </div>
           </div>
         </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">group</mat-icon>
-          <div class="feature-card-content">
-            <h3>Collaborazione Team</h3>
-            <p>Lavora insieme efficacemente</p>
+
+        <div class="timeline-item" data-feature="collaboration">
+          <div class="timeline-connector"></div>
+          <div class="timeline-content">
+            <div class="timeline-icon">
+              <mat-icon>group</mat-icon>
+            </div>
+            <div class="timeline-info">
+              <h3>Collaborazione</h3>
+              <p>Lavoro di squadra</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item" data-feature="analytics">
+          <div class="timeline-connector"></div>
+          <div class="timeline-content">
+            <div class="timeline-icon">
+              <mat-icon>analytics</mat-icon>
+            </div>
+            <div class="timeline-info">
+              <h3>Analytics</h3>
+              <p>Report avanzati</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item" data-feature="security">
+          <div class="timeline-connector"></div>
+          <div class="timeline-content">
+            <div class="timeline-icon">
+              <mat-icon>security</mat-icon>
+            </div>
+            <div class="timeline-info">
+              <h3>Sicurezza</h3>
+              <p>Protezione avanzata</p>
+            </div>
           </div>
         </div>
       </div>
-      
-      <!-- Features Showcase a destra -->
-      <div class="features-image">
-        <div class="image-container">
-          <div class="features-showcase-grid">
-            
-            <div class="showcase-feature">
-              <mat-icon class="showcase-icon">analytics</mat-icon>
-              <div class="showcase-title">Analytics</div>
-              <div class="showcase-info">Report dettagliati</div>
-            </div>
 
-            <div class="showcase-feature">
-              <mat-icon class="showcase-icon">security</mat-icon>
-              <div class="showcase-title">Sicurezza</div>
-              <div class="showcase-info">Dati protetti</div>
+      <!-- Feature Showcase a destra -->
+      <div class="feature-showcase">
+        <div class="showcase-container">
+          <!-- Dashboard Feature -->
+          <div class="feature-detail active" id="dashboard">
+            <div class="feature-header">
+              <mat-icon class="feature-large-icon">dashboard</mat-icon>
+              <div class="feature-title-section">
+                <h3>Dashboard Intuitiva</h3>
+                <p class="feature-subtitle">Il centro di controllo del tuo progetto</p>
+              </div>
             </div>
-
-            <div class="showcase-feature">
-              <mat-icon class="showcase-icon">integration_instructions</mat-icon>
-              <div class="showcase-title">Integrazioni</div>
-              <div class="showcase-info">API complete</div>
+            <div class="feature-description">
+              <p>Una vista d'insieme completa di tutti i tuoi progetti e task, ispirata al design di Trello per una navigazione semplice e immediata.</p>
+              <ul class="feature-benefits">
+                <li>Vista progetti personalizzabile</li>
+                <li>Widget di stato in tempo reale</li>
+                <li>Filtri avanzati e ricerca intelligente</li>
+                <li>Metriche di performance visuali</li>
+              </ul>
             </div>
+          </div>
 
-            <div class="showcase-feature">
-              <mat-icon class="showcase-icon">support</mat-icon>
-              <div class="showcase-title">Supporto</div>
-              <div class="showcase-info">Assistenza 24/7</div>
+          <!-- Kanban Feature -->
+          <div class="feature-detail" id="kanban">
+            <div class="feature-header">
+              <mat-icon class="feature-large-icon">view_kanban</mat-icon>
+              <div class="feature-title-section">
+                <h3>Board Kanban</h3>
+                <p class="feature-subtitle">Workflow visivo e intuitivo</p>
+              </div>
             </div>
+            <div class="feature-description">
+              <p>Organizza il lavoro con board Kanban personalizzabili. Trascina e rilascia i task tra le colonne per tracciare il progresso.</p>
+              <ul class="feature-benefits">
+                <li>Colonne personalizzabili</li>
+                <li>Drag & drop intuitivo</li>
+                <li>Automazioni workflow</li>
+                <li>Limiti WIP configurabili</li>
+              </ul>
+            </div>
+          </div>
 
+          <!-- Issues Feature -->
+          <div class="feature-detail" id="issues">
+            <div class="feature-header">
+              <mat-icon class="feature-large-icon">bug_report</mat-icon>
+              <div class="feature-title-section">
+                <h3>Gestione Issue</h3>
+                <p class="feature-subtitle">Tracking completo di bug e feature</p>
+              </div>
+            </div>
+            <div class="feature-description">
+              <p>Crea, assegna e traccia bug e feature request con un sistema completo di gestione delle issue.</p>
+              <ul class="feature-benefits">
+                <li>Priorità e etichette colorate</li>
+                <li>Allegati e screenshot</li>
+                <li>Cronologia dettagliata</li>
+                <li>Template personalizzabili</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Collaboration Feature -->
+          <div class="feature-detail" id="collaboration">
+            <div class="feature-header">
+              <mat-icon class="feature-large-icon">group</mat-icon>
+              <div class="feature-title-section">
+                <h3>Collaborazione Team</h3>
+                <p class="feature-subtitle">Lavoro di squadra efficace</p>
+              </div>
+            </div>
+            <div class="feature-description">
+              <p>Facilita la collaborazione del team con strumenti di comunicazione integrati e workflow condivisi.</p>
+              <ul class="feature-benefits">
+                <li>Commenti e &#64;menzioni</li>
+                <li>Notifiche intelligenti</li>
+                <li>Assegnazioni multiple</li>
+                <li>Chat integrata</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Analytics Feature -->
+          <div class="feature-detail" id="analytics">
+            <div class="feature-header">
+              <mat-icon class="feature-large-icon">analytics</mat-icon>
+              <div class="feature-title-section">
+                <h3>Analytics Avanzati</h3>
+                <p class="feature-subtitle">Dati e metriche approfondite</p>
+              </div>
+            </div>
+            <div class="feature-description">
+              <p>Monitora le performance del team con report dettagliati e visualizzazioni interattive dei dati di progetto.</p>
+              <ul class="feature-benefits">
+                <li>Grafici interattivi</li>
+                <li>Metriche personalizzate</li>
+                <li>Export in PDF/Excel</li>
+                <li>Trend analysis</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Security Feature -->
+          <div class="feature-detail" id="security">
+            <div class="feature-header">
+              <mat-icon class="feature-large-icon">security</mat-icon>
+              <div class="feature-title-section">
+                <h3>Sicurezza Avanzata</h3>
+                <p class="feature-subtitle">Protezione completa dei dati</p>
+              </div>
+            </div>
+            <div class="feature-description">
+              <p>Controllo accessi granulare, autenticazione sicura e backup automatici per proteggere i dati del team.</p>
+              <ul class="feature-benefits">
+                <li>SSO e autenticazione 2FA</li>
+                <li>Ruoli e permessi granulari</li>
+                <li>Backup automatici</li>
+                <li>Audit log completo</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -92,146 +241,98 @@
   </div>
 </div>
 
-<!-- Advanced Features Section - con sfondo chiaro -->
+<!-- Integration & Tools Section -->
+<div class="integrations-section">
+  <div class="container">
+    <div class="integrations-header">
+      <h2>Integrazioni e Strumenti</h2>
+      <p class="section-description">
+        Connetti IssueNet ai tuoi strumenti preferiti per un workflow completamente integrato.
+      </p>
+    </div>
+
+    <!-- Integration Cards Grid -->
+    <div class="integrations-board">
+      <div class="integration-column">
+        <div class="column-header">
+          <mat-icon>code</mat-icon>
+          <h3>Sviluppo</h3>
+        </div>
+        <div class="integration-cards">
+          <div class="integration-card">
+            <div class="integration-icon github">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+            </div>
+            <h4>GitHub</h4>
+            <p>Sync automatico</p>
+          </div>
+          <div class="integration-card">
+            <div class="integration-icon gitlab">
+              <mat-icon>storage</mat-icon>
+            </div>
+            <h4>GitLab</h4>
+            <p>CI/CD integrato</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="integration-column">
+        <div class="column-header">
+          <mat-icon>chat</mat-icon>
+          <h3>Comunicazione</h3>
+        </div>
+        <div class="integration-cards">
+          <div class="integration-card">
+            <div class="integration-icon slack">
+              <mat-icon>forum</mat-icon>
+            </div>
+            <h4>Slack</h4>
+            <p>Notifiche real-time</p>
+          </div>
+          <div class="integration-card">
+            <div class="integration-icon teams">
+              <mat-icon>groups</mat-icon>
+            </div>
+            <h4>Teams</h4>
+            <p>Collaboration</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="integration-column">
+        <div class="column-header">
+          <mat-icon>api</mat-icon>
+          <h3>API & Webhook</h3>
+        </div>
+        <div class="integration-cards">
+          <div class="integration-card">
+            <div class="integration-icon api">
+              <mat-icon>api</mat-icon>
+            </div>
+            <h4>REST API</h4>
+            <p>Accesso completo</p>
+          </div>
+          <div class="integration-card">
+            <div class="integration-icon webhook">
+              <mat-icon>webhook</mat-icon>
+            </div>
+            <h4>Webhooks</h4>
+            <p>Eventi in tempo reale</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Final CTA Section -->
 <div class="cta-section">
   <div class="container">
     <div class="cta-content">
-      <h2>Funzionalità Avanzate</h2>
-      <p class="cta-description">
-        Scopri tutte le funzionalità che rendono IssueNet la scelta professionale per il tuo team.
-      </p>
-    </div>
-    
-    <div class="advanced-features-grid">
-      <div class="advanced-feature-card">
-        <div class="advanced-feature-header">
-          <div class="advanced-feature-icon">
-            <mat-icon>dashboard</mat-icon>
-          </div>
-          <h3 class="advanced-feature-title">Dashboard Intuitiva</h3>
-        </div>
-        <p class="advanced-feature-description">
-          Una vista d'insieme chiara e organizzata di tutti i tuoi progetti e task, 
-          ispirata al design di Trello per una navigazione semplice e immediata.
-        </p>
-        <div class="advanced-feature-list">
-          <ul>
-            <li>Vista progetti personalizzabile</li>
-            <li>Widget di stato in tempo reale</li>
-            <li>Filtri avanzati e ricerca</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="advanced-feature-card">
-        <div class="advanced-feature-header">
-          <div class="advanced-feature-icon">
-            <mat-icon>view_kanban</mat-icon>
-          </div>
-          <h3 class="advanced-feature-title">Board Kanban</h3>
-        </div>
-        <p class="advanced-feature-description">
-          Organizza il lavoro con board Kanban personalizzabili. 
-          Trascina e rilascia i task tra le colonne per tracciare il progresso in tempo reale.
-        </p>
-        <div class="advanced-feature-list">
-          <ul>
-            <li>Colonne personalizzabili</li>
-            <li>Drag & drop intuitivo</li>
-            <li>Automazioni workflow</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="advanced-feature-card">
-        <div class="advanced-feature-header">
-          <div class="advanced-feature-icon">
-            <mat-icon>bug_report</mat-icon>
-          </div>
-          <h3 class="advanced-feature-title">Gestione Issue</h3>
-        </div>
-        <p class="advanced-feature-description">
-          Crea, assegna e traccia bug e feature request. 
-          Ogni issue include priorità, etichette, allegati e cronologia completa delle modifiche.
-        </p>
-        <div class="advanced-feature-list">
-          <ul>
-            <li>Priorità e etichette</li>
-            <li>Allegati e screenshot</li>
-            <li>Cronologia dettagliata</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="advanced-feature-card">
-        <div class="advanced-feature-header">
-          <div class="advanced-feature-icon">
-            <mat-icon>group</mat-icon>
-          </div>
-          <h3 class="advanced-feature-title">Collaborazione Team</h3>
-        </div>
-        <p class="advanced-feature-description">
-          Lavora insieme al tuo team con commenti, notifiche in tempo reale e assegnazione di task. 
-          Mantieni tutti aggiornati sui progressi.
-        </p>
-        <div class="advanced-feature-list">
-          <ul>
-            <li>Commenti e "&#64;"menzioni</li>
-            <li>Notifiche intelligenti</li>
-            <li>Assegnazioni multiple</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="advanced-feature-card">
-        <div class="advanced-feature-header">
-          <div class="advanced-feature-icon">
-            <mat-icon>analytics</mat-icon>
-          </div>
-          <h3 class="advanced-feature-title">Report e Analytics</h3>
-        </div>
-        <p class="advanced-feature-description">
-          Monitora le performance del team con report dettagliati. 
-          Visualizza metriche, tempi di risoluzione e trend dei progetti.
-        </p>
-        <div class="advanced-feature-list">
-          <ul>
-            <li>Grafici interattivi</li>
-            <li>Metriche personalizzate</li>
-            <li>Export in PDF/Excel</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="advanced-feature-card">
-        <div class="advanced-feature-header">
-          <div class="advanced-feature-icon">
-            <mat-icon>security</mat-icon>
-          </div>
-          <h3 class="advanced-feature-title">Sicurezza Avanzata</h3>
-        </div>
-        <p class="advanced-feature-description">
-          Controllo accessi granulare, autenticazione sicura e backup automatici 
-          per proteggere i dati del tuo team.
-        </p>
-        <div class="advanced-feature-list">
-          <ul>
-            <li>SSO e 2FA</li>
-            <li>Ruoli e permessi</li>
-            <li>Backup automatici</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Final CTA Section - EXACT COPY from home -->
-<div class="features-preview">
-  <div class="container">
-    <div class="cta-content">
       <h2>Pronto per iniziare?</h2>
-      <p class="features-description">
+      <p class="cta-description">
         Unisciti a migliaia di team che usano IssueNet per gestire i loro progetti in modo efficiente.
       </p>
       <div class="cta-actions">

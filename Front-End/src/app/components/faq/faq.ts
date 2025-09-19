@@ -14,23 +14,16 @@ import { RouterLink } from '@angular/router';
   styleUrl: './faq.css'
 })
 export class Faq {
-  activeFaqs: Set<number> = new Set();
+  // Nuovo sistema per gestire le FAQ con ID stringa
+  openFaqs: { [key: string]: boolean } = {};
 
-  toggleFaq(faqId: number): void {
-    if (this.activeFaqs.has(faqId)) {
-      this.activeFaqs.delete(faqId);
-    } else {
-      this.activeFaqs.add(faqId);
-    }
-    
-    // Toggle CSS class
-    const element = document.querySelector(`.faq-item:nth-child(${faqId})`);
-    if (element) {
-      element.classList.toggle('active');
-    }
+  // Metodo per gestire il toggle delle FAQ
+  toggleFaq(faqId: string): void {
+    this.openFaqs[faqId] = !this.openFaqs[faqId];
   }
 
-  isFaqActive(faqId: number): boolean {
-    return this.activeFaqs.has(faqId);
+  // Metodo per verificare se una FAQ è aperta
+  isFaqOpen(faqId: string): boolean {
+    return !!this.openFaqs[faqId];
   }
 }

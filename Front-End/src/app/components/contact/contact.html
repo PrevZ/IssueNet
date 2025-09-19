@@ -1,84 +1,208 @@
-<!-- Hero Section - EXACT COPY from home -->
+<!-- Hero Section con design moderno -->
 <div class="hero-section">
   <div class="hero-content">
     <div class="hero-text">
       <h1>Contattaci</h1>
       <p class="hero-subtitle">Siamo qui per aiutarti</p>
       <p class="hero-description">
-        Scegli il modo migliore per metterti in contatto con noi. Il nostro team di supporto 
+        Scegli il modo migliore per metterti in contatto con noi. Il nostro team di supporto
         è sempre pronto ad assisterti con qualsiasi domanda o problema tecnico.
       </p>
     </div>
+    <div class="hero-quick-contact">
+      <div class="quick-contact-item">
+        <mat-icon>schedule</mat-icon>
+        <span>Risposta in 24h</span>
+      </div>
+      <div class="quick-contact-item">
+        <mat-icon>support_agent</mat-icon>
+        <span>Supporto 24/7</span>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- Contact Content Section - EXACT COPY structure from home -->
-<div class="features-preview">
+<!-- Contact Hub Section - Nuovo Layout Dashboard -->
+<div class="contact-hub-section">
   <div class="container">
-    <h2>Come Possiamo Aiutarti</h2>
-    <p class="features-description">
-      Scegli il canale di contatto più adatto alle tue esigenze per ricevere assistenza rapida e professionale.
+    <h2>Centro Assistenza</h2>
+    <p class="section-description">
+      Tutte le informazioni di contatto organizzate per una rapida consultazione.
     </p>
-    
-    <div class="features-layout">
-      <!-- Cards dei metodi di contatto a sinistra -->
-      <div class="features-cards">
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">support_agent</mat-icon>
-          <div class="feature-card-content">
-            <h3>Supporto Tecnico</h3>
-            <p>Assistenza immediata 24/7</p>
-          </div>
+
+    <!-- Contact Hub Dashboard Layout -->
+    <div class="contact-dashboard">
+      <!-- Colonna 1: Contatti Rapidi -->
+      <div class="contact-column urgent-column">
+        <div class="column-header urgent">
+          <mat-icon>emergency</mat-icon>
+          <h3>Contatti Urgenti</h3>
+          <span class="priority-badge">Priorità Alta</span>
         </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">email</mat-icon>
-          <div class="feature-card-content">
-            <h3>Email Support</h3>
-            <p>Risposte entro 24 ore</p>
+        <div class="contact-cards">
+          <div class="contact-card urgent">
+            <div class="contact-card-header">
+              <mat-icon>support_agent</mat-icon>
+              <div class="contact-info">
+                <h4>Supporto Tecnico</h4>
+                <p>Problemi critici e emergenze</p>
+              </div>
+            </div>
+            <div class="contact-details">
+              <div class="contact-method">
+                <mat-icon>email</mat-icon>
+                <span>urgent&#64;issuenet.com</span>
+              </div>
+              <div class="contact-method">
+                <mat-icon>phone</mat-icon>
+                <span>+39 02 URGENT</span>
+              </div>
+              <div class="contact-availability">
+                <span class="status online">DISPONIBILE ORA</span>
+              </div>
+            </div>
           </div>
-        </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">chat</mat-icon>
-          <div class="feature-card-content">
-            <h3>Chat Live</h3>
-            <p>Lun-Ven 9:00-18:00 CET</p>
-          </div>
-        </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">location_on</mat-icon>
-          <div class="feature-card-content">
-            <h3>Uffici Fisici</h3>
-            <p>Milano e Roma</p>
+
+          <div class="contact-card urgent">
+            <div class="contact-card-header">
+              <mat-icon>chat</mat-icon>
+              <div class="contact-info">
+                <h4>Chat Live</h4>
+                <p>Assistenza immediata online</p>
+              </div>
+            </div>
+            <div class="contact-details">
+              <div class="contact-method">
+                <mat-icon>schedule</mat-icon>
+                <span>24/7 disponibile</span>
+              </div>
+              <div class="contact-availability">
+                <button class="chat-button" mat-raised-button>
+                  <mat-icon>chat</mat-icon>
+                  Avvia Chat
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      
-      <!-- Contact Methods a destra -->
-      <div class="features-image">
-        <div class="image-container">
-          <div class="contact-methods-grid">
-            
-            <div class="contact-method-card">
-              <mat-icon class="contact-method-icon">support</mat-icon>
-              <div class="contact-method-title">Supporto Tecnico</div>
-              <div class="contact-method-info">support"&#64;"issuenet.com</div>
-            </div>
 
-            <div class="contact-method-card">
-              <mat-icon class="contact-method-icon">info</mat-icon>
-              <div class="contact-method-title">Informazioni</div>
-              <div class="contact-method-info">info"&#64;"issuenet.com</div>
+      <!-- Colonna 2: Contatti Standard -->
+      <div class="contact-column standard-column">
+        <div class="column-header standard">
+          <mat-icon>email</mat-icon>
+          <h3>Contatti Standard</h3>
+          <span class="response-time">Risposta: 24-48h</span>
+        </div>
+        <div class="contact-cards">
+          <div class="contact-card standard">
+            <div class="contact-card-header">
+              <mat-icon>info</mat-icon>
+              <div class="contact-info">
+                <h4>Informazioni Generali</h4>
+                <p>Domande su funzionalità e piani</p>
+              </div>
             </div>
-
-            <div class="contact-method-card">
-              <mat-icon class="contact-method-icon">business</mat-icon>
-              <div class="contact-method-title">Vendite</div>
-              <div class="contact-method-info">sales"&#64;"issuenet.com</div>
+            <div class="contact-details">
+              <div class="contact-method">
+                <mat-icon>email</mat-icon>
+                <span>info&#64;issuenet.com</span>
+              </div>
             </div>
+          </div>
 
+          <div class="contact-card standard">
+            <div class="contact-card-header">
+              <mat-icon>business</mat-icon>
+              <div class="contact-info">
+                <h4>Vendite</h4>
+                <p>Preventivi e partnership</p>
+              </div>
+            </div>
+            <div class="contact-details">
+              <div class="contact-method">
+                <mat-icon>email</mat-icon>
+                <span>sales&#64;issuenet.com</span>
+              </div>
+              <div class="contact-method">
+                <mat-icon>phone</mat-icon>
+                <span>+39 02 SALES</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-card standard">
+            <div class="contact-card-header">
+              <mat-icon>feedback</mat-icon>
+              <div class="contact-info">
+                <h4>Feedback</h4>
+                <p>Suggerimenti e migliorie</p>
+              </div>
+            </div>
+            <div class="contact-details">
+              <div class="contact-method">
+                <mat-icon>email</mat-icon>
+                <span>feedback&#64;issuenet.com</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonna 3: Risorse Self-Service -->
+      <div class="contact-column resources-column">
+        <div class="column-header resources">
+          <mat-icon>library_books</mat-icon>
+          <h3>Risorse Self-Service</h3>
+          <span class="response-time">Risposta immediata</span>
+        </div>
+        <div class="contact-cards">
+          <div class="contact-card resource">
+            <div class="contact-card-header">
+              <mat-icon>help</mat-icon>
+              <div class="contact-info">
+                <h4>FAQ</h4>
+                <p>Domande frequenti</p>
+              </div>
+            </div>
+            <div class="contact-details">
+              <button mat-button routerLink="/faq" class="resource-button">
+                <mat-icon>arrow_forward</mat-icon>
+                Consulta FAQ
+              </button>
+            </div>
+          </div>
+
+          <div class="contact-card resource">
+            <div class="contact-card-header">
+              <mat-icon>menu_book</mat-icon>
+              <div class="contact-info">
+                <h4>Documentazione</h4>
+                <p>Guide e tutorial</p>
+              </div>
+            </div>
+            <div class="contact-details">
+              <button mat-button class="resource-button">
+                <mat-icon>arrow_forward</mat-icon>
+                Vai ai Docs
+              </button>
+            </div>
+          </div>
+
+          <div class="contact-card resource">
+            <div class="contact-card-header">
+              <mat-icon>forum</mat-icon>
+              <div class="contact-info">
+                <h4>Community</h4>
+                <p>Forum utenti</p>
+              </div>
+            </div>
+            <div class="contact-details">
+              <button mat-button class="resource-button">
+                <mat-icon>arrow_forward</mat-icon>
+                Unisciti al Forum
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -86,137 +210,213 @@
   </div>
 </div>
 
-<!-- Office Section - con sfondo chiaro -->
-<div class="cta-section">
+<!-- Office Locations Section -->
+<div class="offices-section">
   <div class="container">
-    <div class="cta-content">
+    <div class="offices-header">
       <h2>I Nostri Uffici</h2>
-      <p class="cta-description">
-        Vieni a trovarci nelle nostre sedi di Milano e Roma. Siamo sempre felici di incontrare i nostri clienti di persona.
+      <p class="section-description">
+        Vieni a trovarci nelle nostre sedi. Siamo sempre felici di incontrare i nostri clienti di persona.
       </p>
     </div>
-    
-    <div class="office-grid">
-      <div class="office-card">
-        <div class="office-header">
-          <div class="office-icon">
-            <mat-icon>location_city</mat-icon>
+
+    <!-- Offices Layout stile Maps -->
+    <div class="offices-grid">
+      <div class="office-location-card main-office">
+        <div class="office-image">
+          <div class="location-pin">
+            <mat-icon>location_on</mat-icon>
           </div>
-          <h3 class="office-title">Milano - Sede Principale</h3>
+          <div class="office-badge">Sede Principale</div>
         </div>
-        <p class="office-address">
-          Via Giuseppe Mazzini 45<br>
-          20123 Milano, Italia<br>
-          Tel: +39 02 1234 5678
-        </p>
-        <div class="office-hours">
-          <strong>Orari di apertura:</strong><br>
-          Lun-Ven: 9:00-18:00<br>
-          Sabato: 9:00-13:00<br>
-          Domenica: Chiuso
+        <div class="office-content">
+          <div class="office-header">
+            <h3>Milano</h3>
+            <div class="office-status">
+              <span class="status-dot open"></span>
+              <span>Aperto ora</span>
+            </div>
+          </div>
+          <div class="office-details">
+            <div class="detail-item">
+              <mat-icon>place</mat-icon>
+              <span>Via Giuseppe Mazzini 45<br>20123 Milano, Italia</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>phone</mat-icon>
+              <span>+39 02 1234 5678</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>schedule</mat-icon>
+              <div class="hours-info">
+                <div>Lun-Ven: 9:00-18:00</div>
+                <div>Sabato: 9:00-13:00</div>
+                <div>Domenica: Chiuso</div>
+              </div>
+            </div>
+          </div>
+          <div class="office-actions">
+            <button mat-button class="directions-button">
+              <mat-icon>directions</mat-icon>
+              Indicazioni
+            </button>
+            <button mat-button class="call-button">
+              <mat-icon>call</mat-icon>
+              Chiama
+            </button>
+          </div>
         </div>
       </div>
 
-      <div class="office-card">
-        <div class="office-header">
-          <div class="office-icon">
-            <mat-icon>location_city</mat-icon>
+      <div class="office-location-card">
+        <div class="office-image">
+          <div class="location-pin">
+            <mat-icon>location_on</mat-icon>
           </div>
-          <h3 class="office-title">Roma - Ufficio Sud</h3>
+          <div class="office-badge">Ufficio Sud</div>
         </div>
-        <p class="office-address">
-          Via del Corso 100<br>
-          00186 Roma, Italia<br>
-          Tel: +39 06 9876 5432
-        </p>
-        <div class="office-hours">
-          <strong>Orari di apertura:</strong><br>
-          Lun-Ven: 9:00-18:00<br>
-          Sabato: 9:00-13:00<br>
-          Domenica: Chiuso
+        <div class="office-content">
+          <div class="office-header">
+            <h3>Roma</h3>
+            <div class="office-status">
+              <span class="status-dot open"></span>
+              <span>Aperto ora</span>
+            </div>
+          </div>
+          <div class="office-details">
+            <div class="detail-item">
+              <mat-icon>place</mat-icon>
+              <span>Via del Corso 100<br>00186 Roma, Italia</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>phone</mat-icon>
+              <span>+39 06 9876 5432</span>
+            </div>
+            <div class="detail-item">
+              <mat-icon>schedule</mat-icon>
+              <div class="hours-info">
+                <div>Lun-Ven: 9:00-18:00</div>
+                <div>Sabato: 9:00-13:00</div>
+                <div>Domenica: Chiuso</div>
+              </div>
+            </div>
+          </div>
+          <div class="office-actions">
+            <button mat-button class="directions-button">
+              <mat-icon>directions</mat-icon>
+              Indicazioni
+            </button>
+            <button mat-button class="call-button">
+              <mat-icon>call</mat-icon>
+              Chiama
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Contact Methods Section -->
-<div class="features-preview">
+<!-- Contact Form Section -->
+<div class="contact-form-section">
   <div class="container">
-    <h2>Metodi di Contatto</h2>
-    <p class="features-description">
-      Diversi canali per diverse esigenze. Scegli quello più adatto alla tua situazione.
-    </p>
-    
-    <div class="features-layout">
-      <!-- Contact cards a sinistra -->
-      <div class="features-cards">
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">emergency</mat-icon>
-          <div class="feature-card-content">
-            <h3>Emergenze</h3>
-            <p>Per problemi critici immediati</p>
-          </div>
-        </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">forum</mat-icon>
-          <div class="feature-card-content">
-            <h3>Forum Community</h3>
-            <p>Discussioni con altri utenti</p>
-          </div>
-        </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">help</mat-icon>
-          <div class="feature-card-content">
-            <h3>FAQ</h3>
-            <p>Risposte alle domande comuni</p>
-          </div>
-        </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">schedule</mat-icon>
-          <div class="feature-card-content">
-            <h3>Appuntamenti</h3>
-            <p>Consulenze personalizzate</p>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Contact form o informazioni a destra -->
-      <div class="features-image">
-        <div class="image-container">
-          <div class="tip-card-wrapper">
-            <div class="tip-display">
-              <div class="tip-header">
-                <mat-icon class="tip-icon">contact_support</mat-icon>
-                <h3>Contatto Rapido</h3>
-              </div>
-              <p class="tip-description">
-                Prima di contattarci, dai un'occhiata alle nostre FAQ - potresti trovare subito la risposta che cerchi! 
-                Per problemi tecnici urgenti usa il supporto prioritario, per domande generali l'email standard.
-              </p>
-              <div class="tip-actions">
-                <button mat-raised-button routerLink="/faq">
-                  <mat-icon>help</mat-icon>
-                  Vai alle FAQ
-                </button>
-                <div class="tip-navigation">
-                  <button mat-icon-button class="nav-button">
-                    <mat-icon>email</mat-icon>
-                  </button>
-                  <span class="tip-indicators">
-                    <span class="tip-dot active"></span>
-                    <span class="tip-dot"></span>
-                    <span class="tip-dot"></span>
-                  </span>
-                  <button mat-icon-button class="nav-button">
-                    <mat-icon>chat</mat-icon>
-                  </button>
-                </div>
-              </div>
+    <div class="form-header">
+      <h2>Invia un Messaggio</h2>
+      <p class="section-description">
+        Compila il form per inviarci una richiesta. Ti risponderemo il prima possibile.
+      </p>
+    </div>
+
+    <!-- Contact Form Layout -->
+    <div class="form-layout">
+      <div class="form-container">
+        <form class="contact-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Nome completo *</label>
+              <input type="text" id="name" name="name" required>
             </div>
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="company">Azienda</label>
+              <input type="text" id="company" name="company">
+            </div>
+            <div class="form-group">
+              <label for="subject">Oggetto *</label>
+              <select id="subject" name="subject" required>
+                <option value="">Seleziona un oggetto</option>
+                <option value="support">Supporto Tecnico</option>
+                <option value="sales">Vendite</option>
+                <option value="feedback">Feedback</option>
+                <option value="other">Altro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group full-width">
+            <label for="message">Messaggio *</label>
+            <textarea id="message" name="message" rows="6" required placeholder="Descrivi la tua richiesta in dettaglio..."></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" mat-raised-button class="submit-button">
+              <mat-icon>send</mat-icon>
+              Invia Messaggio
+            </button>
+            <p class="form-note">
+              <mat-icon>info</mat-icon>
+              Ti risponderemo entro 24 ore lavorative
+            </p>
+          </div>
+        </form>
+      </div>
+
+      <div class="form-sidebar">
+        <div class="sidebar-card">
+          <div class="sidebar-header">
+            <mat-icon>schedule</mat-icon>
+            <h3>Tempi di Risposta</h3>
+          </div>
+          <div class="response-times">
+            <div class="response-item">
+              <span class="priority urgent">Urgente</span>
+              <span class="time">1-4 ore</span>
+            </div>
+            <div class="response-item">
+              <span class="priority normal">Normale</span>
+              <span class="time">24-48 ore</span>
+            </div>
+            <div class="response-item">
+              <span class="priority low">Generale</span>
+              <span class="time">48-72 ore</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <div class="sidebar-header">
+            <mat-icon>help_outline</mat-icon>
+            <h3>Prima di Scrivere</h3>
+          </div>
+          <div class="quick-links">
+            <button mat-button routerLink="/faq" class="quick-link">
+              <mat-icon>quiz</mat-icon>
+              Consulta le FAQ
+            </button>
+            <button mat-button class="quick-link">
+              <mat-icon>book</mat-icon>
+              Documentazione
+            </button>
+            <button mat-button class="quick-link">
+              <mat-icon>forum</mat-icon>
+              Forum Community
+            </button>
           </div>
         </div>
       </div>

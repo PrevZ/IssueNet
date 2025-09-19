@@ -1,150 +1,234 @@
-<!-- Hero Section - EXACT COPY from home -->
+<!-- Hero Section con design moderno -->
 <div class="hero-section">
   <div class="hero-content">
     <div class="hero-text">
       <h1>Domande Frequenti</h1>
       <p class="hero-subtitle">Tutto quello che devi sapere su IssueNet</p>
       <p class="hero-description">
-        Trova rapidamente le risposte alle domande più comuni sulla nostra piattaforma di bug tracking. 
+        Trova rapidamente le risposte alle domande più comuni sulla nostra piattaforma di bug tracking.
         Se non trovi quello che cerchi, non esitare a contattare il nostro team di supporto.
       </p>
+    </div>
+    <div class="hero-search">
+      <div class="search-container">
+        <mat-icon>search</mat-icon>
+        <input type="text" placeholder="Cerca nelle FAQ...">
+        <button mat-button>
+          <mat-icon>tune</mat-icon>
+          Filtri
+        </button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Features Preview Section - EXACT COPY structure from home -->
-<div class="features-preview">
+<!-- FAQ Board Section - Nuovo Layout a Board -->
+<div class="faq-board-section">
   <div class="container">
-    <h2>FAQ - Domande Frequenti</h2>
-    <p class="features-description">
-      Esplora le nostre FAQ organizzate per categoria. Clicca su ogni domanda per vedere la risposta completa.
+    <h2>Esplora per Categoria</h2>
+    <p class="section-description">
+      Le nostre FAQ sono organizzate in categorie per una ricerca più efficace. Clicca su una categoria per vedere le domande.
     </p>
-    
-    <div class="features-layout">
-      <!-- Cards delle FAQ a sinistra -->
-      <div class="features-cards">
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">help_center</mat-icon>
-          <div class="feature-card-content">
-            <h3>Informazioni Generali</h3>
-            <p>Scopri cos'è IssueNet e come funziona</p>
-          </div>
+
+    <!-- FAQ Board Layout stile Trello -->
+    <div class="faq-board">
+      <!-- Colonna 1: Informazioni Generali -->
+      <div class="faq-column general-column">
+        <div class="column-header general">
+          <mat-icon>help_center</mat-icon>
+          <h3>Informazioni Generali</h3>
+          <span class="faq-count">6 FAQ</span>
         </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">group</mat-icon>
-          <div class="feature-card-content">
-            <h3>Gestione Team</h3>
-            <p>Invita colleghi e gestisci i permessi</p>
+        <div class="faq-cards">
+          <div class="faq-card general" (click)="toggleFaq('general-1')">
+            <div class="faq-question-header">
+              <span class="question-text">Cos'è IssueNet?</span>
+              <span class="faq-toggle" [class.open]="openFaqs['general-1']">+</span>
+            </div>
+            <div class="faq-answer" [class.active]="openFaqs['general-1']">
+              <p>
+                IssueNet è una piattaforma di bug tracking moderna e intuitiva che aiuta i team di sviluppo a organizzare,
+                tracciare e risolvere issue, bug e feature request in modo efficiente. Con un'interfaccia ispirata a Trello,
+                offre board Kanban personalizzabili per una gestione visuale del workflow.
+              </p>
+            </div>
           </div>
-        </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">security</mat-icon>
-          <div class="feature-card-content">
-            <h3>Sicurezza</h3>
-            <p>I tuoi dati sono al sicuro con noi</p>
+
+          <div class="faq-card general" (click)="toggleFaq('general-2')">
+            <div class="faq-question-header">
+              <span class="question-text">IssueNet è gratuito?</span>
+              <span class="faq-toggle" [class.open]="openFaqs['general-2']">+</span>
+            </div>
+            <div class="faq-answer" [class.active]="openFaqs['general-2']">
+              <p>
+                Sì! IssueNet offre un piano gratuito che include tutte le funzionalità base per team piccoli.
+                Per team più grandi o funzionalità avanzate come analytics dettagliati e integrazioni enterprise,
+                sono disponibili piani premium a prezzi competitivi.
+              </p>
+            </div>
           </div>
-        </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">integration_instructions</mat-icon>
-          <div class="feature-card-content">
-            <h3>Integrazioni</h3>
-            <p>Connetti IssueNet ai tuoi strumenti</p>
+
+          <div class="faq-card general" (click)="toggleFaq('general-3')">
+            <div class="faq-question-header">
+              <span class="question-text">Come posso iniziare?</span>
+              <span class="faq-toggle" [class.open]="openFaqs['general-3']">+</span>
+            </div>
+            <div class="faq-answer" [class.active]="openFaqs['general-3']">
+              <p>
+                Registrati gratuitamente, crea il tuo primo progetto e inizia ad aggiungere issue.
+                Il nostro tutorial guidato ti aiuterà a configurare tutto in pochi minuti.
+              </p>
+            </div>
           </div>
         </div>
       </div>
-      
-      <!-- FAQ Container a destra -->
-      <div class="features-image">
-        <div class="image-container">
-          <div class="faq-container">
-            
-            <div class="faq-item" (click)="toggleFaq(1)">
-              <button class="faq-question">
-                <span class="faq-question-text">Cos'è IssueNet?</span>
-                <span class="faq-toggle">+</span>
-              </button>
-              <div class="faq-answer">
-                <p>
-                  IssueNet è una piattaforma di bug tracking moderna e intuitiva che aiuta i team di sviluppo a organizzare, 
-                  tracciare e risolvere issue, bug e feature request in modo efficiente. Con un'interfaccia ispirata a Trello, 
-                  offre board Kanban personalizzabili per una gestione visuale del workflow.
-                </p>
-              </div>
-            </div>
 
-            <div class="faq-item" (click)="toggleFaq(2)">
-              <button class="faq-question">
-                <span class="faq-question-text">IssueNet è gratuito?</span>
-                <span class="faq-toggle">+</span>
-              </button>
-              <div class="faq-answer">
-                <p>
-                  Sì! IssueNet offre un piano gratuito che include tutte le funzionalità base per team piccoli. 
-                  Per team più grandi o funzionalità avanzate come analytics dettagliati e integrazioni enterprise, 
-                  sono disponibili piani premium a prezzi competitivi.
-                </p>
-              </div>
+      <!-- Colonna 2: Gestione Team -->
+      <div class="faq-column team-column">
+        <div class="column-header team">
+          <mat-icon>group</mat-icon>
+          <h3>Gestione Team</h3>
+          <span class="faq-count">4 FAQ</span>
+        </div>
+        <div class="faq-cards">
+          <div class="faq-card team" (click)="toggleFaq('team-1')">
+            <div class="faq-question-header">
+              <span class="question-text">Quanti utenti posso invitare?</span>
+              <span class="faq-toggle" [class.open]="openFaqs['team-1']">+</span>
             </div>
-
-            <div class="faq-item" (click)="toggleFaq(3)">
-              <button class="faq-question">
-                <span class="faq-question-text">Quanti utenti posso invitare nel mio team?</span>
-                <span class="faq-toggle">+</span>
-              </button>
-              <div class="faq-answer">
-                <p>
-                  Nel piano gratuito puoi invitare fino a 10 membri del team. I piani premium permettono team illimitati. 
-                  Ogni membro può avere ruoli e permessi diversi per un controllo granulare degli accessi ai progetti.
-                </p>
-              </div>
+            <div class="faq-answer" [class.active]="openFaqs['team-1']">
+              <p>
+                Nel piano gratuito puoi invitare fino a 10 membri del team. I piani premium permettono team illimitati.
+                Ogni membro può avere ruoli e permessi diversi per un controllo granulare degli accessi ai progetti.
+              </p>
             </div>
+          </div>
 
-            <div class="faq-item" (click)="toggleFaq(4)">
-              <button class="faq-question">
-                <span class="faq-question-text">I miei dati sono sicuri?</span>
-                <span class="faq-toggle">+</span>
-              </button>
-              <div class="faq-answer">
-                <p>
-                  Assolutamente! Utilizziamo crittografia SSL/TLS per tutte le comunicazioni, backup automatici giornalieri, 
-                  e i nostri server sono ospitati in data center certificati. I tuoi dati sono protetti con gli standard 
-                  di sicurezza più elevati del settore.
-                </p>
-              </div>
+          <div class="faq-card team" (click)="toggleFaq('team-2')">
+            <div class="faq-question-header">
+              <span class="question-text">Come gestisco i ruoli?</span>
+              <span class="faq-toggle" [class.open]="openFaqs['team-2']">+</span>
             </div>
-
-            <div class="faq-item" (click)="toggleFaq(5)">
-              <button class="faq-question">
-                <span class="faq-question-text">Posso integrare IssueNet con altri strumenti?</span>
-                <span class="faq-toggle">+</span>
-              </button>
-              <div class="faq-answer">
-                <p>
-                  Sì! IssueNet offre integrazioni native con GitHub, GitLab, Slack, e molti altri strumenti di sviluppo. 
-                  Inoltre, abbiamo una API REST completa che permette integrazioni personalizzate con qualsiasi sistema.
-                </p>
-              </div>
+            <div class="faq-answer" [class.active]="openFaqs['team-2']">
+              <p>
+                Puoi assegnare ruoli come Admin, Developer, Viewer con diversi livelli di accesso.
+                Gli Admin possono gestire progetti e utenti, i Developer possono creare e modificare issue,
+                i Viewer hanno accesso solo in lettura.
+              </p>
             </div>
+          </div>
 
-            <div class="faq-item" (click)="toggleFaq(6)">
-              <button class="faq-question">
-                <span class="faq-question-text">Che tipo di supporto offrite?</span>
-                <span class="faq-toggle">+</span>
-              </button>
-              <div class="faq-answer">
-                <p>
-                  Offriamo supporto via email per tutti gli utenti, con tempi di risposta di 24-48 ore. 
-                  Gli utenti premium hanno accesso al supporto prioritario con chat live e tempi di risposta più rapidi. 
-                  Abbiamo anche una knowledge base completa e tutorial video.
-                </p>
-              </div>
+          <div class="faq-card team" (click)="toggleFaq('team-3')">
+            <div class="faq-question-header">
+              <span class="question-text">Posso rimuovere membri?</span>
+              <span class="faq-toggle" [class.open]="openFaqs['team-3']">+</span>
             </div>
-
+            <div class="faq-answer" [class.active]="openFaqs['team-3']">
+              <p>
+                Sì, gli amministratori possono rimuovere membri del team in qualsiasi momento.
+                Le issue create da membri rimossi rimangono visibili e possono essere riassegnate.
+              </p>
+            </div>
           </div>
         </div>
+      </div>
+
+      <!-- Colonna 3: Sicurezza & Supporto -->
+      <div class="faq-column security-column">
+        <div class="column-header security">
+          <mat-icon>security</mat-icon>
+          <h3>Sicurezza & Supporto</h3>
+          <span class="faq-count">5 FAQ</span>
+        </div>
+        <div class="faq-cards">
+          <div class="faq-card security" (click)="toggleFaq('security-1')">
+            <div class="faq-question-header">
+              <span class="question-text">I miei dati sono sicuri?</span>
+              <span class="faq-toggle" [class.open]="openFaqs['security-1']">+</span>
+            </div>
+            <div class="faq-answer" [class.active]="openFaqs['security-1']">
+              <p>
+                Assolutamente! Utilizziamo crittografia SSL/TLS per tutte le comunicazioni, backup automatici giornalieri,
+                e i nostri server sono ospitati in data center certificati. I tuoi dati sono protetti con gli standard
+                di sicurezza più elevati del settore.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-card security" (click)="toggleFaq('security-2')">
+            <div class="faq-question-header">
+              <span class="question-text">Che supporto offrite?</span>
+              <span class="faq-toggle" [class.open]="openFaqs['security-2']">+</span>
+            </div>
+            <div class="faq-answer" [class.active]="openFaqs['security-2']">
+              <p>
+                Offriamo supporto via email per tutti gli utenti, con tempi di risposta di 24-48 ore.
+                Gli utenti premium hanno accesso al supporto prioritario con chat live e tempi di risposta più rapidi.
+                Abbiamo anche una knowledge base completa e tutorial video.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-card security" (click)="toggleFaq('security-3')">
+            <div class="faq-question-header">
+              <span class="question-text">Posso esportare i dati?</span>
+              <span class="faq-toggle" [class.open]="openFaqs['security-3']">+</span>
+            </div>
+            <div class="faq-answer" [class.active]="openFaqs['security-3']">
+              <p>
+                Sì, puoi esportare tutti i tuoi dati in formato JSON o CSV in qualsiasi momento.
+                Questo include progetti, issue, commenti e allegati. Non c'è vendor lock-in.
+              </p>
+            </div>
+          </div>
+
+          <div class="faq-card security" (click)="toggleFaq('security-4')">
+            <div class="faq-question-header">
+              <span class="question-text">Ci sono integrazioni?</span>
+              <span class="faq-toggle" [class.open]="openFaqs['security-4']">+</span>
+            </div>
+            <div class="faq-answer" [class.active]="openFaqs['security-4']">
+              <p>
+                Sì! IssueNet offre integrazioni native con GitHub, GitLab, Slack, e molti altri strumenti di sviluppo.
+                Inoltre, abbiamo una API REST completa che permette integrazioni personalizzate con qualsiasi sistema.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ Quick Actions -->
+<div class="faq-actions-section">
+  <div class="container">
+    <div class="actions-grid">
+      <div class="action-card">
+        <mat-icon>contact_support</mat-icon>
+        <h3>Non trovi la risposta?</h3>
+        <p>Il nostro team è qui per aiutarti</p>
+        <button mat-raised-button routerLink="/contact">
+          Contatta il Supporto
+        </button>
+      </div>
+
+      <div class="action-card">
+        <mat-icon>menu_book</mat-icon>
+        <h3>Documentazione</h3>
+        <p>Guide dettagliate e tutorial</p>
+        <button mat-button>
+          Vai ai Docs
+        </button>
+      </div>
+
+      <div class="action-card">
+        <mat-icon>forum</mat-icon>
+        <h3>Community</h3>
+        <p>Discuti con altri utenti</p>
+        <button mat-button>
+          Forum Community
+        </button>
       </div>
     </div>
   </div>

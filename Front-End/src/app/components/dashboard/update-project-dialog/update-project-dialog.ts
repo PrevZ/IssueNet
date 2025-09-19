@@ -7,8 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
-import { CreateProjectRequest, UpdateProjectRequest } from '../../models/project.model';
-import { Project } from '../../models/project.model';
+import { CreateProjectRequest, UpdateProjectRequest, Project } from '../../../models/project.model';
 
 @Component({
   selector: 'app-update-project-dialog',

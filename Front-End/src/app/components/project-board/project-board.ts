@@ -15,8 +15,8 @@ import { ProjectService } from '../../services/project.service';
 import { UserService } from '../../services/user.service';
 import { IssueService } from '../../services/issue.service';
 import { IssueDialogComponent } from '../issue-dialog/issue-dialog.component';
-import { DeleteProjectDialog } from '../delete-project-dialog/delete-project-dialog';
-import { DeleteIssueDialog } from '../delete-issue-dialog/delete-issue-dialog';
+import { DeleteProjectDialog } from './delete-project-dialog/delete-project-dialog';
+import { DeleteIssueDialog } from './delete-issue-dialog/delete-issue-dialog';
 import { Project, User, Issue, CreateIssueRequest, UpdateIssueRequest } from '../../models';
 
 interface KanbanColumn {

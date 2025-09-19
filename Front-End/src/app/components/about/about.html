@@ -1,208 +1,292 @@
-<!-- Hero Section - EXACT COPY from home -->
+<!-- Hero Section con layout centrato -->
 <div class="hero-section">
-  <div class="hero-content">
-    <div class="hero-text">
+  <div class="hero-content-centered">
+    <div class="hero-text-centered">
       <h1>Chi Siamo</h1>
       <p class="hero-subtitle">La storia di IssueNet e la nostra missione</p>
       <p class="hero-description">
-        Siamo un team di sviluppatori appassionati che ha creato IssueNet per rivoluzionare 
+        Siamo un team di sviluppatori appassionati che ha creato IssueNet per rivoluzionare
         il modo in cui i team gestiscono bug, feature request e progetti di sviluppo software.
       </p>
     </div>
   </div>
 </div>
 
-<!-- About Content Section - EXACT COPY structure from home -->
-<div class="features-preview">
+<!-- Floating Cards Layout - Nuovo stile Trello -->
+<div class="floating-cards-section">
   <div class="container">
     <h2>La Nostra Storia</h2>
-    <p class="features-description">
+    <p class="section-description">
       Scopri la missione, i valori e le persone che rendono IssueNet una piattaforma unica nel suo genere.
     </p>
-    
-    <div class="features-layout">
-      <!-- Cards dei valori a sinistra -->
-      <div class="features-cards">
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">rocket_launch</mat-icon>
-          <div class="feature-card-content">
-            <h3>La Nostra Missione</h3>
-            <p>Semplificare il bug tracking per tutti</p>
-          </div>
+
+    <!-- Cards principali disposte in griglia -->
+    <div class="floating-cards-grid">
+      <div class="floating-card primary-card">
+        <div class="card-header">
+          <mat-icon class="card-icon">rocket_launch</mat-icon>
+          <h3>La Nostra Missione</h3>
         </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">favorite</mat-icon>
-          <div class="feature-card-content">
-            <h3>I Nostri Valori</h3>
-            <p>Semplicità, collaborazione e innovazione</p>
-          </div>
+        <div class="card-content">
+          <p>Semplificare il bug tracking per tutti i team di sviluppo, rendendo la gestione dei progetti intuitiva e collaborativa come Trello.</p>
         </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">group</mat-icon>
-          <div class="feature-card-content">
-            <h3>Il Nostro Team</h3>
-            <p>Sviluppatori esperti e appassionati</p>
-          </div>
-        </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">trending_up</mat-icon>
-          <div class="feature-card-content">
-            <h3>La Nostra Visione</h3>
-            <p>Il futuro del project management</p>
+        <div class="card-stats">
+          <div class="stat-item">
+            <span class="stat-value">2024</span>
+            <span class="stat-label">Anno di fondazione</span>
           </div>
         </div>
       </div>
-      
-      <!-- Stats a destra -->
-      <div class="features-image">
-        <div class="image-container">
-          <div class="stats-grid">
-            
-            <div class="stat-card">
-              <span class="stat-number">2024</span>
-              <span class="stat-label">Anno di fondazione</span>
-            </div>
 
-            <div class="stat-card">
-              <span class="stat-number">10K+</span>
-              <span class="stat-label">Utenti attivi</span>
+      <div class="floating-card values-card">
+        <div class="card-header">
+          <mat-icon class="card-icon">favorite</mat-icon>
+          <h3>I Nostri Valori</h3>
+        </div>
+        <div class="card-content">
+          <div class="values-list">
+            <div class="value-item">
+              <mat-icon>lightbulb</mat-icon>
+              <span>Innovazione</span>
             </div>
-
-            <div class="stat-card">
-              <span class="stat-number">500+</span>
-              <span class="stat-label">Aziende clienti</span>
+            <div class="value-item">
+              <mat-icon>handshake</mat-icon>
+              <span>Collaborazione</span>
             </div>
-
-            <div class="stat-card">
-              <span class="stat-number">99.9%</span>
-              <span class="stat-label">Uptime garantito</span>
+            <div class="value-item">
+              <mat-icon>clean_hands</mat-icon>
+              <span>Semplicità</span>
             </div>
-
           </div>
+        </div>
+      </div>
+
+      <div class="floating-card team-card">
+        <div class="card-header">
+          <mat-icon class="card-icon">group</mat-icon>
+          <h3>Il Nostro Team</h3>
+        </div>
+        <div class="card-content">
+          <p>Un gruppo di sviluppatori esperti e appassionati, dedicati a creare la migliore esperienza di bug tracking.</p>
+        </div>
+        <div class="card-stats">
+          <div class="stat-item">
+            <span class="stat-value">15+</span>
+            <span class="stat-label">Team members</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="floating-card vision-card">
+        <div class="card-header">
+          <mat-icon class="card-icon">trending_up</mat-icon>
+          <h3>La Nostra Visione</h3>
+        </div>
+        <div class="card-content">
+          <p>Essere la piattaforma di riferimento per il project management e bug tracking nel mondo dello sviluppo software.</p>
+        </div>
+        <div class="card-stats">
+          <div class="stat-item">
+            <span class="stat-value">10K+</span>
+            <span class="stat-label">Utenti attivi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Center Board -->
+    <div class="stats-board">
+      <h3>I Nostri Numeri</h3>
+      <div class="stats-cards-row">
+        <div class="mini-stat-card">
+          <mat-icon>business</mat-icon>
+          <span class="mini-stat-number">500+</span>
+          <span class="mini-stat-label">Aziende clienti</span>
+        </div>
+        <div class="mini-stat-card">
+          <mat-icon>verified</mat-icon>
+          <span class="mini-stat-number">99.9%</span>
+          <span class="mini-stat-label">Uptime garantito</span>
+        </div>
+        <div class="mini-stat-card">
+          <mat-icon>support</mat-icon>
+          <span class="mini-stat-number">24/7</span>
+          <span class="mini-stat-label">Supporto disponibile</span>
+        </div>
+        <div class="mini-stat-card">
+          <mat-icon>security</mat-icon>
+          <span class="mini-stat-number">100%</span>
+          <span class="mini-stat-label">Dati protetti</span>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Team Section - con sfondo chiaro -->
-<div class="cta-section">
+<!-- Team Board Section - Stile Trello Board -->
+<div class="team-board-section">
   <div class="container">
-    <div class="cta-content">
+    <div class="board-header">
       <h2>Il Nostro Team</h2>
-      <p class="cta-description">
+      <p class="board-description">
         Conosci le persone che lavorano ogni giorno per migliorare la tua esperienza con IssueNet.
       </p>
     </div>
-    
-    <div class="team-grid">
-      <div class="team-card">
-        <div class="member-avatar">MS</div>
-        <h3 class="member-name">Marco Silva</h3>
-        <p class="member-role">Co-Founder & CTO</p>
+
+    <!-- Team organizzato come Trello Board con colonne -->
+    <div class="team-board">
+      <div class="team-column">
+        <div class="column-header">
+          <mat-icon>business_center</mat-icon>
+          <h3>Leadership</h3>
+        </div>
+        <div class="team-cards">
+          <div class="team-member-card">
+            <div class="member-avatar">MS</div>
+            <div class="member-info">
+              <h4 class="member-name">Marco Silva</h4>
+              <p class="member-role">Co-Founder & CTO</p>
+              <div class="member-skills">
+                <span class="skill-tag">Tech Vision</span>
+                <span class="skill-tag">Architecture</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-member-card">
+            <div class="member-avatar">AR</div>
+            <div class="member-info">
+              <h4 class="member-name">Anna Rossi</h4>
+              <p class="member-role">Co-Founder & CEO</p>
+              <div class="member-skills">
+                <span class="skill-tag">Strategy</span>
+                <span class="skill-tag">Growth</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="team-card">
-        <div class="member-avatar">AR</div>
-        <h3 class="member-name">Anna Rossi</h3>
-        <p class="member-role">Co-Founder & CEO</p>
+      <div class="team-column">
+        <div class="column-header">
+          <mat-icon>code</mat-icon>
+          <h3>Development</h3>
+        </div>
+        <div class="team-cards">
+          <div class="team-member-card">
+            <div class="member-avatar">LB</div>
+            <div class="member-info">
+              <h4 class="member-name">Luca Bianchi</h4>
+              <p class="member-role">Lead Developer</p>
+              <div class="member-skills">
+                <span class="skill-tag">Full-Stack</span>
+                <span class="skill-tag">Angular</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="team-member-card">
+            <div class="member-avatar">PN</div>
+            <div class="member-info">
+              <h4 class="member-name">Paolo Neri</h4>
+              <p class="member-role">DevOps Engineer</p>
+              <div class="member-skills">
+                <span class="skill-tag">Cloud</span>
+                <span class="skill-tag">Security</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="team-card">
-        <div class="member-avatar">LB</div>
-        <h3 class="member-name">Luca Bianchi</h3>
-        <p class="member-role">Lead Developer</p>
-      </div>
+      <div class="team-column">
+        <div class="column-header">
+          <mat-icon>design_services</mat-icon>
+          <h3>Product & Design</h3>
+        </div>
+        <div class="team-cards">
+          <div class="team-member-card">
+            <div class="member-avatar">GV</div>
+            <div class="member-info">
+              <h4 class="member-name">Giulia Verdi</h4>
+              <p class="member-role">UX/UI Designer</p>
+              <div class="member-skills">
+                <span class="skill-tag">UX Design</span>
+                <span class="skill-tag">Prototyping</span>
+              </div>
+            </div>
+          </div>
 
-      <div class="team-card">
-        <div class="member-avatar">GV</div>
-        <h3 class="member-name">Giulia Verdi</h3>
-        <p class="member-role">UX/UI Designer</p>
-      </div>
-
-      <div class="team-card">
-        <div class="member-avatar">PN</div>
-        <h3 class="member-name">Paolo Neri</h3>
-        <p class="member-role">DevOps Engineer</p>
-      </div>
-
-      <div class="team-card">
-        <div class="member-avatar">SF</div>
-        <h3 class="member-name">Sara Ferrari</h3>
-        <p class="member-role">Product Manager</p>
+          <div class="team-member-card">
+            <div class="member-avatar">SF</div>
+            <div class="member-info">
+              <h4 class="member-name">Sara Ferrari</h4>
+              <p class="member-role">Product Manager</p>
+              <div class="member-skills">
+                <span class="skill-tag">Product Strategy</span>
+                <span class="skill-tag">Analytics</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Mission & Values Section -->
-<div class="features-preview">
+<!-- Mission Cards Section - Layout a pannelli -->
+<div class="mission-panels-section">
   <div class="container">
     <h2>Missione e Valori</h2>
-    <p class="features-description">
+    <p class="section-description">
       I principi che guidano ogni nostra decisione e il modo in cui lavoriamo insieme.
     </p>
-    
-    <div class="features-layout">
-      <!-- Cards missione a sinistra -->
-      <div class="features-cards">
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">lightbulb</mat-icon>
-          <div class="feature-card-content">
-            <h3>Innovazione</h3>
-            <p>Tecnologie moderne per esperienze uniche</p>
-          </div>
+
+    <!-- Layout a pannelli sovrapposti stile Trello -->
+    <div class="mission-panels">
+      <div class="mission-panel main-mission">
+        <div class="panel-header">
+          <mat-icon class="panel-icon">flag</mat-icon>
+          <h3>La Nostra Missione</h3>
         </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">clean_hands</mat-icon>
-          <div class="feature-card-content">
-            <h3>Semplicità</h3>
-            <p>Interfacce pulite e workflow intuitivi</p>
-          </div>
-        </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">handshake</mat-icon>
-          <div class="feature-card-content">
-            <h3>Collaborazione</h3>
-            <p>Facilitiamo la comunicazione del team</p>
-          </div>
-        </div>
-        
-        <div class="feature-card-item">
-          <mat-icon class="feature-card-icon">security</mat-icon>
-          <div class="feature-card-content">
-            <h3>Affidabilità</h3>
-            <p>Sicurezza e stabilità al primo posto</p>
+        <div class="panel-content">
+          <p class="mission-statement">
+            Crediamo che ogni sviluppatore meriti strumenti potenti e intuitivi per gestire i bug.
+            IssueNet nasce dalla frustrazione verso sistemi complessi e disorganizzati.
+            Il nostro obiettivo è rendere il bug tracking veloce, collaborativo e intelligente.
+          </p>
+          <div class="mission-actions">
+            <button mat-raised-button routerLink="/features" class="mission-cta">
+              <mat-icon>explore</mat-icon>
+              Scopri le Funzionalità
+            </button>
           </div>
         </div>
       </div>
-      
-      <!-- Mission statement a destra -->
-      <div class="features-image">
-        <div class="image-container">
-          <div class="tip-card-wrapper">
-            <div class="tip-display">
-              <div class="tip-header">
-                <mat-icon class="tip-icon">flag</mat-icon>
-                <h3>La Nostra Missione</h3>
-              </div>
-              <p class="tip-description">
-                Crediamo che ogni sviluppatore meriti strumenti potenti e intuitivi per gestire i bug. 
-                IssueNet nasce dalla frustrazione verso sistemi complessi e disorganizzati. 
-                Il nostro obiettivo è rendere il bug tracking veloce, collaborativo e intelligente.
-              </p>
-              <div class="tip-actions">
-                <button mat-raised-button routerLink="/features">
-                  Scopri le Funzionalità
-                </button>
-              </div>
-            </div>
-          </div>
+
+      <div class="values-grid">
+        <div class="value-panel">
+          <mat-icon class="value-icon">lightbulb</mat-icon>
+          <h4>Innovazione</h4>
+          <p>Tecnologie moderne per esperienze uniche</p>
+        </div>
+
+        <div class="value-panel">
+          <mat-icon class="value-icon">clean_hands</mat-icon>
+          <h4>Semplicità</h4>
+          <p>Interfacce pulite e workflow intuitivi</p>
+        </div>
+
+        <div class="value-panel">
+          <mat-icon class="value-icon">handshake</mat-icon>
+          <h4>Collaborazione</h4>
+          <p>Facilitiamo la comunicazione del team</p>
+        </div>
+
+        <div class="value-panel">
+          <mat-icon class="value-icon">security</mat-icon>
+          <h4>Affidabilità</h4>
+          <p>Sicurezza e stabilità al primo posto</p>
         </div>
       </div>
     </div>

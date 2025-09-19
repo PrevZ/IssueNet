@@ -13,10 +13,10 @@ import { UserService } from '../../services/user.service';
 import { ProjectService } from '../../services/project.service';
 import { IssueService } from '../../services/issue.service';
 import { CommentService } from '../../services/comment.service';
-import { CreateProjectDialogComponent } from '../create-project-dialog/create-project-dialog.component';
+import { CreateProjectDialogComponent } from '../dashboard/create-project-dialog/create-project-dialog.component';
 import { IssueDialogComponent } from '../issue-dialog/issue-dialog.component';
 import { User, Project, DashboardProject, Issue, Comment, CreateProjectRequest, UpdateProjectRequest } from '../../models';
-import { UpdateProjectDialogComponent } from '../update-project-dialog/update-project-dialog';
+import { UpdateProjectDialogComponent } from '../dashboard/update-project-dialog/update-project-dialog';
 
 
 
