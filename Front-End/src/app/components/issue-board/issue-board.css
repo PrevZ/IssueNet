@@ -1,10 +1,10 @@
-/* Container principale */
+/* Container principale - Trello Style */
 .issue-board-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 2rem;
   min-height: calc(100vh - 64px);
-  background: #3797f8;
+  background: linear-gradient(135deg, #0079bf 0%, #005a8b 100%);
 }
 
 /* Header della pagina */
@@ -38,17 +38,32 @@
   padding: 1.5rem;
 }
 
-.issue-title {
+/* New Header Design */
+.issue-title-section {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 0.75rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.issue-title mat-icon {
-  font-size: 1.8rem;
-  width: 1.8rem;
-  height: 1.8rem;
+.issue-type-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 121, 191, 0.1);
+  border-radius: 20px;
+  border: 2px solid #0079bf;
+  width: fit-content;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #0079bf;
+}
+
+.issue-type-badge mat-icon {
+  font-size: 1.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .type-bug {
@@ -67,144 +82,377 @@
   color: #17a2b8;
 }
 
-.issue-title h1 {
+.issue-title-section h1 {
   margin: 0;
-  font-size: 1.8rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #333;
+  line-height: 1.2;
+}
+
+.issue-id {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.header-status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.priority-chip,
+.status-chip {
+  font-weight: 600;
+}
+
+/* Trello Board Layout */
+.trello-board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* Board Columns */
+.board-column {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Column Headers */
+.column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 2px solid #0079bf;
+  border-radius: 14px 14px 0 0;
+}
+
+.column-header mat-icon {
+  color: #0079bf;
+  font-size: 1.3rem;
+  margin-right: 0.5rem;
+}
+
+.column-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+}
+
+.column-badge {
+  background: #0079bf;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Column Content */
+.column-content {
+  padding: 1rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Board Cards */
+.board-card {
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.board-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 121, 191, 0.15);
+  border: 2px solid #0079bf;
+  transform: translateY(-2px);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 1rem 0.5rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 0.75rem;
+}
+
+.card-header mat-icon {
+  color: #0079bf;
+  font-size: 1.1rem;
+}
+
+.card-header h4 {
+  margin: 0;
+  font-size: 1rem;
   font-weight: 600;
   color: #333;
 }
 
-.issue-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+.card-content {
+  padding: 0 1rem 1rem 1rem;
 }
 
-/* Content */
-.board-content {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  overflow: hidden;
-}
-
-.issue-tabs {
-  margin: 1rem;
-}
-
-.tab-content {
-  padding: 1rem 0;
-}
-
-/* Info sections */
-.info-section {
-  margin-bottom: 2rem;
-}
-
-.info-section h3 {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0 0 1rem 0;
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #333;
-}
-
-.description-content {
-  background: #f8f9fa;
-  padding: 1rem;
-  border-radius: 8px;
-  border-left: 4px solid #007bff;
-}
-
-.description-content p {
+/* Description Card */
+.description-card .card-content p {
   margin: 0;
   line-height: 1.6;
-  color: #333;
-  white-space: pre-wrap;
+  color: #555;
+  font-size: 0.95rem;
 }
 
-/* Info grid */
-.info-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1rem;
-}
-
-.info-card {
-  background: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 1.25rem;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-.info-card:hover {
-  box-shadow: 0 4px 12px rgba(0,121,191,0.1);
-  border-color: #0079bf;
-}
-
-.info-card h4 {
+/* Progress Card */
+.status-indicator {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin: 0 0 0.75rem 0;
-  font-size: 0.95rem;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.status-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.status-circle.status-todo {
+  background: #6c757d;
+}
+
+.status-circle.status-in_progress {
+  background: #007bff;
+}
+
+.status-circle.status-in_review {
+  background: #ffc107;
+}
+
+.status-circle.status-done {
+  background: #28a745;
+}
+
+.status-text {
   font-weight: 500;
+  color: #333;
+}
+
+
+/* User Info */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #0079bf;
+}
+
+.user-avatar mat-icon {
+  color: #0079bf;
+  font-size: 1.5rem;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.user-role {
+  font-size: 0.8rem;
   color: #666;
 }
 
-.info-card h4 mat-icon {
-  font-size: 1rem;
-  width: 1rem;
-  height: 1rem;
-}
-
-.assignee,
-.creator {
-  margin-bottom: 0.5rem;
-}
-
-.no-data {
+.no-assignment {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   color: #6c757d;
   font-style: italic;
 }
 
-.date-info p {
-  margin: 0.25rem 0;
-  font-size: 0.9rem;
-  color: #333;
+/* Hours Grid */
+.hours-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
-.date-info p.overdue {
+.hour-item {
+  text-align: center;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+}
+
+.hour-label {
+  display: block;
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.hour-value {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0079bf;
+}
+
+/* Timeline */
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.timeline-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.timeline-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.timeline-icon.created {
+  background: #28a745;
+  color: white;
+}
+
+.timeline-icon.updated {
+  background: #007bff;
+  color: white;
+}
+
+.timeline-icon.due {
+  background: #ffc107;
+  color: white;
+}
+
+.timeline-icon.overdue {
+  background: #dc3545;
+}
+
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.timeline-title {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.timeline-title.overdue {
+  color: #dc3545;
+}
+
+.timeline-date {
+  font-size: 0.8rem;
+  color: #666;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.timeline-date.overdue {
   color: #dc3545;
   font-weight: 500;
 }
 
 .warning-icon {
   color: #dc3545;
-  font-size: 1rem;
-  margin-left: 0.25rem;
+  font-size: 0.9rem;
 }
 
-.hours-info p {
-  margin: 0.25rem 0;
-  font-size: 0.9rem;
+/* Priority Indicator */
+.priority-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.priority-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.priority-indicator.priority-low .priority-dot {
+  background: #28a745;
+}
+
+.priority-indicator.priority-medium .priority-dot {
+  background: #ffc107;
+}
+
+.priority-indicator.priority-high .priority-dot {
+  background: #fd7e14;
+}
+
+.priority-indicator.priority-critical .priority-dot {
+  background: #dc3545;
+}
+
+.priority-text {
+  font-weight: 600;
   color: #333;
 }
 
-.progress-indicator {
-  margin-top: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  background: #e9ecef;
-  border-radius: 4px;
-}
-
-.progress-indicator small {
-  color: #6c757d;
-  font-weight: 500;
+/* Comments Content */
+.comments-content {
+  padding: 0;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 /* Loading state */
@@ -251,7 +499,19 @@
   max-width: 400px;
 }
 
-/* Responsive */
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .trello-board {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .issue-board-container {
+    max-width: 100%;
+    padding: 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .issue-board-container {
     padding: 1rem;
@@ -265,37 +525,82 @@
     padding: 1rem;
   }
 
-  .issue-title {
+  .issue-title-section h1 {
+    font-size: 1.5rem;
+  }
+
+  .header-status-bar {
+    margin-top: 0.5rem;
+  }
+
+  .trello-board {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .board-column {
+    min-height: auto;
+  }
+
+  .column-header {
+    padding: 0.75rem 1rem;
+  }
+
+  .column-header h3 {
+    font-size: 1rem;
+  }
+
+  .board-card {
+    margin-bottom: 0.75rem;
+  }
+
+  .card-header {
+    padding: 0.75rem 0.75rem 0.5rem 0.75rem;
+  }
+
+  .card-content {
+    padding: 0 0.75rem 0.75rem 0.75rem;
+  }
+
+  .hours-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .issue-board-container {
+    padding: 0.75rem;
+  }
+
+  .issue-title-section h1 {
+    font-size: 1.3rem;
+  }
+
+  .issue-type-badge {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .column-content {
+    padding: 0.75rem;
+  }
+
+  .user-info {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
 
-  .issue-title h1 {
-    font-size: 1.4rem;
+  .user-avatar {
+    width: 32px;
+    height: 32px;
   }
 
-  .issue-meta {
-    margin-top: 0.5rem;
+  .user-avatar mat-icon {
+    font-size: 1.2rem;
   }
-
-  .info-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .issue-tabs {
-    margin: 0.5rem;
-  }
-}
-
-/* Tab styling */
-::ng-deep .issue-tabs .mat-mdc-tab-label {
-  min-width: 120px;
-}
-
-::ng-deep .issue-tabs .mat-mdc-tab-body-wrapper {
-  flex-grow: 1;
 }
 
 /* Chip styling improvements */

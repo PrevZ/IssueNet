@@ -1,5 +1,6 @@
+<!-- Trello-Style Issue Board Layout -->
 <div class="issue-board-container" *ngIf="!isLoading && issue">
-  <!-- Header con navigazione -->
+  <!-- Board Header with Navigation -->
   <div class="board-header">
     <div class="header-navigation">
       <button mat-icon-button (click)="goBack()" class="back-button">
@@ -7,131 +8,234 @@
       </button>
       <span class="breadcrumb">Project Board / Issue Details</span>
     </div>
-    
+
     <div class="header-content">
-      <div class="issue-title">
-        <mat-icon [class]="'type-' + issue.type">{{ getTypeIcon() }}</mat-icon>
+      <div class="issue-title-section">
+        <div class="issue-type-badge">
+          <mat-icon [class]="'type-' + issue.type">{{ getTypeIcon() }}</mat-icon>
+          <span>{{ getTypeLabel() }}</span>
+        </div>
         <h1>{{ issue.title }}</h1>
+        <div class="issue-id">#{{ issue.id_issue }}</div>
       </div>
-      <div class="issue-meta">
-        <mat-chip [color]="getPriorityColor()" selected>
+
+      <div class="header-status-bar">
+        <mat-chip [color]="getPriorityColor()" selected class="priority-chip">
           <mat-icon>flag</mat-icon>
           {{ getPriorityLabel() }}
         </mat-chip>
-        <mat-chip [color]="getStatusColor()" selected>
+        <mat-chip [color]="getStatusColor()" selected class="status-chip">
           <mat-icon>track_changes</mat-icon>
           {{ getStatusLabel() }}
-        </mat-chip>
-        <mat-chip color="primary" selected>
-          <mat-icon>category</mat-icon>
-          {{ getTypeLabel() }}
         </mat-chip>
       </div>
     </div>
   </div>
 
-  <!-- Content principale -->
-  <div class="board-content">
-    <mat-tab-group class="issue-tabs">
-      <!-- Tab Dettagli -->
-      <mat-tab label="Dettagli">
-        <div class="tab-content">
-          <!-- Descrizione -->
-          <div class="info-section" *ngIf="issue.description">
-            <h3>
-              <mat-icon>description</mat-icon>
-              Descrizione
-            </h3>
-            <div class="description-content">
-              <p>{{ issue.description }}</p>
+  <!-- Trello-Style Board Layout -->
+  <div class="trello-board">
+    <!-- Column 1: Issue Overview -->
+    <div class="board-column overview-column">
+      <div class="column-header">
+        <mat-icon>assignment</mat-icon>
+        <h3>Panoramica Issue</h3>
+        <span class="column-badge">Principale</span>
+      </div>
+
+      <div class="column-content">
+        <!-- Description Card -->
+        <div class="board-card description-card" *ngIf="issue.description">
+          <div class="card-header">
+            <mat-icon>description</mat-icon>
+            <h4>Descrizione</h4>
+          </div>
+          <div class="card-content">
+            <p>{{ issue.description }}</p>
+          </div>
+        </div>
+
+        <!-- Status Card -->
+        <div class="board-card status-card">
+          <div class="card-header">
+            <mat-icon>track_changes</mat-icon>
+            <h4>Stato Issue</h4>
+          </div>
+          <div class="card-content">
+            <div class="status-indicator">
+              <div class="status-circle" [class]="'status-' + issue.status"></div>
+              <span class="status-text">{{ getStatusLabel() }}</span>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
 
-          <!-- Informazioni principali -->
-          <div class="info-grid">
-            <!-- Assegnatario -->
-            <div class="info-card">
-              <h4>
-                <mat-icon>person</mat-icon>
-                Assegnatario
-              </h4>
-              <div class="assignee" *ngIf="getAssignedUser(); else noAssignee">
-                <mat-chip color="accent" selected>
-                  <mat-icon>account_circle</mat-icon>
-                  {{ getAssignedUser()?.full_name }}
-                </mat-chip>
+    <!-- Column 2: Details & Metadata -->
+    <div class="board-column details-column">
+      <div class="column-header">
+        <mat-icon>info</mat-icon>
+        <h3>Dettagli & Metadata</h3>
+        <span class="column-badge">Info</span>
+      </div>
+
+      <div class="column-content">
+        <!-- Assignee Card -->
+        <div class="board-card assignee-card">
+          <div class="card-header">
+            <mat-icon>person</mat-icon>
+            <h4>Assegnatario</h4>
+          </div>
+          <div class="card-content">
+            <div class="user-info" *ngIf="getAssignedUser(); else noAssignee">
+              <div class="user-avatar">
+                <mat-icon>account_circle</mat-icon>
               </div>
-              <ng-template #noAssignee>
-                <span class="no-data">Non assegnato</span>
-              </ng-template>
-            </div>
-
-            <!-- Creato da -->
-            <div class="info-card">
-              <h4>
-                <mat-icon>person_add</mat-icon>
-                Creato da
-              </h4>
-              <div class="creator">
-                <mat-chip color="primary" selected>
-                  <mat-icon>account_circle</mat-icon>
-                  {{ getCreatedUser()?.full_name }}
-                </mat-chip>
+              <div class="user-details">
+                <span class="user-name">{{ getAssignedUser()?.full_name }}</span>
+                <span class="user-role">Assegnato</span>
               </div>
             </div>
+            <ng-template #noAssignee>
+              <div class="no-assignment">
+                <mat-icon>person_off</mat-icon>
+                <span>Non assegnato</span>
+              </div>
+            </ng-template>
+          </div>
+        </div>
 
-            <!-- Date -->
-            <div class="info-card">
-              <h4>
-                <mat-icon>schedule</mat-icon>
-                Date
-              </h4>
-              <div class="date-info">
-                <p><strong>Creata:</strong> {{ formatDate(issue.created_at) }}</p>
-                <p *ngIf="issue.updated_at !== issue.created_at">
-                  <strong>Modificata:</strong> {{ formatDate(issue.updated_at) }}
-                </p>
-                <p *ngIf="issue.due_date" [class.overdue]="isOverdue()">
-                  <strong>Scadenza:</strong> {{ formatDate(issue.due_date) }}
+        <!-- Creator Card -->
+        <div class="board-card creator-card">
+          <div class="card-header">
+            <mat-icon>person_add</mat-icon>
+            <h4>Creato da</h4>
+          </div>
+          <div class="card-content">
+            <div class="user-info">
+              <div class="user-avatar">
+                <mat-icon>account_circle</mat-icon>
+              </div>
+              <div class="user-details">
+                <span class="user-name">{{ getCreatedUser()?.full_name }}</span>
+                <span class="user-role">Creatore</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hours Card -->
+        <div class="board-card hours-card" *ngIf="issue.estimated_hours || issue.actual_hours">
+          <div class="card-header">
+            <mat-icon>timer</mat-icon>
+            <h4>Ore di Lavoro</h4>
+          </div>
+          <div class="card-content">
+            <div class="hours-grid">
+              <div class="hour-item" *ngIf="issue.estimated_hours">
+                <span class="hour-label">Stimate</span>
+                <span class="hour-value">{{ issue.estimated_hours }}h</span>
+              </div>
+              <div class="hour-item" *ngIf="issue.actual_hours">
+                <span class="hour-label">Effettive</span>
+                <span class="hour-value">{{ issue.actual_hours }}h</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 3: Timeline & Dates -->
+    <div class="board-column timeline-column">
+      <div class="column-header">
+        <mat-icon>schedule</mat-icon>
+        <h3>Timeline & Date</h3>
+        <span class="column-badge">Tempo</span>
+      </div>
+
+      <div class="column-content">
+        <!-- Timeline Card -->
+        <div class="board-card timeline-card">
+          <div class="card-header">
+            <mat-icon>access_time</mat-icon>
+            <h4>Timeline Issue</h4>
+          </div>
+          <div class="card-content">
+            <div class="timeline-item">
+              <div class="timeline-icon created">
+                <mat-icon>add_circle</mat-icon>
+              </div>
+              <div class="timeline-content">
+                <span class="timeline-title">Issue Creata</span>
+                <span class="timeline-date">{{ formatDate(issue.created_at) }}</span>
+              </div>
+            </div>
+
+            <div class="timeline-item" *ngIf="issue.updated_at !== issue.created_at">
+              <div class="timeline-icon updated">
+                <mat-icon>edit</mat-icon>
+              </div>
+              <div class="timeline-content">
+                <span class="timeline-title">Ultima Modifica</span>
+                <span class="timeline-date">{{ formatDate(issue.updated_at) }}</span>
+              </div>
+            </div>
+
+            <div class="timeline-item" *ngIf="issue.due_date">
+              <div class="timeline-icon due" [class.overdue]="isOverdue()">
+                <mat-icon>event</mat-icon>
+              </div>
+              <div class="timeline-content">
+                <span class="timeline-title" [class.overdue]="isOverdue()">Scadenza</span>
+                <span class="timeline-date" [class.overdue]="isOverdue()">
+                  {{ formatDate(issue.due_date) }}
                   <mat-icon *ngIf="isOverdue()" class="warning-icon">warning</mat-icon>
-                </p>
-              </div>
-            </div>
-
-            <!-- Ore -->
-            <div class="info-card" *ngIf="issue.estimated_hours || issue.actual_hours">
-              <h4>
-                <mat-icon>timer</mat-icon>
-                Ore di Lavoro
-              </h4>
-              <div class="hours-info">
-                <p *ngIf="issue.estimated_hours">
-                  <strong>Stimate:</strong> {{ issue.estimated_hours }}h
-                </p>
-                <p *ngIf="issue.actual_hours">
-                  <strong>Effettive:</strong> {{ issue.actual_hours }}h
-                </p>
-                <div class="progress-indicator" *ngIf="issue.estimated_hours && issue.actual_hours">
-                  <small>
-                    Progresso: {{ ((issue.actual_hours / issue.estimated_hours) * 100).toFixed(0) }}%
-                  </small>
-                </div>
+                </span>
               </div>
             </div>
           </div>
         </div>
-      </mat-tab>
 
-      <!-- Tab Commenti -->
-      <mat-tab label="Commenti">
-        <div class="tab-content">
-          <app-comment-section 
-            [issueId]="issue.id_issue"
-            [projectUsers]="projectUsers">
-          </app-comment-section>
+        <!-- Priority Card -->
+        <div class="board-card priority-card">
+          <div class="card-header">
+            <mat-icon>flag</mat-icon>
+            <h4>Priorità</h4>
+          </div>
+          <div class="card-content">
+            <div class="priority-indicator" [class]="'priority-' + issue.priority">
+              <div class="priority-dot"></div>
+              <span class="priority-text">{{ getPriorityLabel() }}</span>
+            </div>
+          </div>
         </div>
-      </mat-tab>
-    </mat-tab-group>
+      </div>
+    </div>
+
+    <!-- Column 4: Activity & Comments -->
+    <div class="board-column activity-column">
+      <div class="column-header">
+        <mat-icon>forum</mat-icon>
+        <h3>Attività & Commenti</h3>
+        <span class="column-badge">Social</span>
+      </div>
+
+      <div class="column-content">
+        <!-- Comments Section Card -->
+        <div class="board-card comments-card">
+          <div class="card-header">
+            <mat-icon>chat</mat-icon>
+            <h4>Sezione Commenti</h4>
+          </div>
+          <div class="card-content comments-content">
+            <app-comment-section
+              [issueId]="issue.id_issue"
+              [projectUsers]="projectUsers">
+            </app-comment-section>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

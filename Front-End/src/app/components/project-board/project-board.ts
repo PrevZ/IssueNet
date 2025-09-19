@@ -200,10 +200,51 @@ export class ProjectBoard implements OnInit {
   }
 
   getAssigneeName(userId: number): string {
-    // TODO: In futuro, caricare i dati degli utenti e mostrare il nome reale
-    // Per ora mostriamo solo l'ID in modo più carino
-    return `Utente ${userId}`;
+    const user = this.projectUsers.find(u => u.id_user === userId);
+    return user ? user.full_name : `Utente ${userId}`;
   }
+
+  getAssigneeInitials(userId: number): string {
+    const user = this.projectUsers.find(u => u.id_user === userId);
+    if (user && user.full_name) {
+      return user.full_name
+        .split(' ')
+        .map(name => name.charAt(0).toUpperCase())
+        .slice(0, 2)
+        .join('');
+    }
+    return 'U';
+  }
+
+  getTypeLabel(type: string): string {
+    const typeMap = {
+      'bug': 'Bug',
+      'feature': 'Feature',
+      'task': 'Task',
+      'improvement': 'Miglioramento'
+    };
+    return typeMap[type as keyof typeof typeMap] || type;
+  }
+
+  getPriorityLabel(priority: string): string {
+    const priorityMap = {
+      'low': 'Bassa',
+      'medium': 'Media',
+      'high': 'Alta',
+      'critical': 'Critica'
+    };
+    return priorityMap[priority as keyof typeof priorityMap] || priority;
+  }
+
+  getTotalIssuesCount(): number {
+    return this.kanbanColumns.reduce((total, column) => total + column.issues.length, 0);
+  }
+
+  isDueOverdue(dueDate: string): boolean {
+    if (!dueDate) return false;
+    return new Date(dueDate) < new Date();
+  }
+
 
   onIssueClick(issue: Issue): void {
     // Apre il dialog dei dettagli con commenti

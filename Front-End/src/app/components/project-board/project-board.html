@@ -1,122 +1,160 @@
+<!-- Trello-Style Project Board -->
 <div class="project-board-container">
-  <!-- Header della board -->
-  <mat-toolbar class="board-header">
-    <div class="board-header-content">
-      <div class="board-title-section">
+  <!-- Enhanced Trello Header -->
+  <div class="trello-board-header">
+    <div class="header-top-bar">
+      <div class="breadcrumb-section">
         <button mat-icon-button (click)="goBackToDashboard()" class="back-button">
           <mat-icon>arrow_back</mat-icon>
         </button>
-        <div class="board-title-info">
-          <h1>{{ project?.name || 'Caricamento...' }}</h1>
-          <p>{{ project?.description || '' }}</p>
+        <div class="breadcrumb-path">
+          <span class="breadcrumb-item">Dashboard</span>
+          <mat-icon class="breadcrumb-separator">chevron_right</mat-icon>
+          <span class="breadcrumb-current">{{ project?.name || 'Progetto' }}</span>
         </div>
       </div>
-      <div class="board-actions">
-        <button mat-raised-button color="primary" (click)="openCreateIssueDialog()" *ngIf="canCreateIssue()">
+
+      <div class="header-actions">
+        <button mat-raised-button color="primary" (click)="openCreateIssueDialog()" *ngIf="canCreateIssue()" class="create-issue-btn">
           <mat-icon>add</mat-icon>
           Nuova Issue
         </button>
-        <button mat-raised-button color="primary" (click)="openDeleteProjectDialog(project)" *ngIf="isAdmin()">
+        <button mat-raised-button color="warn" (click)="openDeleteProjectDialog(project)" *ngIf="isAdmin()" class="delete-project-btn">
           <mat-icon>delete</mat-icon>
           Elimina Progetto
         </button>
       </div>
     </div>
-  </mat-toolbar>
 
-  <!-- Kanban Board -->
-  <div class="kanban-board" *ngIf="project && !loading">
-    <div class="kanban-column" *ngFor="let column of kanbanColumns">
-      <!-- Header della colonna -->
-      <div class="column-header">
-        <h3>{{ column.title }}</h3>
-        <mat-chip [matBadge]="column.issues.length" matBadgeColor="primary" matBadgeSize="small">
-          {{ column.issues.length }} issue
-        </mat-chip>
+    <div class="board-title-section">
+      <div class="board-title-content">
+        <h1 class="board-title">{{ project?.name || 'Caricamento...' }}</h1>
+        <div class="board-badges">
+          <div class="issues-count-badge">
+            <mat-icon>assignment</mat-icon>
+            <span>{{ getTotalIssuesCount() }} Issue</span>
+          </div>
+        </div>
+      </div>
+      <p class="board-description" *ngIf="project?.description">{{ project?.description }}</p>
+    </div>
+  </div>
+
+  <!-- Enhanced Trello Kanban Board -->
+  <div class="trello-kanban-board" *ngIf="project && !loading">
+    <div class="trello-column" *ngFor="let column of kanbanColumns" [attr.data-status]="column.status">
+      <!-- Enhanced Column Header -->
+      <div class="trello-column-header" [class]="'header-' + column.status">
+        <div class="column-title-section">
+          <h3 class="column-title">{{ column.title }}</h3>
+          <div class="column-count">{{ column.issues.length }}</div>
+        </div>
+        <div class="column-actions">
+          <button mat-icon-button class="column-menu-btn" [matMenuTriggerFor]="columnMenu">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+          <mat-menu #columnMenu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>add</mat-icon>
+              <span>Aggiungi Issue</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>sort</mat-icon>
+              <span>Ordina</span>
+            </button>
+          </mat-menu>
+        </div>
       </div>
 
-      <!-- Lista delle issue -->
-      <div class="column-content">
-        <div class="issue-list">
-          <!-- Card delle issue -->
-          <mat-card class="issue-card" 
-                    *ngFor="let issue of column.issues" 
-                    (click)="onIssueClick(issue)">
-            <mat-card-header>
-              <div class="issue-header">
-                <div class="issue-title-section">
-                  <mat-card-title>{{ issue.title }}</mat-card-title>
-                  <div class="issue-meta">
-                    <mat-icon class="type-icon">{{ getTypeIcon(issue.type) }}</mat-icon>
+      <!-- Enhanced Column Content -->
+      <div class="trello-column-content">
+        <div class="trello-cards-list">
+          <!-- Enhanced Trello Cards -->
+          <div class="trello-card"
+               *ngFor="let issue of column.issues"
+               (click)="onIssueClick(issue)"
+               [class]="'priority-' + issue.priority">
+
+            <!-- Card Labels -->
+            <div class="card-labels" *ngIf="issue.type || issue.priority">
+              <div class="type-label" [class]="'type-' + issue.type">
+                <mat-icon>{{ getTypeIcon(issue.type) }}</mat-icon>
+                <span>{{ getTypeLabel(issue.type) }}</span>
+              </div>
+              <div class="priority-label" [class]="'priority-' + issue.priority">
+                {{ getPriorityLabel(issue.priority) }}
+              </div>
+            </div>
+
+            <!-- Card Title -->
+            <h4 class="card-title">{{ issue.title }}</h4>
+
+            <!-- Card Description -->
+            <p class="card-description" *ngIf="issue.description">
+              {{ issue.description }}
+            </p>
+
+            <!-- Card Meta Info -->
+            <div class="card-meta">
+              <div class="meta-badges">
+                <div class="meta-badge" *ngIf="issue.estimated_hours">
+                  <mat-icon>schedule</mat-icon>
+                  <span>{{ issue.estimated_hours }}h</span>
+                </div>
+                <div class="meta-badge" *ngIf="issue.due_date" [class.overdue]="isDueOverdue(issue.due_date)">
+                  <mat-icon>event</mat-icon>
+                  <span>{{ issue.due_date | date:'dd/MM' }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Footer -->
+            <div class="card-footer">
+              <div class="assignee-section">
+                <div class="assignee-avatar" *ngIf="issue.assigned_to">
+                  <div class="avatar-circle">
+                    <span>{{ getAssigneeInitials(issue.assigned_to) }}</span>
                   </div>
                 </div>
-                <mat-chip [color]="getPriorityColor(issue.priority)" selected class="priority-chip">
-                  {{ issue.priority | titlecase }}
-                </mat-chip>
-              </div>
-            </mat-card-header>
-
-            <mat-card-content>
-              <p class="issue-description" *ngIf="issue.description">
-                {{ issue.description }}
-              </p>
-
-              <div class="issue-details">
-                <div class="issue-stat" *ngIf="issue.estimated_hours">
-                  <mat-icon>schedule</mat-icon>
-                  <span>{{ issue.estimated_hours }}h stimato</span>
-                </div>
-                <div class="issue-stat" *ngIf="issue.actual_hours">
-                  <mat-icon>timer</mat-icon>
-                  <span>{{ issue.actual_hours }}h effettivo</span>
-                </div>
-                <div class="issue-stat" *ngIf="issue.due_date">
-                  <mat-icon>event</mat-icon>
-                  <span>Scadenza: {{ issue.due_date | date:'dd/MM/yyyy' }}</span>
+                <div class="no-assignee" *ngIf="!issue.assigned_to">
+                  <mat-icon>person_add</mat-icon>
                 </div>
               </div>
 
-              <div class="issue-footer">
-                <div class="issue-assignee" *ngIf="issue.assigned_to">
-                  <mat-icon>person</mat-icon>
-                  <span>Assegnato a {{ getAssigneeName(issue.assigned_to) }}</span>
-                </div>
-                <div class="issue-assignee" *ngIf="!issue.assigned_to">
-                  <mat-icon>person_outline</mat-icon>
-                  <span>Non assegnato</span>
-                </div>
-                <span class="issue-updated">{{ getTimeAgo(issue.updated_at) }}</span>
+              <div class="card-actions">
+                <button mat-icon-button
+                        (click)="onIssueClick(issue); $event.stopPropagation()"
+                        matTooltip="Visualizza dettagli"
+                        class="card-action-btn view-btn">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button
+                        (click)="openEditIssueDialog(issue); $event.stopPropagation()"
+                        matTooltip="Modifica"
+                        class="card-action-btn edit-btn">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button
+                        (click)="openDeleteIssueDialog(issue); $event.stopPropagation()"
+                        matTooltip="Elimina"
+                        class="card-action-btn delete-btn"
+                        *ngIf="isAdmin()">
+                  <mat-icon>delete</mat-icon>
+                </button>
               </div>
-            </mat-card-content>
+            </div>
+          </div>
 
-            <!-- Azioni Issue -->
-            <mat-card-actions class="issue-actions">
-              <button mat-icon-button 
-                      (click)="onIssueClick(issue); $event.stopPropagation()" 
-                      matTooltip="Visualizza dettagli e commenti"
-                      class="details-button">
-                <mat-icon>visibility</mat-icon>
-              </button>
-              <button mat-icon-button 
-                      (click)="openEditIssueDialog(issue); $event.stopPropagation()" 
-                      matTooltip="Modifica issue"
-                      class="edit-button">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button
-                      (click)="openDeleteIssueDialog(issue); $event.stopPropagation()"
-                      matTooltip="Elimina issue"
-                      class="delete-button"
-                      *ngIf="isAdmin()">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </mat-card-actions>
-          </mat-card>
+          <!-- Add Issue Card -->
+          <div class="add-issue-card" (click)="openCreateIssueDialog()" *ngIf="canCreateIssue()">
+            <mat-icon>add</mat-icon>
+            <span>Aggiungi una issue</span>
+          </div>
 
-          <!-- Placeholder quando non ci sono issue -->
-          <div class="empty-column" *ngIf="column.issues.length === 0">
+          <!-- Empty State -->
+          <div class="empty-column-state" *ngIf="column.issues.length === 0">
             <mat-icon>inbox</mat-icon>
-            <p>Nessuna issue in {{ column.title.toLowerCase() }}</p>
+            <p>Nessuna issue</p>
           </div>
         </div>
       </div>
