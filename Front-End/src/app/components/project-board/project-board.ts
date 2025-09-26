@@ -453,4 +453,10 @@ export class ProjectBoard implements OnInit {
   canCreateIssue(): boolean {
     return this.currentUser?.role === 'admin' || this.currentUser?.role === 'developer';
   }
+
+  // Refresh delle issue senza ricaricare la pagina
+  refreshIssues(): void {
+    console.log('Refresh manuale delle issue...');
+    this.loadProjectIssues();
+  }
 }
