@@ -22,7 +22,8 @@ import { LogoutDialogComponent } from './logout-dialog.component';
 })
 export class Navbar implements OnInit {
   currentUser: User | null = null;
-  
+  isMobileMenuOpen: boolean = false;
+
   // Costruttore - inizializza i servizi necessari
   constructor(
     private userService: UserService,
@@ -30,11 +31,16 @@ export class Navbar implements OnInit {
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {}
-  
+
   // Inizializzazione del component
   ngOnInit(): void {
     this.userService.currentUser$.subscribe(user => {
       this.currentUser = user;
+    });
+
+    // Chiudi il menu mobile quando cambia la rotta
+    this.router.events.subscribe(() => {
+      this.closeMobileMenu();
     });
   }
   
@@ -53,17 +59,38 @@ export class Navbar implements OnInit {
     });
   }
   
+  // Toggle del menu mobile
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+
+    // Previeni lo scroll del body quando il menu è aperto
+    if (this.isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }
+
+  // Chiudi il menu mobile
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen = false;
+    document.body.style.overflow = 'auto';
+  }
+
   // Esegue il logout completo dell'utente
   private performLogout(): void {
+    // Chiudi il menu mobile se aperto
+    this.closeMobileMenu();
+
     // Pulisce lo stato dell'utente
     this.userService.logout();
-    
+
     // Mostra messaggio di conferma
     this.snackBar.open('Logout effettuato con successo!', 'Chiudi', {
       duration: 3000,
       panelClass: ['success-snack']
     });
-    
+
     // Reindirizza alla home page
     this.router.navigate(['/home']);
   }

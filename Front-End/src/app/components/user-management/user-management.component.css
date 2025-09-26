@@ -1,49 +1,86 @@
+/* Dashboard Container */
 .user-management-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  background: #f4f5f7;
-  min-height: 100vh;
+  min-height: calc(100vh - 64px);
+  background: linear-gradient(135deg, #0079bf 0%, #005a8b 100%);
+  padding: 0;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* Trello Board Header */
+/* Pattern decorativo di sfondo */
+.user-management-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+  background-size: 400px 400px;
+  background-position: 0 0, 200px 200px;
+  pointer-events: none;
+}
+
+/* Dashboard Header */
 .management-header {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  margin-bottom: 20px !important;
-  background: rgba(255, 255, 255, 0.24) !important;
-  backdrop-filter: blur(10px) !important;
-  color: white !important;
-  padding: 16px 20px !important;
-  border-radius: 12px !important;
-  border: 1px solid rgba(255, 255, 255, 0.18) !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1) !important;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 2rem 2.5rem;
+  margin: 1.5rem 2rem 2rem 2rem;
+  border-radius: 20px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.management-header:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .header-content h1 {
-  margin: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  font-size: 28px !important;
-  font-weight: 700 !important;
-  color: white !important;
-  letter-spacing: -0.02em !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin: 0 0 0.8rem 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(45deg, #ffffff 0%, #f0f8ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .header-content h1 mat-icon {
-  color: white !important;
-  font-size: 32px !important;
-  width: 32px !important;
-  height: 32px !important;
+  color: white;
+  font-size: 2.8rem;
+  width: 2.8rem;
+  height: 2.8rem;
+  background: linear-gradient(45deg, #ffffff 0%, #f0f8ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .header-content p {
-  margin: 4px 0 0 0 !important;
-  font-size: 16px !important;
-  color: rgba(255, 255, 255, 0.9) !important;
-  font-weight: 400 !important;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0;
+  font-weight: 400;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header-actions {
@@ -51,62 +88,78 @@
   gap: 1rem;
 }
 
-/* Trello Board Layout - Stats Section as Cards */
+/* Stats Section */
 .stats-section {
-  margin-bottom: 20px;
+  padding: 0 2rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px;
-  max-width: 1200px;
-  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
 .stat-card {
-  background: white !important;
-  border-radius: 12px !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15) !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  border: none !important;
-  overflow: hidden !important;
-  position: relative !important;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
 }
 
 .stat-card::before {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  height: 4px !important;
-  background: linear-gradient(90deg, #0079bf 0%, #026aa7 100%) !important;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+  z-index: 1;
 }
 
 .stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transform: translateY(-8px);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.18),
+    0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .stat-content {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 24px 20px;
+  gap: 1.5rem;
+  padding: 2rem;
+  position: relative;
+  z-index: 2;
 }
 
 .stat-icon {
-  font-size: 28px;
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
+  font-size: 2rem;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #0079bf 0%, #026aa7 100%);
+  background: linear-gradient(135deg, #0079bf 0%, #005a8b 100%);
   color: white;
-  box-shadow: 0 4px 12px rgba(0, 121, 191, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 121, 191, 0.25);
+  backdrop-filter: blur(15px);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover .stat-icon {
+  transform: scale(1.1);
+  box-shadow: 0 12px 32px rgba(0, 121, 191, 0.35);
 }
 
 .stat-info h3 {
@@ -124,18 +177,20 @@
   font-weight: 500;
 }
 
-/* Trello List - Filters */
+/* Filters Card */
 .filters-card {
-  margin-bottom: 20px;
-  border-radius: 12px;
-  background: white;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  border: none;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  overflow: hidden;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.05);
+  margin: 0 2rem 2rem 2rem;
   position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .filters-card::before {
@@ -144,17 +199,28 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #0079bf 0%, #026aa7 100%);
+  height: 6px;
+  background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+  z-index: 1;
+}
+
+.filters-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.18),
+    0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .filters-form {
   margin: 0;
+  padding: 2rem;
+  position: relative;
+  z-index: 2;
 }
 
 .filter-row {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   align-items: flex-end;
 }
 
@@ -173,16 +239,20 @@
   margin-bottom: 1.25rem;
 }
 
-/* Trello Main List - Users Table */
+/* Users Table Card */
 .users-table-card {
-  border-radius: 12px;
-  background: white;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  border: none;
-  max-width: 1200px;
-  margin: 0 auto;
-  overflow: hidden;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.05);
+  margin: 0 2rem 2rem 2rem;
   position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .users-table-card::before {
@@ -191,8 +261,16 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #0079bf 0%, #026aa7 100%);
+  height: 6px;
+  background: linear-gradient(90deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+  z-index: 1;
+}
+
+.users-table-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.18),
+    0 4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .table-header {
@@ -200,9 +278,12 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0;
-  padding: 20px 24px 16px 24px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  padding: 2rem 2rem 1rem 2rem;
+  background: rgba(248, 249, 250, 0.5);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(233, 236, 239, 0.3);
+  position: relative;
+  z-index: 2;
 }
 
 .table-header h2 {
@@ -363,43 +444,69 @@
 }
 
 /* Responsive Design */
-@media (max-width: 900px) {
-  .stats-grid {
-    flex-direction: column;
-    gap: 1rem;
-  }
-}
-
 @media (max-width: 768px) {
   .user-management-container {
-    padding: 1rem 0;
+    padding: 0;
   }
+
   .management-header {
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
     text-align: center;
-    padding: 1.5rem 1rem;
+    margin: 1rem;
+    padding: 1.5rem;
   }
+
+  .header-content h1 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .header-content p {
+    font-size: 1rem;
+  }
+
+  .stats-section {
+    padding: 0 1rem;
+  }
+
   .stats-grid {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 1rem;
   }
+
+  .filters-card,
+  .users-table-card {
+    margin: 0 1rem 1.5rem 1rem;
+  }
+
+  .filters-form {
+    padding: 1.5rem;
+  }
+
   .filter-row {
     flex-direction: column;
     align-items: stretch;
+    gap: 1rem;
   }
+
   .filter-actions {
     justify-content: center;
     margin-top: 1rem;
+    margin-bottom: 0;
   }
+
   .table-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+    padding: 1.5rem;
   }
+
   .users-table .mat-column-email {
     display: none;
   }
+
   .user-info {
     flex-direction: column;
     align-items: flex-start;

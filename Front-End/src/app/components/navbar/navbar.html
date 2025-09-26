@@ -3,78 +3,150 @@
     <!-- Logo e titolo dell'applicazione -->
     <span routerLink="/home" class="logo-link">
       <img src="assets/images/header.png" alt="IssueNet Logo" class="navbar-logo">
-      IssueNet
+      <span class="logo-text">IssueNet</span>
     </span>
-    
-    <!-- Link informativi sempre visibili a tutti gli utenti -->
-    <div class="info-links">
-      <button mat-button routerLink="/features" routerLinkActive="active-info">
+
+    <!-- Desktop Navigation -->
+    <div class="desktop-nav">
+      <!-- Link informativi sempre visibili a tutti gli utenti -->
+      <div class="info-links">
+        <button mat-button routerLink="/features" routerLinkActive="active-info">
+          <mat-icon>star</mat-icon>
+          Funzionalità
+        </button>
+        <button mat-button routerLink="/faq" routerLinkActive="active-info">
+          <mat-icon>help</mat-icon>
+          FAQ
+        </button>
+        <button mat-button routerLink="/about" routerLinkActive="active-info">
+          <mat-icon>info</mat-icon>
+          Chi Siamo
+        </button>
+        <button mat-button routerLink="/contact" routerLinkActive="active-info">
+          <mat-icon>mail</mat-icon>
+          Contatti
+        </button>
+      </div>
+
+      <!-- Spaziatore che spinge gli elementi successivi a destra -->
+      <span class="spacer"></span>
+
+      <!-- Menu di navigazione per utenti loggati -->
+      <div class="nav-links" *ngIf="currentUser">
+        <button mat-button routerLink="/dashboard" routerLinkActive="active">
+          <mat-icon>dashboard</mat-icon>
+          Dashboard
+        </button>
+
+        <!-- Menu dropdown dell'utente -->
+        <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+          <mat-icon>person</mat-icon>
+          {{ currentUser.full_name }}
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+
+        <!-- Contenuto del menu dropdown -->
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item routerLink="/user-profile">
+            <mat-icon>person</mat-icon>
+            <span>Profilo</span>
+          </button>
+          <button mat-menu-item routerLink="/edit-user">
+            <mat-icon>edit</mat-icon>
+            <span>Opzioni</span>
+          </button>
+          <button mat-menu-item routerLink="/user-management" *ngIf="currentUser?.role === 'admin'">
+            <mat-icon>group</mat-icon>
+            Gestione Utenti
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </div>
+
+      <!-- Autenticazione -->
+      <div class="auth-buttons" *ngIf="!currentUser">
+        <button mat-button routerLink="/login">
+          <mat-icon>login</mat-icon>
+          Login
+        </button>
+        <button mat-raised-button color="accent" routerLink="/register">
+          <mat-icon>person_add</mat-icon>
+          Registrati
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Hamburger Button -->
+    <button mat-icon-button class="mobile-menu-button" (click)="toggleMobileMenu()" [attr.aria-expanded]="isMobileMenuOpen" aria-label="Toggle mobile menu">
+      <mat-icon>{{ isMobileMenuOpen ? 'close' : 'menu' }}</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu-overlay" [class.open]="isMobileMenuOpen" (click)="closeMobileMenu()">
+  <div class="mobile-menu" (click)="$event.stopPropagation()">
+    <!-- Info Links Mobile -->
+    <div class="mobile-section">
+      <h3>Informazioni</h3>
+      <button mat-button routerLink="/features" routerLinkActive="active-info" (click)="closeMobileMenu()">
         <mat-icon>star</mat-icon>
         Funzionalità
       </button>
-      <button mat-button routerLink="/faq" routerLinkActive="active-info">
+      <button mat-button routerLink="/faq" routerLinkActive="active-info" (click)="closeMobileMenu()">
         <mat-icon>help</mat-icon>
         FAQ
       </button>
-      <button mat-button routerLink="/about" routerLinkActive="active-info">
+      <button mat-button routerLink="/about" routerLinkActive="active-info" (click)="closeMobileMenu()">
         <mat-icon>info</mat-icon>
         Chi Siamo
       </button>
-      <button mat-button routerLink="/contact" routerLinkActive="active-info">
+      <button mat-button routerLink="/contact" routerLinkActive="active-info" (click)="closeMobileMenu()">
         <mat-icon>mail</mat-icon>
         Contatti
       </button>
     </div>
-    
-    <!-- Spaziatore che spinge gli elementi successivi a destra -->
-    <span class="spacer"></span>
-    
-    <!-- Menu di navigazione per utenti loggati -->
-    <div class="nav-links" *ngIf="currentUser">
-      <button mat-button routerLink="/dashboard" routerLinkActive="active">
+
+    <!-- User Menu Mobile -->
+    <div class="mobile-section" *ngIf="currentUser">
+      <h3>{{ currentUser.full_name }}</h3>
+      <button mat-button routerLink="/dashboard" routerLinkActive="active" (click)="closeMobileMenu()">
         <mat-icon>dashboard</mat-icon>
         Dashboard
       </button>
-      
-      <!-- Menu dropdown dell'utente -->
-      <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+      <button mat-button routerLink="/user-profile" (click)="closeMobileMenu()">
         <mat-icon>person</mat-icon>
-        {{ currentUser.full_name }}
-        <mat-icon>arrow_drop_down</mat-icon>
+        Profilo
       </button>
-      
-      <!-- Contenuto del menu dropdown -->
-      <mat-menu #userMenu="matMenu">
-        <button mat-menu-item routerLink="/user-profile">
-          <mat-icon>person</mat-icon>
-          <span>Profilo</span>
-        </button>
-        <button mat-menu-item routerLink="/edit-user">
-          <mat-icon>edit</mat-icon>
-          <span>Opzioni</span>
-        </button>
-        <button mat-menu-item routerLink="/user-management" *ngIf="currentUser?.role === 'admin'">
-          <mat-icon>group</mat-icon>
-          Gestione Utenti
-        </button>
-        <mat-divider></mat-divider>
-        <button mat-menu-item (click)="logout()">
-          <mat-icon>logout</mat-icon>
-          <span>Logout</span>
-        </button>
-      </mat-menu>
+      <button mat-button routerLink="/edit-user" (click)="closeMobileMenu()">
+        <mat-icon>edit</mat-icon>
+        Opzioni
+      </button>
+      <button mat-button routerLink="/user-management" *ngIf="currentUser?.role === 'admin'" (click)="closeMobileMenu()">
+        <mat-icon>group</mat-icon>
+        Gestione Utenti
+      </button>
+      <button mat-button (click)="logout()" class="logout-button">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
     </div>
-    
-    <!-- Autenticazione -->
-    <div class="auth-buttons" *ngIf="!currentUser">
-      <button mat-button routerLink="/login">
+
+    <!-- Auth Buttons Mobile -->
+    <div class="mobile-section" *ngIf="!currentUser">
+      <h3>Accesso</h3>
+      <button mat-button routerLink="/login" (click)="closeMobileMenu()">
         <mat-icon>login</mat-icon>
         Login
       </button>
-      <button mat-raised-button color="accent" routerLink="/register">
+      <button mat-raised-button color="accent" routerLink="/register" (click)="closeMobileMenu()">
         <mat-icon>person_add</mat-icon>
         Registrati
       </button>
     </div>
-  </mat-toolbar-row>
-</mat-toolbar>
+  </div>
+</div>
