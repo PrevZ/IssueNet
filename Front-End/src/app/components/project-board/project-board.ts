@@ -152,7 +152,6 @@ export class ProjectBoard implements OnInit {
     });
 
     console.log('Issue distribuite nelle colonne:', this.kanbanColumns);
-    this.loadProjectIssues();
   }
 
   // Carica tutti gli utenti del sistema per popolamento dati
