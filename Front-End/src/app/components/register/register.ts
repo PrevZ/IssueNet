@@ -34,6 +34,7 @@ export class Register implements OnInit {
   hideConfirmPassword = true;
   isLoading = false;
 
+  // Costruttore del componente
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -41,6 +42,7 @@ export class Register implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
+  // Inizializza il componente e verifica stato di autenticazione
   ngOnInit() {
     this.initForm();
     
@@ -50,6 +52,7 @@ export class Register implements OnInit {
     }
   }
 
+  // Inizializza il form di registrazione con validatori personalizzati
   private initForm() {
     this.registerForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
@@ -59,14 +62,15 @@ export class Register implements OnInit {
       password: ['', [Validators.required, Validators.minLength(8), this.passwordValidator]],
       confirmPassword: ['', [Validators.required]],
       acceptTerms: [false, [Validators.requiredTrue]]
-    }, { validators: this.passwordMatchValidator });
+    }, { validators: this.passwordMatchValidator }); // Validatore a livello di form per conferma password
   }
 
-  // Custom validator per la password
+  // Validatore personalizzato per la forza della password
   private passwordValidator(control: AbstractControl): ValidationErrors | null {
     const value = control.value;
     if (!value) return null;
 
+    // Controlli pattern per forza password
     const hasUpperCase = /[A-Z]/.test(value);
     const hasLowerCase = /[a-z]/.test(value);
     const hasNumeric = /[0-9]/.test(value);
@@ -87,7 +91,7 @@ export class Register implements OnInit {
     return null;
   }
 
-  // Custom validator per verificare che le password corrispondano
+  // Validatore personalizzato per verificare corrispondenza password
   private passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
     const password = group.get('password')?.value;
     const confirmPassword = group.get('confirmPassword')?.value;
@@ -98,6 +102,7 @@ export class Register implements OnInit {
     return null;
   }
 
+  //Gestisce l'invio del form di registrazione
   onSubmit() {
     if (this.registerForm.valid) {
       this.isLoading = true;
@@ -106,6 +111,7 @@ export class Register implements OnInit {
       // Rimuovi confirmPassword e acceptTerms dal payload
       const { confirmPassword, acceptTerms, ...registerData } = formValue;
 
+      // Chiama servizio di registrazione
       this.userService.register(registerData).subscribe({
         next: (response) => {
           this.isLoading = false;
@@ -123,6 +129,7 @@ export class Register implements OnInit {
           this.isLoading = false;
           let errorMessage = 'Errore durante la registrazione. Riprova.';
           
+          // Gestione errori specifici basata su status HTTP
           if (error.status === 400) {
             errorMessage = 'Dati non validi. Controlla i campi inseriti.';
           } else if (error.status === 409) {
@@ -142,6 +149,7 @@ export class Register implements OnInit {
     }
   }
 
+  // Marca tutti i controlli del form come toccati per mostrare errori
   private markFormGroupTouched() {
     Object.keys(this.registerForm.controls).forEach(key => {
       const control = this.registerForm.get(key);
@@ -149,9 +157,11 @@ export class Register implements OnInit {
     });
   }
 
+  // Genera messaggio di errore specifico per ogni campo e tipo di errore
   getErrorMessage(field: string): string {
     const control = this.registerForm.get(field);
     
+    // Controlli errori comuni
     if (control?.hasError('required')) {
       return `${this.getFieldName(field)} è obbligatorio`;
     }
@@ -164,6 +174,7 @@ export class Register implements OnInit {
       return 'Inserisci un\'email valida';
     }
     
+    // Controlli lunghezza
     if (control?.hasError('minlength')) {
       const minLength = control.errors?.['minlength']?.requiredLength;
       return `${this.getFieldName(field)} deve contenere almeno ${minLength} caratteri`;
@@ -174,6 +185,7 @@ export class Register implements OnInit {
       return `${this.getFieldName(field)} non può superare ${maxLength} caratteri`;
     }
     
+    // Controlli specifici per campo
     if (control?.hasError('pattern') && field === 'username') {
       return 'Username può contenere solo lettere, numeri e underscore';
     }
@@ -185,6 +197,7 @@ export class Register implements OnInit {
     return '';
   }
 
+  // Traduce i nomi dei campi in italiano per i messaggi di errore
   private getFieldName(field: string): string {
     const fieldNames: { [key: string]: string } = {
       firstName: 'Nome',
@@ -198,10 +211,12 @@ export class Register implements OnInit {
     return fieldNames[field] || field;
   }
 
+  // Alterna la visibilità della password principale
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
   }
 
+  // Alterna la visibilità della conferma password
   toggleConfirmPasswordVisibility() {
     this.hideConfirmPassword = !this.hideConfirmPassword;
   }

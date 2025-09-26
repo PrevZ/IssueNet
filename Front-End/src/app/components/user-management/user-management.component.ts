@@ -16,7 +16,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-
 import { User, CreateUserRequest, UpdateUserRequest } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
@@ -53,59 +52,63 @@ export class UserManagementComponent implements OnInit {
   isLoading = false;
   currentUser: User | null = null;
 
-  // Form per filtri
   filterForm!: FormGroup;
-
-  // Configurazione tabella
   displayedColumns: string[] = ['full_name', 'username', 'email', 'role', 'actions'];
 
-  // Opzioni ruoli
+  // Configurazione delle opzioni dei ruoli per la UI
   roleOptions = [
     { value: 'admin', label: 'Admin', color: 'warn', icon: 'admin_panel_settings' },
     { value: 'developer', label: 'Developer', color: 'primary', icon: 'code' },
     { value: 'tester', label: 'Tester', color: 'accent', icon: 'bug_report' }
   ];
 
-  // Statistiche utenti
   userStats = {
-    total: 0,
-    admin: 0,
-    developer: 0,
-    tester: 0
+    total: 0,      
+    admin: 0,      
+    developer: 0,  
+    tester: 0      
   };
 
+  // Costruttore - inietta le dipendenze necessarie
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {
+    // Inizializza il form dei filtri nel costruttore
     this.initFilterForm();
   }
 
+  // Carica l'utente corrente e la lista degli utenti
   ngOnInit(): void {
     this.currentUser = this.userService.getCurrentUser();
+    // Carica tutti gli utenti dal server
     this.loadUsers();
   }
 
+  // Inizializza il form reattivo per i filtri di ricerca
   private initFilterForm(): void {
     this.filterForm = this.fb.group({
-      search: [''],
-      role: ['']
+      search: [''],  
+      role: ['']     
     });
 
-    // Reagisci ai cambiamenti nei filtri
+    // Sottoscrive ai cambiamenti dei valori del form per applicare i filtri automaticamente
     this.filterForm.valueChanges.subscribe(() => {
       this.applyFilters();
     });
   }
 
+  // Carica la lista completa degli utenti dal server
   loadUsers(): void {
     this.isLoading = true;
     this.userService.getAllUsers().subscribe({
       next: (users) => {
+        // Memorizza gli utenti e inizializza la lista filtrata
         this.users = users;
         this.filteredUsers = [...users];
+        // Calcola le statistiche per ruolo
         this.calculateStats();
         this.isLoading = false;
       },
@@ -117,6 +120,7 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+  // Calcola le statistiche degli utenti raggruppati per ruolo
   private calculateStats(): void {
     this.userStats = {
       total: this.users.length,
@@ -126,36 +130,44 @@ export class UserManagementComponent implements OnInit {
     };
   }
 
+  // Applica i filtri di ricerca e ruolo alla lista degli utenti
   applyFilters(): void {
     const searchTerm = this.filterForm.get('search')?.value?.toLowerCase() || '';
     const selectedRole = this.filterForm.get('role')?.value;
 
+    // Filtra gli utenti in base ai criteri specificati
     this.filteredUsers = this.users.filter(user => {
+      // Verifica se l'utente corrisponde al termine di ricerca
       const matchesSearch = !searchTerm || 
         user.full_name.toLowerCase().includes(searchTerm) ||
         user.username.toLowerCase().includes(searchTerm) ||
         user.email.toLowerCase().includes(searchTerm);
 
+      // Verifica se l'utente corrisponde al ruolo selezionato
       const matchesRole = !selectedRole || user.role === selectedRole;
 
+      // L'utente deve soddisfare entrambi i criteri
       return matchesSearch && matchesRole;
     });
   }
 
+  // Apre il dialog per creare un nuovo utente o modificarne uno esistente
   openEditUserDialog(user?: User): void {
     const dialogRef = this.dialog.open(EditUserDialogComponent, {
       width: '500px',
       maxWidth: '90vw',
       data: {
-        user: user,
+        user: user,                              
         mode: user ? 'edit' : 'create',
         currentUser: this.currentUser
       },
       disableClose: false
     });
 
+    // Gestisce il risultato alla chiusura del dialog
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        // Determina l'azione da eseguire in base al tipo di operazione
         if (result.type === 'create') {
           this.handleCreateUser(result.data);
         } else if (result.type === 'update') {
@@ -165,6 +177,7 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+  // Gestisce la creazione di un nuovo utente
   private handleCreateUser(userData: CreateUserRequest): void {
     this.userService.createUser(userData).subscribe({
       next: (newUser) => {
@@ -180,10 +193,10 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+  // Gestisce l'aggiornamento di un utente esistente
   private handleUpdateUser(userId: number, userData: UpdateUserRequest): void {
     this.userService.updateUser(userId, userData).subscribe({
       next: () => {
-        // Aggiorna l'utente nell'array locale
         const index = this.users.findIndex(u => u.id_user === userId);
         if (index !== -1) {
           this.users[index] = { ...this.users[index], ...userData };
@@ -199,17 +212,20 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+  // Gestisce l'eliminazione di un utente con conferma
   deleteUser(user: User): void {
+    // Impedisce all'utente di eliminare il proprio account
     if (user.id_user === this.currentUser?.id_user) {
       this.showSnackBar('Non puoi eliminare il tuo account', 'warn');
       return;
     }
 
+    // Apre il dialog di conferma eliminazione
     const dialogRef = this.dialog.open(DeleteUserDialogComponent, {
       width: '500px',
       maxWidth: '90vw',
       data: { user },
-      disableClose: true
+      disableClose: true  // Forza l'utente a scegliere esplicitamente
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -230,25 +246,29 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+  // Verifica se l'utente corrente può modificare l'utente specificato
   canEditUser(user: User): boolean {
-    // Gli admin possono modificare tutti
+    // Gli admin possono modificare tutti, gli utenti solo se stessi
     return this.currentUser?.role === 'admin' || this.currentUser?.id_user === user.id_user;
   }
 
+  // Verifica se l'utente corrente può eliminare l'utente specificato
   canDeleteUser(user: User): boolean {
     // Solo gli admin possono eliminare utenti, ma non se stessi
     return this.currentUser?.role === 'admin' && this.currentUser?.id_user !== user.id_user;
   }
 
+  // Mostra una notifica toast con il messaggio specificato
   private showSnackBar(message: string, type: 'success' | 'error' | 'warn'): void {
     const config = {
-      duration: 3000,
-      panelClass: [`${type}-snack`]
+      duration: 3000,                    
+      panelClass: [`${type}-snack`]      
     };
 
     this.snackBar.open(message, 'Chiudi', config);
   }
 
+  // Resetta tutti i filtri e mostra tutti gli utenti
   clearFilters(): void {
     this.filterForm.reset();
     this.filteredUsers = [...this.users];

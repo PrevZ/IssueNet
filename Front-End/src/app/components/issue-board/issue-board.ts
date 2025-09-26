@@ -9,7 +9,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
 import { Issue } from '../../models/issue.model';
 import { User } from '../../models/user.model';
 import { IssueService } from '../../services/issue.service';
@@ -39,6 +38,7 @@ export class IssueBoard implements OnInit {
   projectUsers: User[] = [];
   isLoading = true;
   
+  // Costruttore del componente
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -46,6 +46,7 @@ export class IssueBoard implements OnInit {
     private userService: UserService
   ) {}
 
+  // Inizializza il componente e sottoscrive ai parametri di route per caricare l'issue
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       const issueId = +params['id'];
@@ -55,13 +56,14 @@ export class IssueBoard implements OnInit {
     });
   }
 
+  // Carica i dettagli dell'issue specificato
   loadIssue(issueId: number): void {
     this.isLoading = true;
     
     this.issueService.getIssueById(issueId).subscribe({
       next: (issue) => {
         this.issue = issue;
-        this.loadProjectUsers();
+        this.loadProjectUsers(); // Carica gli utenti dopo aver ottenuto l'issue
         this.isLoading = false;
       },
       error: (error) => {
@@ -71,6 +73,7 @@ export class IssueBoard implements OnInit {
     });
   }
 
+  // Carica tutti gli utenti del progetto per popolamento dati
   loadProjectUsers(): void {
     this.userService.getAllUsers().subscribe({
       next: (users) => {
@@ -83,16 +86,16 @@ export class IssueBoard implements OnInit {
     });
   }
 
+  // Naviga indietro al progetto o alla dashboard
   goBack(): void {
     if (this.issue && this.issue.id_project) {
-      // Naviga alla project board del progetto specifico
       this.router.navigate(['/project', this.issue.id_project]);
     } else {
-      // Fallback alla dashboard se non c'è informazione sul progetto
       this.router.navigate(['/dashboard']);
     }
   }
 
+  // Restituisce il colore Material per la priorità dell'issue
   getPriorityColor(): string {
     if (!this.issue) return 'primary';
     switch (this.issue.priority) {
@@ -104,6 +107,7 @@ export class IssueBoard implements OnInit {
     }
   }
 
+  // Restituisce il colore Material per lo stato dell'issue
   getStatusColor(): string {
     if (!this.issue) return 'primary';
     switch (this.issue.status) {
@@ -115,6 +119,7 @@ export class IssueBoard implements OnInit {
     }
   }
 
+  // Restituisce l'icona Material per il tipo di issue
   getTypeIcon(): string {
     if (!this.issue) return 'help';
     switch (this.issue.type) {
@@ -126,6 +131,7 @@ export class IssueBoard implements OnInit {
     }
   }
 
+  // Restituisce l'etichetta italiana per lo stato dell'issue
   getStatusLabel(): string {
     if (!this.issue) return '';
     const statusMap = {
@@ -137,6 +143,7 @@ export class IssueBoard implements OnInit {
     return statusMap[this.issue.status] || this.issue.status;
   }
 
+  //Restituisce l'etichetta italiana per la priorità dell'issue
   getPriorityLabel(): string {
     if (!this.issue) return '';
     const priorityMap = {
@@ -148,6 +155,7 @@ export class IssueBoard implements OnInit {
     return priorityMap[this.issue.priority] || this.issue.priority;
   }
 
+  // Restituisce l'etichetta italiana per il tipo di issue
   getTypeLabel(): string {
     if (!this.issue) return '';
     const typeMap = {
@@ -159,16 +167,19 @@ export class IssueBoard implements OnInit {
     return typeMap[this.issue.type] || this.issue.type;
   }
 
+  // Trova l'utente assegnato all'issue
   getAssignedUser(): User | undefined {
     if (!this.issue) return undefined;
     return this.projectUsers.find(user => user.id_user === this.issue!.assigned_to);
   }
 
+  // Trova l'utente che ha creato l'issue
   getCreatedUser(): User | undefined {
     if (!this.issue) return undefined;
     return this.projectUsers.find(user => user.id_user === this.issue!.created_by);
   }
 
+  // Restituisce una data formattata in italiano con ora
   formatDate(date: string): string {
     return new Date(date).toLocaleDateString('it-IT', {
       day: '2-digit',
@@ -179,6 +190,7 @@ export class IssueBoard implements OnInit {
     });
   }
 
+  // Verifica se l'issue è scaduto
   isOverdue(): boolean {
     if (!this.issue || !this.issue.due_date) return false;
     return new Date(this.issue.due_date) < new Date() && this.issue.status !== 'done';

@@ -30,11 +30,13 @@ export class EditUser implements OnInit {
   editForm: FormGroup;
   isLoading = false;
 
+  // Costruttore del componente
   constructor(
     private userService: UserService,
     private fb: FormBuilder,
     private router: Router
   ) {
+    // Inizializza form con validatori per i dati del profilo
     this.editForm = this.fb.group({
       full_name: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
@@ -42,10 +44,12 @@ export class EditUser implements OnInit {
     });
   }
 
+  // Inizializza il componente e popola il form con i dati utente correnti
   ngOnInit(): void {
     this.userService.currentUser$.subscribe(user => {
       this.currentUser = user;
       if (user) {
+        // Popola il form con i dati attuali dell'utente
         this.editForm.patchValue({
           full_name: user.full_name,
           email: user.email,
@@ -55,6 +59,7 @@ export class EditUser implements OnInit {
     });
   }
 
+  // Genera le iniziali dell'utente per avatar
   getInitials(): string {
     if (!this.currentUser?.full_name) return '';
     return this.currentUser.full_name
@@ -64,12 +69,14 @@ export class EditUser implements OnInit {
       .substring(0, 2);
   }
 
+  // Gestisce l'invio del form per aggiornare il profilo utente
   onSubmit(): void {
     if (this.editForm.valid && this.currentUser) {
       this.isLoading = true;
       const userData = this.editForm.value;
       console.log('Updating user with data:', userData);
 
+      // Chiama servizio per aggiornamento profilo
       this.userService.updateProfile(this.currentUser.id_user, userData).subscribe({
         next: () => {
           this.isLoading = false;
@@ -84,6 +91,7 @@ export class EditUser implements OnInit {
     }
   }
 
+  // Annulla le modifiche e torna al profilo utente
   onCancel(): void {
     this.router.navigate(['/user-profile']);
   }

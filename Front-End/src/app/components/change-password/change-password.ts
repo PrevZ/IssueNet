@@ -33,24 +33,28 @@ export class ChangePassword implements OnInit {
   hideNewPassword = true;
   hideConfirmPassword = true;
 
+  // Costruttore del componente
   constructor(
     private userService: UserService,
     private fb: FormBuilder,
     private router: Router
   ) {
+    // Inizializza form con validatori
     this.passwordForm = this.fb.group({
       currentPassword: ['', [Validators.required]],
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]]
-    }, { validators: this.passwordMatchValidator });
+    }, { validators: this.passwordMatchValidator }); // Validatore a livello form per conferma password
   }
 
+  // Inizializza il componente e sottoscrive ai dati utente corrente
   ngOnInit(): void {
     this.userService.currentUser$.subscribe(user => {
       this.currentUser = user;
     });
   }
 
+  // Validatore personalizzato per verificare corrispondenza nuova password
   passwordMatchValidator(control: AbstractControl): {[key: string]: any} | null {
     const newPassword = control.get('newPassword');
     const confirmPassword = control.get('confirmPassword');
@@ -61,6 +65,7 @@ export class ChangePassword implements OnInit {
     return null;
   }
 
+  // Genera le iniziali dell'utente per avatar
   getInitials(): string {
     if (!this.currentUser?.full_name) return '';
     return this.currentUser.full_name
@@ -70,16 +75,19 @@ export class ChangePassword implements OnInit {
       .substring(0, 2);
   }
 
+  // Gestisce l'invio del form per il cambio password
   onSubmit(): void {
     if (this.passwordForm.valid && this.currentUser) {
       this.isLoading = true;
       const formData = this.passwordForm.value;
 
+      // Prepara dati per chiamata API
       const passwordData = {
         currentPassword: formData.currentPassword,
         newPassword: formData.newPassword
       };
 
+      // Chiama servizio per cambio password
       this.userService.changePassword(this.currentUser.id_user, passwordData).subscribe({
         next: (response) => {
           this.isLoading = false;
@@ -102,6 +110,7 @@ export class ChangePassword implements OnInit {
     }
   }
 
+  // Annulla l'operazione e torna al profilo utente
   onCancel(): void {
     this.router.navigate(['/user-profile']);
   }

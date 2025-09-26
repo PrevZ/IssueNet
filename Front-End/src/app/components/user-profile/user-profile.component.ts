@@ -32,16 +32,20 @@ import { RouterModule, Router } from '@angular/router';
 export class UserProfile implements OnInit {
   currentUser: User | null = null;
 
+  // Costruttore - inietta il servizio UserService
   constructor(private userService: UserService) {}
 
+  // Inizializzazione del componente
   ngOnInit(): void {
     this.userService.currentUser$.subscribe(user => {
       this.currentUser = user;
     });
   }
 
+  // Genera le iniziali del nome completo dell'utente per l'avatar
   getInitials(): string {
     if (!this.currentUser?.full_name) return '';
+    
     return this.currentUser.full_name
       .split(' ')
       .map(name => name.charAt(0).toUpperCase())
@@ -49,6 +53,7 @@ export class UserProfile implements OnInit {
       .substring(0, 2);
   }
 
+  // Gestisce il logout dell'utente
   logout() {
     this.userService.logout();
   }

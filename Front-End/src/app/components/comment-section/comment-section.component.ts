@@ -12,7 +12,6 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Subscription } from 'rxjs';
-
 import { Comment, CreateCommentRequest, UpdateCommentRequest } from '../../models/comment.model';
 import { User } from '../../models/user.model';
 import { CommentService } from '../../services/comment.service';
@@ -41,25 +40,29 @@ import { Nl2brPipe } from '../../pipes/nl2br.pipe';
   styleUrl: './comment-section.component.css'
 })
 export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() issueId!: number;
-  @Input() projectUsers: User[] = [];
+  // Input properties dal componente genitore
+  @Input() issueId!: number; 
+  @Input() projectUsers: User[] = []; 
 
-  comments: Comment[] = [];
-  commentForm!: FormGroup;
-  editingCommentId: number | null = null;
-  editForm!: FormGroup;
-  isSubmitting = false;
-  currentUser: User | null = null;
+  // Proprietà per gestione commenti e form
+  comments: Comment[] = []; 
+  commentForm!: FormGroup; 
+  editingCommentId: number | null = null; 
+  editForm!: FormGroup; 
+  isSubmitting = false; 
+  currentUser: User | null = null; 
 
+  // Gestione sottoscrizioni RxJS
   private subscriptions = new Subscription();
 
-  // Opzioni per ordinamento
+  // Opzioni per ordinamento commenti
   sortOptions = [
     { value: 'newest', label: 'Più recenti' },
     { value: 'oldest', label: 'Più vecchi' }
   ];
-  currentSort = 'newest';
+  currentSort = 'newest'; // Ordinamento corrente
 
+  // Costruttore del componente
   constructor(
     private fb: FormBuilder,
     private commentService: CommentService,
@@ -69,12 +72,14 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     this.currentUser = this.userService.getCurrentUser();
   }
 
+  // Inizializza il componente caricando i commenti se presente issueId
   ngOnInit(): void {
     if (this.issueId) {
       this.loadComments();
     }
   }
 
+  // Reagisce ai cambiamenti degli input properties
   ngOnChanges(changes: SimpleChanges): void {
     // Reagisce ai cambiamenti di projectUsers
     if (changes['projectUsers'] && changes['projectUsers'].currentValue) {
@@ -82,10 +87,12 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  // Cleanup delle sottoscrizioni per prevenire memory leak
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
+  // Inizializza i form reattivi per creazione e modifica commenti
   private initForms(): void {
     this.commentForm = this.fb.group({
       content: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(1000)]]
@@ -96,6 +103,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
+  // Carica tutti i commenti per l'issue corrente
   loadComments(): void {
     const sub = this.commentService.getCommentsByIssue(this.issueId).subscribe({
       next: (comments) => {
@@ -119,6 +127,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.add(sub);
   }
 
+  // Popola i dati utente per ogni commento usando projectUsers
   private populateUserData(): void {
     // Se non abbiamo projectUsers, proviamo a caricarli
     if (!this.projectUsers || this.projectUsers.length === 0) {
@@ -134,6 +143,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
+  // Carica tutti gli utenti se projectUsers non è disponibile
   private loadAllUsers(): void {
     const sub = this.userService.getAllUsers().subscribe({
       next: (users) => {
@@ -149,6 +159,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     this.subscriptions.add(sub);
   }
 
+  // Ordina i commenti in base all'impostazione corrente
   private sortComments(): void {
     this.comments.sort((a, b) => {
       const dateA = new Date(a.created_at).getTime();
@@ -158,11 +169,13 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
+  // Cambia l'ordinamento dei commenti
   onSortChange(sortType: string): void {
     this.currentSort = sortType;
     this.sortComments();
   }
 
+  // Gestisce l'invio di un nuovo commento
   onSubmitComment(): void {
     if (this.commentForm.valid && this.currentUser) {
       this.isSubmitting = true;
@@ -175,7 +188,6 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
 
       const sub = this.commentService.createComment(commentData).subscribe({
         next: (newComment) => {
-          // Assicurati che la data sia in formato valido
           if (!newComment.created_at || isNaN(new Date(newComment.created_at).getTime())) {
             newComment.created_at = new Date().toISOString();
           }
@@ -183,6 +195,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
             newComment.updated_at = newComment.created_at;
           }
           
+          // Aggiungi il nuovo commento in cima alla lista
           this.comments.unshift(newComment);
           this.commentForm.reset();
           this.isSubmitting = false;
@@ -197,6 +210,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  // Avvia la modalità modifica per un commento
   startEdit(comment: Comment): void {
     this.editingCommentId = comment.id_comment;
     this.editForm.patchValue({
@@ -204,11 +218,13 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
+  // Annulla la modifica corrente
   cancelEdit(): void {
     this.editingCommentId = null;
     this.editForm.reset();
   }
 
+  // Gestisce l'invio della modifica di un commento
   onSubmitEdit(commentId: number): void {
     console.log('onSubmitEdit called with commentId:', commentId);
     console.log('Form valid:', this.editForm.valid);
@@ -227,7 +243,6 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
       const sub = this.commentService.updateComment(commentId, updateData).subscribe({
         next: (response) => {
           console.log('Update successful, response:', response);
-          // Aggiorna il commento nell'array locale
           const index = this.comments.findIndex(c => c.id_comment === commentId);
           if (index !== -1) {
             this.comments[index].content = updateData.content;
@@ -251,6 +266,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  // Elimina un commento dopo conferma utente
   deleteComment(commentId: number): void {
     console.log('deleteComment called with commentId:', commentId);
     if (confirm('Sei sicuro di voler eliminare questo commento?')) {
@@ -283,14 +299,17 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  // Verifica se l'utente corrente può modificare un commento
   canEditComment(comment: Comment): boolean {
     return this.currentUser?.id_user === comment.id_user || this.currentUser?.role === 'admin';
   }
 
+  // Verifica se l'utente corrente può eliminare un commento
   canDeleteComment(comment: Comment): boolean {
     return this.currentUser?.id_user === comment.id_user || this.currentUser?.role === 'admin';
   }
 
+  // Calcola il tempo trascorso dalla creazione del commento
   getTimeAgo(date: string): string {
     const now = new Date();
     const commentDate = new Date(date);
@@ -302,6 +321,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     
     const diffInSeconds = Math.floor((now.getTime() - commentDate.getTime()) / 1000);
 
+    // Calcola il tempo relativo
     if (diffInSeconds < 60) {
       return 'Ora';
     } else if (diffInSeconds < 3600) {
@@ -318,6 +338,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
+  // Ottiene il nome visualizzato dell'autore del commento
   getUserDisplayName(comment: Comment): string {
     if (!comment.user) {
       console.log(`User data missing for comment ${comment.id_comment}, user ID: ${comment.id_user}`);
@@ -326,6 +347,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     return comment.user?.full_name || 'Utente sconosciuto';
   }
 
+  // Ottiene il ruolo dell'autore del commento tradotto
   getUserRole(comment: Comment): string {
     const roleMap = {
       'admin': 'Admin',
@@ -335,6 +357,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     return comment.user?.role ? roleMap[comment.user.role] || comment.user.role : '';
   }
 
+  // Funzione di tracking per ngFor per migliorare le performance
   trackByCommentId(index: number, comment: Comment): number {
     return comment.id_comment;
   }

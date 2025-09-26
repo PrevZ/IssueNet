@@ -19,11 +19,12 @@ import { DeleteProjectDialog } from './delete-project-dialog/delete-project-dial
 import { DeleteIssueDialog } from './delete-issue-dialog/delete-issue-dialog';
 import { Project, User, Issue, CreateIssueRequest, UpdateIssueRequest } from '../../models';
 
+// Interfaccia per le colonne della board Kanban
 interface KanbanColumn {
-  id: string;
-  title: string;
-  status: string;
-  issues: Issue[];
+  id: string;        // Identificativo univoco colonna
+  title: string;     // Titolo visualizzato
+  status: string;    // Stato corrispondente
+  issues: Issue[];   // Lista issue nella colonna
 }
 
 @Component({
@@ -51,6 +52,7 @@ export class ProjectBoard implements OnInit {
   projectId: number = 0;
   loading = false;
 
+  // Configurazione colonne Kanban per organizzazione issue per stato
   kanbanColumns: KanbanColumn[] = [
     {
       id: 'todo',
@@ -78,6 +80,7 @@ export class ProjectBoard implements OnInit {
     }
   ];
 
+  // Costruttore del componente
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -87,6 +90,7 @@ export class ProjectBoard implements OnInit {
     private dialog: MatDialog
   ) { }
 
+  // Inizializza il componente caricando utente corrente e dati progetto
   ngOnInit(): void {
     this.currentUser = this.userService.getCurrentUser();
 
@@ -99,9 +103,9 @@ export class ProjectBoard implements OnInit {
     });
   }
 
+  // Carica tutti i dati del progetto (info, issue, utenti)
   private loadProjectData(): void {
     this.loading = true;
-    // Carica i dati del progetto
     this.projectService.getProjectById(this.projectId).subscribe({
       next: (project) => {
         this.project = project;
@@ -117,8 +121,8 @@ export class ProjectBoard implements OnInit {
     });
   }
 
+  // Carica tutte le issue del progetto dal backend
   private loadProjectIssues(): void {
-    // Carica le issue dal backend
     this.issueService.getIssuesByProject(this.projectId).subscribe({
       next: (issues) => {
         console.log('Issue caricate dal backend:', issues);
@@ -132,6 +136,7 @@ export class ProjectBoard implements OnInit {
     });
   }
 
+  // Distribuisce le issue nelle colonne Kanban appropriate per stato
   private distributeIssuesInColumns(issues: Issue[]): void {
     // Reset delle colonne
     this.kanbanColumns.forEach(column => {
@@ -147,10 +152,11 @@ export class ProjectBoard implements OnInit {
     });
 
     console.log('Issue distribuite nelle colonne:', this.kanbanColumns);
+    this.loadProjectIssues();
   }
 
+  // Carica tutti gli utenti del sistema per popolamento dati
   private loadProjectUsers(): void {
-    // Carico tutti gli utenti del sistema
     this.userService.getAllUsers().subscribe({
       next: (users) => {
         this.projectUsers = users;
@@ -163,6 +169,7 @@ export class ProjectBoard implements OnInit {
     });
   }
 
+  // Restituisce il colore Material per la priorità dell'issue
   getPriorityColor(priority: string): string {
     switch (priority) {
       case 'critical': return 'error';
@@ -173,6 +180,7 @@ export class ProjectBoard implements OnInit {
     }
   }
 
+  // Restituisce l'icona Material per il tipo di issue
   getTypeIcon(type: string): string {
     switch (type) {
       case 'bug': return 'bug_report';
@@ -183,6 +191,7 @@ export class ProjectBoard implements OnInit {
     }
   }
 
+  // Calcola il tempo trascorso dalla creazione dell'issue
   getTimeAgo(date: string): string {
     const now = new Date();
     const issueDate = new Date(date);
@@ -199,11 +208,13 @@ export class ProjectBoard implements OnInit {
     }
   }
 
+  // Trova il nome completo dell'utente assegnato
   getAssigneeName(userId: number): string {
     const user = this.projectUsers.find(u => u.id_user === userId);
     return user ? user.full_name : `Utente ${userId}`;
   }
 
+  // Genera le iniziali dell'utente assegnato per avatar
   getAssigneeInitials(userId: number): string {
     const user = this.projectUsers.find(u => u.id_user === userId);
     if (user && user.full_name) {
@@ -216,6 +227,7 @@ export class ProjectBoard implements OnInit {
     return 'U';
   }
 
+  // Restituisce l'etichetta italiana per il tipo di issue
   getTypeLabel(type: string): string {
     const typeMap = {
       'bug': 'Bug',
@@ -226,6 +238,7 @@ export class ProjectBoard implements OnInit {
     return typeMap[type as keyof typeof typeMap] || type;
   }
 
+  //Restituisce l'etichetta italiana per la priorità dell'issue
   getPriorityLabel(priority: string): string {
     const priorityMap = {
       'low': 'Bassa',
@@ -236,27 +249,30 @@ export class ProjectBoard implements OnInit {
     return priorityMap[priority as keyof typeof priorityMap] || priority;
   }
 
+  // Calcola il numero totale di issue in tutte le colonne
   getTotalIssuesCount(): number {
     return this.kanbanColumns.reduce((total, column) => total + column.issues.length, 0);
   }
 
+  // Verifica se un issue è scaduto
   isDueOverdue(dueDate: string): boolean {
     if (!dueDate) return false;
     return new Date(dueDate) < new Date();
   }
 
 
+  // Gestisce il click su un issue per aprire i dettagli
   onIssueClick(issue: Issue): void {
     // Apre il dialog dei dettagli con commenti
     this.openIssueDetailDialog(issue);
   }
 
+  // Apre il dialog di conferma per eliminazione progetto
   openDeleteProjectDialog(project?: Project | null): void {
     if (!project) {
       console.error('Nessun progetto disponibile per l\'eliminazione.');
       return;
     }
-    // Apre il dialog di conferma per l'eliminazione del progetto
     const dialogRef = this.dialog.open(DeleteProjectDialog, {
       width: '400px',
       data: {
@@ -275,8 +291,8 @@ export class ProjectBoard implements OnInit {
     });
   }
 
+  // Apre il dialog per modificare un issue esistente
   openEditIssueDialog(issue: Issue): void {
-    // Apre il dialog di modifica
     const dialogRef = this.dialog.open(IssueDialogComponent, {
       width: '600px',
       maxWidth: '90vw',
@@ -298,6 +314,7 @@ export class ProjectBoard implements OnInit {
     });
   }
 
+  // Apre il dialog per creare una nuova issue
   openCreateIssueDialog(): void {
     const dialogRef = this.dialog.open(IssueDialogComponent, {
       width: '600px',
@@ -319,11 +336,12 @@ export class ProjectBoard implements OnInit {
     });
   }
 
+  //Naviga alla pagina dettagli dell'issue
   openIssueDetailDialog(issue: Issue): void {
-    // Naviga alla pagina dell'issue invece di aprire un dialog
     this.router.navigate(['/issue', issue.id_issue]);
   }
 
+  //Apre il dialog di conferma per eliminazione issue
   openDeleteIssueDialog(issue: Issue): void {
     const dialogRef = this.dialog.open(DeleteIssueDialog, {
       width: '400px',
@@ -341,6 +359,7 @@ export class ProjectBoard implements OnInit {
     });
   }
 
+  // Gestisce la creazione di una nuova issue
   private handleCreateIssue(issueData: CreateIssueRequest): void {
     this.issueService.createIssue(issueData).subscribe({
       next: (newIssue) => {
@@ -355,32 +374,30 @@ export class ProjectBoard implements OnInit {
         const status = newIssue.status || 'todo';
         const column = this.kanbanColumns.find(col => col.status === status);
         if (column) {
-          column.issues.unshift(newIssue);
+          column.issues.unshift(newIssue); // Aggiunge in cima alla colonna
         }
-        // TODO: Mostrare notifica di successo
       },
       error: (error) => {
         console.error('Errore nella creazione dell\'issue:', error);
-        // TODO: Mostrare notifica di errore
       }
     });
   }
 
+  // Gestisce l'aggiornamento di un issue esistente
   private handleUpdateIssue(issueId: number, issueData: UpdateIssueRequest): void {
     this.issueService.updateIssue(issueId, issueData).subscribe({
       next: (updatedIssue) => {
         console.log('Issue aggiornata con successo:', updatedIssue);
         // Ricarica le issue per aggiornare la board
         this.loadProjectIssues();
-        // TODO: Mostrare notifica di successo
       },
       error: (error) => {
         console.error('Errore nell\'aggiornamento dell\'issue:', error);
-        // TODO: Mostrare notifica di errore
       }
     });
   }
 
+  // Gestisce l'eliminazione di un issue
   public handleDeleteIssue(issue: Issue): void {
     if (!issue.id_issue) {
       console.error('ID issue non valido per la cancellazione:', issue);
@@ -390,7 +407,7 @@ export class ProjectBoard implements OnInit {
     this.issueService.deleteIssue(issue.id_issue).subscribe({
       next: () => {
         console.log('Issue eliminata con successo');
-        this.loadProjectIssues();
+        this.loadProjectIssues(); // Ricarica la board
       },
       error: (error) => {
         console.error('Errore nell\'eliminazione dell\'issue:', error);
@@ -399,6 +416,7 @@ export class ProjectBoard implements OnInit {
     });
   }
 
+  //Gestisce l'eliminazione del progetto corrente
   private handleDeleteProject(project: Project): void {
     console.log('Tentativo di eliminazione progetto:', {
       projectId: project.id_project,
@@ -422,6 +440,7 @@ export class ProjectBoard implements OnInit {
     });
   }
 
+  //Naviga alla dashboard principale
   goBackToDashboard(): void {
     this.router.navigate(['/dashboard']);
   }
