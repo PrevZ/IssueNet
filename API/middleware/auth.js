@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-// Configurazione JWT (dovrebbe essere la stessa delle routes)
+// Configurazione JWT 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 /**

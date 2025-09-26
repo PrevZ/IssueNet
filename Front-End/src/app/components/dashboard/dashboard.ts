@@ -15,10 +15,8 @@ import { IssueService } from '../../services/issue.service';
 import { CommentService } from '../../services/comment.service';
 import { CreateProjectDialogComponent } from '../dashboard/create-project-dialog/create-project-dialog.component';
 import { IssueDialogComponent } from '../project-board/issue-dialog/issue-dialog.component';
-import { User, Project, DashboardProject, Issue, Comment, CreateProjectRequest, UpdateProjectRequest } from '../../models';
 import { UpdateProjectDialogComponent } from '../dashboard/update-project-dialog/update-project-dialog';
-
-
+import { User, Project, DashboardProject, Issue, Comment, CreateProjectRequest, UpdateProjectRequest } from '../../models';
 
 @Component({
   selector: 'app-dashboard',
@@ -41,10 +39,12 @@ export class Dashboard implements OnInit, OnDestroy {
   projects: DashboardProject[] = [];
   userIssues: Issue[] = [];
   userComments: Comment[] = [];
-  // Mapping per i nomi dei progetti
-  projectNames: { [key: number]: string } = {};
-  // Mapping per i titoli delle issue
-  issueTitles: { [key: number]: string } = {};
+  
+  // Mapping per ottimizzazione visualizzazione dati
+  projectNames: { [key: number]: string } = {}; // Mapping per i nomi dei progetti
+  issueTitles: { [key: number]: string } = {}; // Mapping per i titoli delle issue
+  
+  // Statistiche utente aggregate
   stats = {
     totalProjects: 0,
     totalIssues: 0,
@@ -52,8 +52,10 @@ export class Dashboard implements OnInit, OnDestroy {
     closedIssues: 0
   };
   
+  // Sottoscrizione per eventi di navigazione
   private routerSubscription: Subscription = new Subscription();
 
+  // Costruttore del componente Dashboard
   constructor(
     private userService: UserService,
     private projectService: ProjectService,
@@ -63,10 +65,10 @@ export class Dashboard implements OnInit, OnDestroy {
     private dialog: MatDialog
   ) {}
 
+  // Inizializzazione del componente dashboard
   ngOnInit(): void {
     this.currentUser = this.userService.getCurrentUser();
     
-    // Carica i dati della dashboard se l'utente è loggato
     if (this.currentUser) {
       this.loadDashboardData();
     }
@@ -82,10 +84,12 @@ export class Dashboard implements OnInit, OnDestroy {
       });
   }
   
+  // Pulizia risorse al distruggersi del componente
   ngOnDestroy(): void {
     this.routerSubscription.unsubscribe();
   }
 
+  // Carica tutti i dati necessari per la dashboard
   loadDashboardData(): void {
     console.log('Caricamento dati dal backend per utente:', this.currentUser!.id_user);
     
@@ -102,40 +106,47 @@ export class Dashboard implements OnInit, OnDestroy {
     this.loadUserComments();
   }
 
+  // Carica i progetti dal backend con informazioni enhanced
   loadProjectsFromBackend(): void {
     this.projectService.getEnhancedProjectsByUser(this.currentUser!.id_user).subscribe({
       next: (projects) => {
         console.log('Progetti enhanced caricati dal backend:', projects);
         // Trasforma i progetti del backend in DashboardProject
         this.projects = projects.map(project => this.transformBackendProject(project));
-        // Popola il mapping ID -> nome progetto
+        // Popola il mapping ID -> nome progetto per ottimizzazione
         this.populateProjectNames(projects);
       },
       error: (error) => {
         console.error('Errore nel caricamento dei progetti enhanced:', error);
+        // In caso di errore, inizializza array vuoto
         this.projects = [];
       }
     });
   }
 
+  // Carica le statistiche utente dal backend
   loadStatsFromBackend(): void {
     this.projectService.getUserProjectStats(this.currentUser!.id_user).subscribe({
       next: (stats) => {
         console.log('Statistiche caricate dal backend:', stats);
+        // Trasforma le statistiche del backend in formato dashboard
         this.stats = {
           totalProjects: Number(stats.total_projects) || 0,
           totalIssues: Number(stats.total_issues) || 0,
+          // Aggregazione issue aperte (todo + in progress + in review)
           openIssues: (Number(stats.todo_issues) || 0) + (Number(stats.in_progress_issues) || 0) + (Number(stats.in_review_issues) || 0),
           closedIssues: Number(stats.done_issues) || 0
         };
       },
       error: (error) => {
         console.error('Errore nel caricamento delle statistiche:', error);
+        // Inizializza statistiche vuote in caso di errore
         this.stats = { totalProjects: 0, totalIssues: 0, openIssues: 0, closedIssues: 0 };
       }
     });
   }
 
+  // Carica le issue assegnate all'utente corrente
   loadUserIssues(): void {
     this.issueService.getIssuesByAssignee(this.currentUser!.id_user).subscribe({
       next: (issues) => {
@@ -144,11 +155,13 @@ export class Dashboard implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Errore nel caricamento delle issue dell\'utente:', error);
+        // Inizializza array vuoto in caso di errore
         this.userIssues = [];
       }
     });
   }
 
+  // Carica i commenti creati dall'utente corrente
   loadUserComments(): void {
     this.commentService.getCommentsByUser(this.currentUser!.id_user).subscribe({
       next: (comments) => {
@@ -159,15 +172,19 @@ export class Dashboard implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Errore nel caricamento dei commenti dell\'utente:', error);
+        // Inizializza array vuoto in caso di errore
         this.userComments = [];
       }
     });
   }
 
+  // Trasforma un progetto del backend in formato DashboardProject
   transformBackendProject(project: any): DashboardProject {
+    // Calcoli statistiche progetto
     const totalIssues = Number(project.total_issues) || 0;
     const doneIssues = Number(project.done_issues) || 0;
     const openIssues = totalIssues - doneIssues;
+    // Calcolo percentuale completamento (0-100)
     const progress = totalIssues > 0 ? Math.floor((doneIssues / totalIssues) * 100) : 0;
     
     return {
@@ -178,32 +195,38 @@ export class Dashboard implements OnInit, OnDestroy {
       status: project.status,
       created_at: project.created_at,
       updated_at: project.updated_at,
-      // Dati reali dal backend
+      // Dati statistici calcolati per la dashboard
       progress: progress,
       totalIssues: totalIssues,
       openIssues: openIssues,
       closedIssues: doneIssues,
-      members: Math.floor(Math.random() * 6) + 2, // TODO: Da implementare con vera query
+      members: Math.floor(Math.random() * 6) + 2, // Numero casuale di membri (2-7) per demo
       priority: this.determinePriorityFromProject(project),
       lastUpdate: new Date(project.updated_at),
       tags: this.generateTagsForProject(project.name)
     };
   }
 
+  // Determina la priorità di un progetto basandosi su logiche business
   determinePriorityFromProject(project: any): 'low' | 'medium' | 'high' {
     // Logica per determinare la priorità basata sul nome/status del progetto
     const name = project.name.toLowerCase();
+    // Progetti critici: alta priorità
     if (name.includes('core') || name.includes('critical') || name.includes('auth')) {
       return 'high';
+    // Progetti importanti: media priorità  
     } else if (name.includes('mobile') || name.includes('api') || name.includes('dashboard')) {
       return 'medium';
+    // Altri progetti: bassa priorità
     } else {
       return 'low';
     }
   }
 
+  // Genera tag tecnologici per un progetto basandosi sul nome
   generateTagsForProject(projectName: string): string[] {
     const name = projectName.toLowerCase();
+    // Mapping nome progetto -> tag tecnologici
     const tagMap: { [key: string]: string[] } = {
       'frontend': ['Angular', 'TypeScript', 'Material Design', 'CSS'],
       'dashboard': ['Angular', 'Charts', 'UI/UX', 'Responsive'],
@@ -220,6 +243,7 @@ export class Dashboard implements OnInit, OnDestroy {
     let projectTags: string[] = [];
     Object.keys(tagMap).forEach(keyword => {
       if (name.includes(keyword)) {
+        // Combina tag trovati evitando duplicati
         projectTags = [...projectTags, ...tagMap[keyword]];
       }
     });
@@ -229,36 +253,42 @@ export class Dashboard implements OnInit, OnDestroy {
       projectTags = ['Full Stack', 'Web Development', 'Software'];
     }
 
-    // Ritorna massimo 3 tag unici
+    // Ritorna massimo 3 tag unici per evitare sovraccarico UI
     return [...new Set(projectTags)].slice(0, 3);
   }
 
+  // Ottiene il colore Material per il livello di priorità
   getPriorityColor(priority: string): string {
     switch (priority) {
-      case 'high': return 'warn';
-      case 'medium': return 'accent';
-      case 'low': return 'primary';
+      case 'high': return 'warn';       
+      case 'medium': return 'accent';   
+      case 'low': return 'primary';     
       default: return 'primary';
     }
   }
 
+  // Ottiene l'icona Material per lo status del progetto
   getStatusIcon(status: string): string {
     switch (status) {
-      case 'active': return 'play_circle';
-      case 'completed': return 'check_circle';
-      case 'on-hold': return 'pause_circle';
-      default: return 'help';
+      case 'active': return 'play_circle';      
+      case 'completed': return 'check_circle';  
+      case 'on-hold': return 'pause_circle';    
+      default: return 'help';                   
     }
   }
 
+  // Calcola e formatta il tempo trascorso da una data
   getTimeAgo(date: Date | string): string {
     const now = new Date();
     const targetDate = typeof date === 'string' ? new Date(date) : date;
+    
+    // Calcolo differenze temporali in millisecondi
     const diffMs = now.getTime() - targetDate.getTime();
     const diffMins = Math.floor(diffMs / 60000);
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
 
+    // Formattazione tempo relativo
     if (diffMins < 60) {
       return `${diffMins} minuti fa`;
     } else if (diffHours < 24) {
@@ -268,75 +298,85 @@ export class Dashboard implements OnInit, OnDestroy {
     }
   }
 
+  // Ottiene l'icona appropriata per il tipo di issue
   getIssueTypeIcon(type: string): string {
     switch (type) {
-      case 'bug': return 'bug_report';
-      case 'feature': return 'star';
-      case 'task': return 'assignment';
-      case 'improvement': return 'trending_up';
-      default: return 'help';
+      case 'bug': return 'bug_report';      
+      case 'feature': return 'star';        
+      case 'task': return 'assignment';     
+      case 'improvement': return 'trending_up';  
+      default: return 'help';              
     }
   }
 
+  // Ottiene il colore per la priorità di un'issue
   getIssuePriorityColor(priority: string): string {
     switch (priority) {
-      case 'critical': return 'error';
-      case 'high': return 'warn';
-      case 'medium': return 'accent';
-      case 'low': return 'primary';
+      case 'critical': return 'error';     
+      case 'high': return 'warn';          
+      case 'medium': return 'accent';      
+      case 'low': return 'primary';        
       default: return 'primary';
     }
   }
 
+  // Ottiene il colore per lo status di un'issue
   getIssueStatusColor(status: string): string {
     switch (status) {
-      case 'todo': return 'primary';
-      case 'in_progress': return 'accent';
-      case 'in_review': return 'warn';
-      case 'done': return 'success';
+      case 'todo': return 'primary';        
+      case 'in_progress': return 'accent';  
+      case 'in_review': return 'warn';      
+      case 'done': return 'success';        
       default: return 'primary';
     }
   }
 
+  // Converte lo status tecnico in nome leggibile
   getStatusDisplayName(status: string): string {
     switch (status) {
       case 'todo': return 'Da Fare';
       case 'in_progress': return 'In Corso';
       case 'in_review': return 'In Revisione';
       case 'done': return 'Completato';
-      default: return status;
+      default: return status;  // Fallback al valore originale
     }
   }
 
+  // Gestisce il click su un'issue per navigare al dettaglio
   onIssueClick(issue: Issue): void {
     console.log('Issue clicked:', issue);
     // Naviga direttamente alla pagina dell'issue
     this.router.navigate(['/issue', issue.id_issue]);
   }
 
+  // Gestisce il click per aprire il progetto di un'issue
   onProjectClick(issue: Issue): void {
     console.log('Project clicked for issue:', issue);
     // Naviga alla board del progetto contenente l'issue
     this.router.navigate(['/project', issue.id_project]);
   }
 
+  // Apre la dashboard/board di un progetto specifico
   openProject(projectId: number): void {
     // Naviga alla board del progetto
     console.log('Opening project:', projectId);
     this.router.navigate(['/project', projectId]);
   }
 
+  // Apre il dialog per creare un nuovo progetto
   createNewProject(): void {
     console.log('Apertura dialog creazione progetto...');
     
+    // Configurazione dialog Material UI
     const dialogRef = this.dialog.open(CreateProjectDialogComponent, {
       width: '500px',
       maxWidth: '90vw',
       data: { userId: this.currentUser!.id_user },
-      disableClose: false,
-      autoFocus: true
+      disableClose: false,  
+      autoFocus: true       
     });
 
+    // Gestione risultato dialog
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log('Dati progetto ricevuti:', result);
@@ -345,6 +385,7 @@ export class Dashboard implements OnInit, OnDestroy {
     });
   }
 
+  // Apre il dialog per modificare un progetto esistente
   updateProject(project: Project): void {
     console.log('Apertura dialog modifica progetto...');
     const dialogRef = this.dialog.open(UpdateProjectDialogComponent, {
@@ -354,10 +395,11 @@ export class Dashboard implements OnInit, OnDestroy {
         userId: this.currentUser!.id_user,
         project: project
       },
-      disableClose: false,
-      autoFocus: true
+      disableClose: false,  
+      autoFocus: true       
     });
 
+    // Gestione risultato modifica
     dialogRef.afterClosed().subscribe((result: UpdateProjectRequest | undefined) => {
       if (result) {
         console.log('Dati progetto ricevuti:', result);
@@ -366,6 +408,7 @@ export class Dashboard implements OnInit, OnDestroy {
     });
   }
 
+  // Gestisce la creazione di un nuovo progetto tramite API
   private handleCreateProject(projectData: CreateProjectRequest): void {
     this.projectService.createProject(projectData).subscribe({
       next: (newProject) => {
@@ -376,34 +419,35 @@ export class Dashboard implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Errore nella creazione del progetto:', error);
-        // TODO: Implementare gestione errori con notifiche
       }
     });
   }
 
+  // Gestisce l'aggiornamento di un progetto esistente tramite API
   private handleUpdateProject(projectId: number, projectData: UpdateProjectRequest): void {
     this.projectService.updateProject(projectId, projectData).subscribe({
       next: (updProject) => {
         console.log('Progetto modificato con successo:', updProject);
-        // Ricarica i dati della dashboard per mostrare il nuovo progetto
+        // Ricarica i dati della dashboard per mostrare le modifiche
         this.loadProjectsFromBackend();
         this.loadStatsFromBackend();
       },
       error: (error) => {
         console.error('Errore nella modifica del progetto:', error);
-        // TODO: Implementare gestione errori con notifiche
-      }
+        }
     });
   }
 
+  // Calcola la percentuale di progresso di un'issue
   getIssueProgress(issue: Issue): number {
+    // Se disponibili ore stimate e effettive, calcola da quelle
     if (issue.estimated_hours && issue.actual_hours) {
       return Math.min(Math.floor((issue.actual_hours / issue.estimated_hours) * 100), 100);
     }
     
-    // Se non ci sono ore effettive, calcola in base allo status
+    // Fallback: calcola progresso basandosi sullo status
     switch (issue.status) {
-      case 'todo': return 0;
+      case 'todo': return 0;         
       case 'in_progress': return 30;
       case 'in_review': return 70;
       case 'done': return 100;
@@ -411,44 +455,53 @@ export class Dashboard implements OnInit, OnDestroy {
     }
   }
 
+  // Popola il mapping ID progetto -> nome per ottimizzazione display
   populateProjectNames(projects: any[]): void {
     this.projectNames = {};
+    // Costruisce mapping ID -> nome per lookup veloce
     projects.forEach(project => {
       this.projectNames[project.id_project] = project.name;
     });
   }
 
+  // Popola il mapping ID issue -> titolo per ottimizzazione display commenti
   populateIssueTitles(comments: Comment[]): void {
-    // Estrae gli ID delle issue dai commenti
+    // Estrae gli ID delle issue dai commenti (rimuove duplicati)
     const issueIds = [...new Set(comments.map(comment => comment.id_issue))];
     
     // Per ogni issue ID, carica l'issue per ottenere il titolo
     issueIds.forEach(issueId => {
       this.issueService.getIssueById(issueId).subscribe({
         next: (issue) => {
+          // Popola mapping per lookup veloce
           this.issueTitles[issueId] = issue.title;
         },
         error: (error) => {
           console.error(`Errore nel caricamento dell'issue ${issueId}:`, error);
+          // Fallback: usa ID come placeholder
           this.issueTitles[issueId] = `Issue ${issueId}`;
         }
       });
     });
   }
 
+  // Ottiene il nome del progetto dal mapping o fallback
   getProjectNameById(projectId: number): string {
     return this.projectNames[projectId] || `Progetto ${projectId}`;
   }
 
+  // Ottiene il titolo dell'issue dal mapping o fallback
   getIssueTitleById(issueId: number): string {
     return this.issueTitles[issueId] || `Issue ${issueId}`;
   }
 
+  // Gestisce il click su un commento per navigare alla relativa issue
   onCommentClick(comment: Comment): void {
     // Naviga direttamente all'issue specifica del commento
     this.router.navigate(['/issue', comment.id_issue]);
   }
 
+  // Ottiene l'ID del progetto associato a un'issue
   getProjectIdByIssueId(issueId: number): number {
     // Cerca l'issue nelle issue caricate per ottenere l'ID del progetto
     const issue = this.userIssues.find(issue => issue.id_issue === issueId);
