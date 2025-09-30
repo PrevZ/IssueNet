@@ -8,7 +8,7 @@
       </p>
     </div>
     <div class="hero-image">
-      <img src="assets/images/logo.png" alt="IssueNet Logo" class="hero-logo">
+      <img src="assets/images/logos/logo.png" alt="IssueNet Logo" class="hero-logo">
     </div>
   </div>
 </div>
@@ -64,6 +64,29 @@
             <span class="dot"></span>
           </button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Companies Carousel per utenti NON autenticati -->
+<div class="companies-section" *ngIf="!currentUser">
+  <div class="container">
+    <h2>Aziende che si fidano di IssueNet</h2>
+    <div class="companies-carousel">
+      <div class="companies-track">
+        <!-- Replica multipla per loop infinito perfetto -->
+        <ng-container *ngFor="let i of [1,2,3,4,5,6]">
+          <a
+            *ngFor="let company of companies"
+            [href]="company.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="company-logo"
+            [title]="'Visita ' + company.name">
+            <img [src]="company.logo" [alt]="company.name">
+          </a>
+        </ng-container>
       </div>
     </div>
   </div>

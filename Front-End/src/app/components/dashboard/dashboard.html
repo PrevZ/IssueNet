@@ -10,7 +10,7 @@
   <!-- Panoramica delle statistiche -->
   <div class="stats-section">
     <div class="stats-grid">
-      <mat-card class="stat-card">
+      <mat-card class="stat-card" *ngIf="isAdmin()">
         <mat-card-content>
           <div class="stat-content">
             <mat-icon class="stat-icon projects">folder_open</mat-icon>
@@ -66,14 +66,14 @@
   <!-- Sezioni progetti, issue e commenti -->
   <div class="main-content">
     <!-- Elenco dei progetti dell'utente -->
-    <div class="projects-section">
+    <div class="projects-section" *ngIf="isAdmin()">
       <div class="section-header">
         <h2>
           <mat-icon>folder_open</mat-icon>
           I tuoi Progetti
         </h2>
       </div>
-      
+
       <div class="projects-grid">
         <!-- Card progetto esistente -->
         <mat-card class="project-card" *ngFor="let project of projects">
@@ -83,8 +83,8 @@
                 <div class="project-title-row">
                   <mat-card-title>{{ project.name }}</mat-card-title>
                   <div class="project-status-badge">
-                    <mat-icon [matBadge]="project.openIssues" matBadgeColor="warn" 
-                             matBadgeSize="small" [matBadgeHidden]="project.openIssues === 0" aria-hidden="false">
+                    <mat-icon [matBadge]="project.openIssues" matBadgeColor="warn" matBadgeSize="small"
+                      [matBadgeHidden]="project.openIssues === 0" aria-hidden="false">
                       {{ getStatusIcon(project.status) }}
                     </mat-icon>
                   </div>
@@ -93,7 +93,7 @@
               </div>
             </div>
           </mat-card-header>
-          
+
           <mat-card-content>
             <!-- Progress Bar -->
             <div class="progress-section">
@@ -134,21 +134,21 @@
               </mat-chip>
             </div>
           </mat-card-content>
-          
+
           <mat-card-actions>
             <button mat-button [routerLink]="'/project/' + project.id_project">
               <mat-icon>launch</mat-icon>
               Apri Board
             </button>
-            <button mat-button (click)="updateProject(project)" *ngIf="isAdmin()">
+            <button mat-button (click)="updateProject(project)">
               <mat-icon>settings</mat-icon>
               Gestisci
             </button>
           </mat-card-actions>
         </mat-card>
-        
+
         <!-- Card per aggiungere nuovo progetto (solo admin) -->
-        <mat-card class="project-card add-project-card" (click)="createNewProject()" *ngIf="isAdmin()">
+        <mat-card class="project-card add-project-card" (click)="createNewProject()">
           <mat-card-content>
             <div class="add-project-content">
               <mat-icon>add_circle_outline</mat-icon>
@@ -159,7 +159,7 @@
         </mat-card>
       </div>
     </div>
-    
+
     <!-- Sezione Issue dell'Utente -->
     <div class="projects-section issues-section">
       <div class="section-header">
@@ -168,7 +168,7 @@
           Le tue Issue
         </h2>
       </div>
-      
+
       <div class="projects-grid" *ngIf="userIssues.length > 0">
         <mat-card class="project-card" *ngFor="let issue of userIssues">
           <mat-card-header>
@@ -177,8 +177,8 @@
                 <div class="project-title-row">
                   <mat-card-title>{{ issue.title }}</mat-card-title>
                   <div class="project-status-badge">
-                    <mat-icon [matBadge]="issue.id_issue" matBadgeColor="primary" 
-                             matBadgeSize="small" aria-hidden="false">
+                    <mat-icon [matBadge]="issue.id_issue" matBadgeColor="primary" matBadgeSize="small"
+                      aria-hidden="false">
                       {{ getIssueTypeIcon(issue.type) }}
                     </mat-icon>
                   </div>
@@ -187,7 +187,7 @@
               </div>
             </div>
           </mat-card-header>
-          
+
           <mat-card-content>
             <!-- Progress Bar (basato su ore effettive/stimate) -->
             <div class="progress-section" *ngIf="issue.estimated_hours">
@@ -233,7 +233,7 @@
               </mat-chip>
             </div>
           </mat-card-content>
-          
+
           <mat-card-actions>
             <button mat-button (click)="onProjectClick(issue); $event.stopPropagation()">
               <mat-icon>folder_open</mat-icon>
@@ -246,7 +246,7 @@
           </mat-card-actions>
         </mat-card>
       </div>
-      
+
       <!-- Messaggio quando non ci sono issue -->
       <div class="empty-state" *ngIf="userIssues.length === 0">
         <mat-icon>inbox</mat-icon>
@@ -263,78 +263,79 @@
           I tuoi Commenti
         </h2>
       </div>
-    
-    <!-- Grid dei commenti se presenti -->
-    <div class="projects-grid" *ngIf="userComments.length > 0">
-      <!-- Card per ogni commento -->
-      <mat-card class="project-card" *ngFor="let comment of userComments">
-        <!-- Header della card commento -->
-        <mat-card-header>
-          <div class="project-header">
-            <div class="project-title-section">
-              <div class="project-title-row">
-                <mat-card-title>{{ getIssueTitleById(comment.id_issue) }}</mat-card-title>
-                <div class="project-status-badge">
-                  <mat-icon [matBadge]="comment.id_comment" matBadgeColor="accent" 
-                           matBadgeSize="small" aria-hidden="false">
-                    comment
-                  </mat-icon>
+
+      <!-- Grid dei commenti se presenti -->
+      <div class="projects-grid" *ngIf="userComments.length > 0">
+        <!-- Card per ogni commento -->
+        <mat-card class="project-card" *ngFor="let comment of userComments">
+          <!-- Header della card commento -->
+          <mat-card-header>
+            <div class="project-header">
+              <div class="project-title-section">
+                <div class="project-title-row">
+                  <mat-card-title>{{ getIssueTitleById(comment.id_issue) }}</mat-card-title>
+                  <div class="project-status-badge">
+                    <mat-icon [matBadge]="comment.id_comment" matBadgeColor="accent" matBadgeSize="small"
+                      aria-hidden="false">
+                      comment
+                    </mat-icon>
+                  </div>
                 </div>
+                <mat-card-subtitle>{{ comment.content | slice:0:100 }}{{ comment.content.length > 100 ? '...' : ''
+                  }}</mat-card-subtitle>
               </div>
-              <mat-card-subtitle>{{ comment.content | slice:0:100 }}{{ comment.content.length > 100 ? '...' : '' }}</mat-card-subtitle>
             </div>
-          </div>
-        </mat-card-header>
-        
-        <!-- Contenuto della card commento -->
-        <mat-card-content>
-          <!-- Statistiche del commento -->
-          <div class="project-stats">
-            <div class="stat">
-              <mat-icon>comment</mat-icon>
-              <span>Commento</span>
-            </div>
-            <div class="stat">
-              <mat-icon>schedule</mat-icon>
-              <span>{{ getTimeAgo(comment.created_at) }}</span>
-            </div>
-            <div class="stat" *ngIf="comment.updated_at !== comment.created_at">
-              <mat-icon>edit</mat-icon>
-            </div>
-          </div>
+          </mat-card-header>
 
-          <!-- Data di creazione -->
-          <div class="project-tags">
-            <mat-chip-set>
-              <mat-chip color="primary" selected>
-                {{ comment.created_at | date:'dd/MM/yyyy HH:mm' }}
+          <!-- Contenuto della card commento -->
+          <mat-card-content>
+            <!-- Statistiche del commento -->
+            <div class="project-stats">
+              <div class="stat">
+                <mat-icon>comment</mat-icon>
+                <span>Commento</span>
+              </div>
+              <div class="stat">
+                <mat-icon>schedule</mat-icon>
+                <span>{{ getTimeAgo(comment.created_at) }}</span>
+              </div>
+              <div class="stat" *ngIf="comment.updated_at !== comment.created_at">
+                <mat-icon>edit</mat-icon>
+              </div>
+            </div>
+
+            <!-- Data di creazione -->
+            <div class="project-tags">
+              <mat-chip-set>
+                <mat-chip color="primary" selected>
+                  {{ comment.created_at | date:'dd/MM/yyyy HH:mm' }}
+                </mat-chip>
+              </mat-chip-set>
+            </div>
+
+            <!-- Issue collegata al commento -->
+            <div class="project-priority">
+              <mat-chip color="accent" selected>
+                Issue: {{ getIssueTitleById(comment.id_issue) }}
               </mat-chip>
-            </mat-chip-set>
-          </div>
+            </div>
+          </mat-card-content>
 
-          <!-- Issue collegata al commento -->
-          <div class="project-priority">
-            <mat-chip color="accent" selected>
-              Issue: {{ getIssueTitleById(comment.id_issue) }}
-            </mat-chip>
-          </div>
-        </mat-card-content>
-        
-        <!-- Azioni della card commento -->
-        <mat-card-actions>
-          <button mat-button (click)="onCommentClick(comment); $event.stopPropagation()">
-            <mat-icon>launch</mat-icon>
-            Vai all'Issue
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-    
-    <!-- Messaggio quando non ci sono commenti -->
-    <div class="empty-state" *ngIf="userComments.length === 0">
-      <mat-icon>chat_bubble_outline</mat-icon>
-      <h3>Nessun commento</h3>
-      <p>Non hai ancora scritto commenti. Partecipa alle discussioni nelle issue dei tuoi progetti!</p>
+          <!-- Azioni della card commento -->
+          <mat-card-actions>
+            <button mat-button (click)="onCommentClick(comment); $event.stopPropagation()">
+              <mat-icon>launch</mat-icon>
+              Vai all'Issue
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+      <!-- Messaggio quando non ci sono commenti -->
+      <div class="empty-state" *ngIf="userComments.length === 0">
+        <mat-icon>chat_bubble_outline</mat-icon>
+        <h3>Nessun commento</h3>
+        <p>Non hai ancora scritto commenti. Partecipa alle discussioni nelle issue dei tuoi progetti!</p>
+      </div>
     </div>
   </div>
-</div>

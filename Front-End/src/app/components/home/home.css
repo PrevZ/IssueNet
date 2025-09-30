@@ -399,6 +399,78 @@
 }
 
 
+/* Companies Section */
+.companies-section {
+  background: #ffffff;
+  padding: 60px 0;
+  border-top: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.companies-section h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 3rem;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.companies-carousel {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.companies-track {
+  display: flex;
+  gap: 60px;
+  align-items: center;
+  width: fit-content;
+  animation: scrollLogos 20s linear infinite;
+}
+
+@keyframes scrollLogos {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-160px * 8)); /* 8 loghi * (100px larghezza + 60px gap) */
+  }
+}
+
+.company-logo {
+  min-width: 100px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.6;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.company-logo:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.company-logo img {
+  max-width: 100px;
+  max-height: 50px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.company-logo:hover img {
+  filter: grayscale(0%);
+}
+
 /* Call to Action Section */
 .cta-section {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);

@@ -11,7 +11,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models';
-import { LogoutDialogComponent } from './logout-dialog.component';
+import { LogoutDialogComponent } from './logout-dialog/logout-dialog.component';
 
 @Component({
   selector: 'app-navbar',

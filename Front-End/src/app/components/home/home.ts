@@ -106,6 +106,51 @@ export class Home implements OnInit {
 
   currentTipIndex = 0;
 
+  // Companies carousel
+  companies = [
+    {
+      name: 'Microsoft',
+      logo: 'https://www.logo.wine/a/logo/Microsoft/Microsoft-Logo.wine.svg',
+      url: 'https://www.microsoft.com/'
+    },
+    {
+      name: 'Google',
+      logo: 'https://www.logo.wine/a/logo/Google/Google-Logo.wine.svg',
+      url: 'https://www.google.com/'
+    },
+    {
+      name: 'Apple',
+      logo: 'https://www.logo.wine/a/logo/Apple_Inc./Apple_Inc.-Logo.wine.svg',
+      url: 'https://www.apple.com/'
+    },
+    {
+      name: 'Amazon',
+      logo: 'https://www.logo.wine/a/logo/Amazon_(company)/Amazon_(company)-Logo.wine.svg',
+      url: 'https://www.amazon.com/'
+    },
+    {
+      name: 'Meta',
+      logo: 'https://www.logo.wine/a/logo/Meta_Platforms/Meta_Platforms-Logo.wine.svg',
+      url: 'https://www.meta.com/'
+    },
+    {
+      name: 'Netflix',
+      logo: 'https://www.logo.wine/a/logo/Netflix/Netflix-Logo.wine.svg',
+      url: 'https://www.netflix.com/'
+    },
+    {
+      name: 'Tesla',
+      logo: 'https://www.logo.wine/a/logo/Tesla%2C_Inc./Tesla%2C_Inc.-Logo.wine.svg',
+      url: 'https://www.tesla.com/'
+    },
+    {
+      name: 'Adobe',
+      logo: 'https://www.logo.wine/a/logo/Adobe_Inc./Adobe_Inc.-Logo.wine.svg',
+      url: 'https://www.adobe.com/'
+    }
+  ];
+
+
   // Costruttore - inizializza i servizi
   constructor(private userService: UserService, private projectService: ProjectService, private issueService: IssueService,private commentService: CommentService) {}
 
@@ -194,4 +239,5 @@ export class Home implements OnInit {
     // Apri GitHub in una nuova tab
     window.open('https://github.com/PrevZ/IssueNet.git', '_blank');
   }
+
 }

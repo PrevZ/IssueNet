@@ -14,7 +14,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-producti
 const JWT_EXPIRES_IN = '24h';
 
 // GET /api/users - Ottiene tutti gli utenti con filtri opzionali (solo admin)
-router.get('/', authenticateToken, requireRole(['admin']), async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
