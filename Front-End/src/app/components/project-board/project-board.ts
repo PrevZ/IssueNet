@@ -444,14 +444,14 @@ export class ProjectBoard implements OnInit {
     this.router.navigate(['/dashboard']);
   }
 
-  // Verifica se l'utente corrente è admin
-  isAdmin(): boolean {
-    return this.currentUser?.role === 'admin';
+  // Verifica se l'utente corrente è project manager
+  isPM(): boolean {
+    return this.currentUser?.role === 'project_manager';
   }
 
-  // Verifica se l'utente può creare issue (admin o developer)
+  // Verifica se l'utente può creare issue (project manager o developer)
   canCreateIssue(): boolean {
-    return this.currentUser?.role === 'admin' || this.currentUser?.role === 'developer';
+    return this.currentUser?.role === 'project_manager' || this.currentUser?.role === 'developer';
   }
 
   // Refresh delle issue senza ricaricare la pagina

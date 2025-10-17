@@ -94,4 +94,9 @@ export class Navbar implements OnInit {
     // Reindirizza alla home page
     this.router.navigate(['/home']);
   }
+
+  // Verifica se l'utente corrente è admin
+  isAdmin(): boolean {
+    return this.currentUser?.role === 'admin';
+  }
 }

@@ -58,6 +58,7 @@ export class Home implements OnInit {
 
   // statistiche utente
   userStats = {
+    registrationDate: '',
     totalProjects: 0,
     totalIssues: 0,
     comments: 0
@@ -167,6 +168,11 @@ export class Home implements OnInit {
 
   // Carica le statistiche dell'utente corrente
   loadUserStats(userId: number) {
+    // Imposta la data di registrazione dall'utente corrente
+    if (this.currentUser?.created_at) {
+      this.userStats.registrationDate = this.currentUser.created_at;
+    }
+
     // Recupera progetti
     this.projectService.getUserProjectStats(userId).subscribe(stats => {
       this.userStats.totalProjects = Number(stats.total_projects) || 0;
@@ -240,4 +246,13 @@ export class Home implements OnInit {
     window.open('https://github.com/PrevZ/IssueNet.git', '_blank');
   }
 
+  // Verifica se l'utente corrente è project manager
+  isPM(): boolean {
+    return this.currentUser?.role === 'project_manager';
+  }
+
+  // Verifica se l'utente corrente è admin
+  isAdmin(): boolean {
+    return this.currentUser?.role === 'admin';
+  }
 }

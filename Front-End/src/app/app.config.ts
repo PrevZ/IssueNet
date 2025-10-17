@@ -2,6 +2,7 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZoneChang
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 import { routes } from './app.routes';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
@@ -15,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     })),
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimationsAsync(),
+    provideNativeDateAdapter(),
     // HTTP Interceptors
     {
       provide: HTTP_INTERCEPTORS,

@@ -152,6 +152,8 @@ export class Dashboard implements OnInit, OnDestroy {
       next: (issues) => {
         console.log('Issue dell\'utente caricate:', issues);
         this.userIssues = issues;
+        // Carica i nomi dei progetti per le issue
+        this.loadProjectNamesForIssues(issues);
       },
       error: (error) => {
         console.error('Errore nel caricamento delle issue dell\'utente:', error);
@@ -464,6 +466,32 @@ export class Dashboard implements OnInit, OnDestroy {
     });
   }
 
+  // Carica i nomi dei progetti per le issue assegnate all'utente
+  loadProjectNamesForIssues(issues: Issue[]): void {
+    // Estrae gli ID dei progetti dalle issue (rimuove duplicati)
+    const projectIds = [...new Set(issues.map(issue => issue.id_project))];
+
+    // Per ogni progetto ID, carica il progetto per ottenere il nome
+    projectIds.forEach(projectId => {
+      // Salta se già presente nel mapping
+      if (this.projectNames[projectId]) {
+        return;
+      }
+
+      this.projectService.getProjectById(projectId).subscribe({
+        next: (project) => {
+          // Popola mapping per lookup veloce
+          this.projectNames[projectId] = project.name;
+        },
+        error: (error) => {
+          console.error(`Errore nel caricamento del progetto ${projectId}:`, error);
+          // Fallback: usa ID come placeholder
+          this.projectNames[projectId] = `Progetto ${projectId}`;
+        }
+      });
+    });
+  }
+
   // Popola il mapping ID issue -> titolo per ottimizzazione display commenti
   populateIssueTitles(comments: Comment[]): void {
     // Estrae gli ID delle issue dai commenti (rimuove duplicati)
@@ -508,8 +536,8 @@ export class Dashboard implements OnInit, OnDestroy {
     return issue ? issue.id_project : 1; // Default a progetto 1 se non trovato
   }
 
-  // Verifica se l'utente corrente è admin
-  isAdmin(): boolean {
-    return this.currentUser?.role === 'admin';
+  // Verifica se l'utente corrente è project manager
+  isPM(): boolean {
+    return this.currentUser?.role === 'project_manager';
   }
 }

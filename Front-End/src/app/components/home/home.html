@@ -119,11 +119,11 @@
 <div class="hero-section" *ngIf="currentUser">
   <div class="hero-content">
     <div class="hero-text">
-      <h1>Bentornato, {{ currentUser.full_name }}!</h1>
+      <h1>Bentornat*, {{ currentUser.full_name }}!</h1>
       <p class="hero-subtitle">Ecco una panoramica delle tue attività</p>
     </div>
     <div class="hero-image">
-      <img src="assets/images/logo.png" alt="IssueNet Logo" class="hero-logo">
+      <img src="assets/images/logos/logo.png" alt="IssueNet Logo" class="hero-logo">
     </div>
   </div>
 </div>
@@ -139,6 +139,16 @@
     
     <div class="quick-actions-layout">
       <div class="quick-actions-cards">
+        <div class="feature-card-item" routerLink="/user-management" *ngIf="isAdmin()">
+          <div class="feature-card-icon">
+            <mat-icon>group</mat-icon>
+          </div>
+          <div class="feature-card-content">
+            <h3>Gestione Utenti</h3>
+            <p>Vai alla gestione degli utenti</p>
+          </div>
+        </div>
+
         <div class="feature-card-item" routerLink="/dashboard">
           <div class="feature-card-icon">
             <mat-icon>dashboard</mat-icon>
@@ -181,6 +191,14 @@
     <h2>Le tue statistiche</h2>
     <div class="stats-grid">
       <div class="stat-card">
+        <div class="stat-number">{{ userStats.registrationDate | date:'dd/MM/yyyy' }}</div>
+        <div class="stat-label">Iscrizione</div>
+      </div>
+      <div class="stat-card" *ngIf="isAdmin()">
+        <div class="stat-number">{{ userStats.registrationDate | date:'dd/MM/yyyy' }}</div>
+        <div class="stat-label">Utenti totali</div>
+      </div>
+      <div class="stat-card" *ngIf="isPM()">
         <div class="stat-number">{{ userStats.totalProjects }}</div>
         <div class="stat-label">Progetti Attivi</div>
       </div>

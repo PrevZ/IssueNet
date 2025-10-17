@@ -738,21 +738,29 @@
 }
 
 .stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
+  justify-content: center;
 }
 
 .stat-card {
   background: white;
   border-radius: 16px;
-  padding: 2rem;
+  padding: 2rem 1.5rem;
   text-align: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border: 2px solid #0079bf;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex: 1 1 200px;
+  min-width: 200px;
+  max-width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .stat-card:hover {
@@ -761,15 +769,17 @@
 }
 
 .stat-number {
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: 700;
   color: #0079bf;
   margin-bottom: 0.5rem;
   display: block;
+  word-break: break-word;
+  line-height: 1.2;
 }
 
 .stat-label {
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #666;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -820,16 +830,17 @@
   }
 
   .stats-grid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
   .stat-card {
-    padding: 1.5rem;
+    padding: 1.5rem 1rem;
+    min-width: 150px;
+    max-width: 200px;
   }
 
   .stat-number {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -863,7 +874,17 @@
     font-size: 2rem;
   }
 
+  .stat-card {
+    min-width: 130px;
+    max-width: 180px;
+    padding: 1.2rem 0.8rem;
+  }
+
   .stat-number {
-    font-size: 2rem;
+    font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
   }
 }

@@ -33,7 +33,12 @@
 
       <!-- Menu di navigazione per utenti loggati -->
       <div class="nav-links" *ngIf="currentUser">
-        <button mat-button routerLink="/dashboard" routerLinkActive="active">
+        <button mat-button routerLink="/user-management" routerLinkActive="active" *ngIf="isAdmin()">
+          <mat-icon>group</mat-icon>
+          Gestione Utenti
+        </button>
+
+        <button mat-button routerLink="/dashboard" routerLinkActive="active" *ngIf="!isAdmin()">
           <mat-icon>dashboard</mat-icon>
           Dashboard
         </button>
@@ -54,10 +59,6 @@
           <button mat-menu-item routerLink="/edit-user">
             <mat-icon>edit</mat-icon>
             <span>Opzioni</span>
-          </button>
-          <button mat-menu-item routerLink="/user-management" *ngIf="currentUser?.role === 'admin'">
-            <mat-icon>group</mat-icon>
-            Gestione Utenti
           </button>
           <mat-divider></mat-divider>
           <button mat-menu-item (click)="logout()">

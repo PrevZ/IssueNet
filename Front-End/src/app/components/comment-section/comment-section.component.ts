@@ -351,6 +351,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
   getUserRole(comment: Comment): string {
     const roleMap = {
       'admin': 'Admin',
+      'project_manager': 'Project Manager',
       'developer': 'Developer',
       'tester': 'Tester'
     };

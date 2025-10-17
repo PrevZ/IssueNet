@@ -22,7 +22,7 @@
           <mat-icon>add</mat-icon>
           Nuova Issue
         </button>
-        <button mat-raised-button color="warn" (click)="openDeleteProjectDialog(project)" *ngIf="isAdmin()" class="delete-project-btn">
+        <button mat-raised-button color="warn" (click)="openDeleteProjectDialog(project)" *ngIf="isPM()" class="delete-project-btn">
           <mat-icon>delete</mat-icon>
           Elimina Progetto
         </button>
@@ -51,21 +51,6 @@
         <div class="column-title-section">
           <h3 class="column-title">{{ column.title }}</h3>
           <div class="column-count">{{ column.issues.length }}</div>
-        </div>
-        <div class="column-actions">
-          <button mat-icon-button class="column-menu-btn" [matMenuTriggerFor]="columnMenu">
-            <mat-icon>more_horiz</mat-icon>
-          </button>
-          <mat-menu #columnMenu="matMenu">
-            <button mat-menu-item>
-              <mat-icon>add</mat-icon>
-              <span>Aggiungi Issue</span>
-            </button>
-            <button mat-menu-item>
-              <mat-icon>sort</mat-icon>
-              <span>Ordina</span>
-            </button>
-          </mat-menu>
         </div>
       </div>
 
@@ -141,7 +126,7 @@
                         (click)="openDeleteIssueDialog(issue); $event.stopPropagation()"
                         matTooltip="Elimina"
                         class="card-action-btn delete-btn"
-                        *ngIf="isAdmin()">
+                        *ngIf="isPM()">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>

@@ -5,7 +5,8 @@ export interface User {
   email: string;
   password?: string; // Opzionale per non esporre la password nel frontend
   full_name: string;
-  role: 'admin' | 'developer' | 'tester';
+  role: 'admin' | 'project_manager' | 'developer' | 'tester';
+  created_at?: string; // Data di registrazione dell'utente
 }
 
 // Richiesta per creare un nuovo utente
@@ -14,7 +15,7 @@ export interface CreateUserRequest {
   email: string;
   password: string;
   full_name: string;
-  role?: 'admin' | 'developer' | 'tester';
+  role?: 'admin' | 'project_manager' | 'developer' | 'tester';
 }
 
 // Richiesta per aggiornare un utente esistente
@@ -23,7 +24,7 @@ export interface UpdateUserRequest {
   email?: string;
   password?: string;
   full_name?: string;
-  role?: 'admin' | 'developer' | 'tester';
+  role?: 'admin' | 'project_manager' | 'developer' | 'tester';
 }
 
 // Richiesta per registrazione di un nuovo utente
@@ -33,7 +34,7 @@ export interface RegisterRequest {
   username: string;
   email: string;
   password: string;
-  role?: 'admin' | 'developer' | 'tester';
+  role?: 'admin' | 'project_manager' | 'developer' | 'tester';
 }
 
 // Richiesta per il login
