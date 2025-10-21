@@ -100,7 +100,7 @@ const getProjectStats = async function (connection, projectId) {
 
 // Ottiene progetti con statistiche integrate
 const getEnhancedProjectsByUser = async function (connection, userId) {
-    sql = `SELECT 
+    sql = `SELECT
            p.id_project,
            p.name,
            p.description,
@@ -112,7 +112,8 @@ const getEnhancedProjectsByUser = async function (connection, userId) {
            COUNT(CASE WHEN i.status = 'todo' THEN 1 END) as todo_issues,
            COUNT(CASE WHEN i.status = 'in_progress' THEN 1 END) as in_progress_issues,
            COUNT(CASE WHEN i.status = 'in_review' THEN 1 END) as in_review_issues,
-           COUNT(CASE WHEN i.status = 'done' THEN 1 END) as done_issues
+           COUNT(CASE WHEN i.status = 'done' THEN 1 END) as done_issues,
+           COUNT(DISTINCT i.assigned_to) as total_members
            FROM projects p
            LEFT JOIN issues i ON p.id_project = i.id_project
            WHERE p.created_by = ?

@@ -192,7 +192,9 @@ export class Dashboard implements OnInit, OnDestroy {
     const openIssues = totalIssues - doneIssues;
     // Calcolo percentuale completamento (0-100)
     const progress = totalIssues > 0 ? Math.floor((doneIssues / totalIssues) * 100) : 0;
-    
+    // Numero reale di membri con issue assegnate
+    const members = Number(project.total_members) || 0;
+
     return {
       id_project: project.id_project,
       name: project.name,
@@ -206,7 +208,7 @@ export class Dashboard implements OnInit, OnDestroy {
       totalIssues: totalIssues,
       openIssues: openIssues,
       closedIssues: doneIssues,
-      members: Math.floor(Math.random() * 6) + 2, // Numero casuale di membri (2-7) per demo
+      members: members, // Numero reale di utenti con issue assegnate
       priority: this.determinePriorityFromProject(project),
       lastUpdate: new Date(project.updated_at),
       tags: this.generateTagsForProject(project.name)

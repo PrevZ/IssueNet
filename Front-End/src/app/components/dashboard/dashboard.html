@@ -2,7 +2,7 @@
   <!-- Sezione di benvenuto -->
   <div class="dashboard-header">
     <div class="welcome-section">
-      <h1>Benvenuto, {{ currentUser?.full_name || 'Utente' }}!</h1>
+      <h1>Benvenut*, {{ currentUser?.full_name || 'Utente' }}!</h1>
       <p>Ecco una panoramica dei tuoi progetti e attività recenti</p>
     </div>
   </div>
@@ -16,8 +16,8 @@
           <div class="stat-content">
             <mat-icon class="stat-icon registration">event</mat-icon>
             <div class="stat-info">
-              <h3>{{ stats.registrationDate | date:'dd/MM/yyyy' }}</h3>
               <p>Registrato il</p>
+              <h3>{{ stats.registrationDate | date:'dd/MM/yyyy' }}</h3>
             </div>
           </div>
         </mat-card-content>
@@ -29,8 +29,8 @@
           <div class="stat-content">
             <mat-icon class="stat-icon projects">folder_open</mat-icon>
             <div class="stat-info">
-              <h3>{{ stats.totalProjects }}</h3>
               <p>Progetti Creati</p>
+              <h3>{{ stats.totalProjects }}</h3>
             </div>
           </div>
         </mat-card-content>
@@ -40,10 +40,10 @@
       <mat-card class="stat-card">
         <mat-card-content>
           <div class="stat-content">
-            <mat-icon class="stat-icon assigned-issues">assignment</mat-icon>
+            <mat-icon class="stat-icon assigned-issues">bug_report</mat-icon>
             <div class="stat-info">
-              <h3>{{ stats.totalIssuesAssigned }}</h3>
               <p>Issue Assegnate</p>
+              <h3>{{ stats.totalIssuesAssigned }}</h3>
             </div>
           </div>
         </mat-card-content>
@@ -55,8 +55,8 @@
           <div class="stat-content">
             <mat-icon class="stat-icon comments" aria-hidden="false">comment</mat-icon>
             <div class="stat-info">
-              <h3>{{ stats.totalComments }}</h3>
               <p>Commenti Inseriti</p>
+              <h3>{{ stats.totalComments }}</h3>
             </div>
           </div>
         </mat-card-content>

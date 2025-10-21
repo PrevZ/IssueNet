@@ -141,6 +141,7 @@
   font-weight: 600;
   margin-top: 16px;
   background: linear-gradient(135deg, #0079bf 0%, #026aa7 100%) !important;
+  color: white !important;
   border-radius: 8px !important;
   border: none !important;
   text-transform: none !important;
@@ -153,6 +154,7 @@
 
 .login-button:not(:disabled):hover {
   background: linear-gradient(135deg, #026aa7 0%, #005a8b 100%) !important;
+  color: white !important;
   transform: translateY(-2px) !important;
   box-shadow: 0 8px 20px rgba(0, 121, 191, 0.4) !important;
 }
