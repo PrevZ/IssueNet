@@ -448,12 +448,6 @@ export class Dashboard implements OnInit, OnDestroy {
 
   // Calcola la percentuale di progresso di un'issue
   getIssueProgress(issue: Issue): number {
-    // Se disponibili ore stimate e effettive, calcola da quelle
-    if (issue.estimated_hours && issue.actual_hours) {
-      return Math.min(Math.floor((issue.actual_hours / issue.estimated_hours) * 100), 100);
-    }
-    
-    // Fallback: calcola progresso basandosi sullo status
     switch (issue.status) {
       case 'todo': return 0;         
       case 'in_progress': return 30;
