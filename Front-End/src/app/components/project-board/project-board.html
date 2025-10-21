@@ -15,9 +15,6 @@
       </div>
 
       <div class="header-actions">
-        <button mat-icon-button (click)="refreshIssues()" matTooltip="Aggiorna issue" class="refresh-btn">
-          <mat-icon>refresh</mat-icon>
-        </button>
         <button mat-raised-button color="primary" (click)="openCreateIssueDialog()" *ngIf="canCreateIssue()" class="create-issue-btn">
           <mat-icon>add</mat-icon>
           Nuova Issue
