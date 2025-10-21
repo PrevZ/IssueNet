@@ -49,9 +49,4 @@ export class ProjectService {
   getEnhancedProjectsByUser(userId: number): Observable<any[]> {
     return this.http.get<any[]>(this.apiConfig.getApiUrl(`${this.endpoint}/user/${userId}/enhanced`));
   }
-
-  // Ottieni statistiche aggregate dell'utente
-  getUserProjectStats(userId: number): Observable<any> {
-    return this.http.get<any>(this.apiConfig.getApiUrl(`${this.endpoint}/user/${userId}/stats`));
-  }
 }

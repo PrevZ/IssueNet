@@ -10,52 +10,53 @@
   <!-- Panoramica delle statistiche -->
   <div class="stats-section">
     <div class="stats-grid">
+      <!-- Card data di registrazione -->
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <mat-icon class="stat-icon registration">event</mat-icon>
+            <div class="stat-info">
+              <h3>{{ stats.registrationDate | date:'dd/MM/yyyy' }}</h3>
+              <p>Registrato il</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Card progetti creati (solo PM) -->
       <mat-card class="stat-card" *ngIf="isPM()">
         <mat-card-content>
           <div class="stat-content">
             <mat-icon class="stat-icon projects">folder_open</mat-icon>
             <div class="stat-info">
               <h3>{{ stats.totalProjects }}</h3>
-              <p>Progetti Attivi</p>
+              <p>Progetti Creati</p>
             </div>
           </div>
         </mat-card-content>
       </mat-card>
 
-      <!-- Card issue totali -->
+      <!-- Card issue assegnate -->
       <mat-card class="stat-card">
         <mat-card-content>
           <div class="stat-content">
-            <mat-icon class="stat-icon total-issues">assignment</mat-icon>
+            <mat-icon class="stat-icon assigned-issues">assignment</mat-icon>
             <div class="stat-info">
-              <h3>{{ stats.totalIssues }}</h3>
-              <p>Issue Totali</p>
+              <h3>{{ stats.totalIssuesAssigned }}</h3>
+              <p>Issue Assegnate</p>
             </div>
           </div>
         </mat-card-content>
       </mat-card>
 
-      <!-- Card issue aperte -->
+      <!-- Card commenti inseriti -->
       <mat-card class="stat-card">
         <mat-card-content>
           <div class="stat-content">
-            <mat-icon class="stat-icon open-issues" aria-hidden="false">bug_report</mat-icon>
+            <mat-icon class="stat-icon comments" aria-hidden="false">comment</mat-icon>
             <div class="stat-info">
-              <h3>{{ stats.openIssues }}</h3>
-              <p>Issue Aperte</p>
-            </div>
-          </div>
-        </mat-card-content>
-      </mat-card>
-
-      <!-- Card issue risolte -->
-      <mat-card class="stat-card">
-        <mat-card-content>
-          <div class="stat-content">
-            <mat-icon class="stat-icon closed-issues">check_circle</mat-icon>
-            <div class="stat-info">
-              <h3>{{ stats.closedIssues }}</h3>
-              <p>Issue Risolte</p>
+              <h3>{{ stats.totalComments }}</h3>
+              <p>Commenti Inseriti</p>
             </div>
           </div>
         </mat-card-content>

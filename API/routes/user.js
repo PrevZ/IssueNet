@@ -115,6 +115,31 @@ router.get('/check/email/:email', async (req, res) => {
     }
 });
 
+// GET /api/users/:id/stats - Ottiene le statistiche complete di un utente
+router.get('/:id/stats', authenticateToken, async (req, res) => {
+    const connection = await db.getConnection();
+    res.setHeader('Content-Type', 'application/json');
+    try {
+        // Verifica che l'utente possa accedere ai dati (se stesso o admin)
+        const requestedId = parseInt(req.params.id);
+        if (req.user.role !== 'admin' && req.user.userId !== requestedId) {
+            return res.status(403).json({ error: 'Non autorizzato ad accedere a questi dati' });
+        }
+
+        const stats = await userDAO.getUserStats(connection, req.params.id);
+        if (!stats) {
+            return res.status(404).json({ error: 'User stats not found' });
+        }
+
+        res.json(stats);
+    } catch (error) {
+        console.error("Error fetching user stats:", error);
+        res.status(500).json({ error: error.message });
+    } finally {
+        await connection.end();
+    }
+});
+
 // GET /api/users/:id - Ottiene un utente specifico tramite ID (utente stesso o admin)
 router.get('/:id', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();

@@ -46,10 +46,10 @@ export class Dashboard implements OnInit, OnDestroy {
   
   // Statistiche utente aggregate
   stats = {
+    registrationDate: null as Date | null,
     totalProjects: 0,
-    totalIssues: 0,
-    openIssues: 0,
-    closedIssues: 0
+    totalIssuesAssigned: 0,
+    totalComments: 0
   };
   
   // Sottoscrizione per eventi di navigazione
@@ -126,22 +126,26 @@ export class Dashboard implements OnInit, OnDestroy {
 
   // Carica le statistiche utente dal backend
   loadStatsFromBackend(): void {
-    this.projectService.getUserProjectStats(this.currentUser!.id_user).subscribe({
+    this.userService.getUserStats(this.currentUser!.id_user).subscribe({
       next: (stats) => {
         console.log('Statistiche caricate dal backend:', stats);
         // Trasforma le statistiche del backend in formato dashboard
         this.stats = {
+          registrationDate: stats.created_at ? new Date(stats.created_at) : null,
           totalProjects: Number(stats.total_projects) || 0,
-          totalIssues: Number(stats.total_issues) || 0,
-          // Aggregazione issue aperte (todo + in progress + in review)
-          openIssues: (Number(stats.todo_issues) || 0) + (Number(stats.in_progress_issues) || 0) + (Number(stats.in_review_issues) || 0),
-          closedIssues: Number(stats.done_issues) || 0
+          totalIssuesAssigned: Number(stats.total_issues_assigned) || 0,
+          totalComments: Number(stats.total_comments) || 0
         };
       },
       error: (error) => {
         console.error('Errore nel caricamento delle statistiche:', error);
         // Inizializza statistiche vuote in caso di errore
-        this.stats = { totalProjects: 0, totalIssues: 0, openIssues: 0, closedIssues: 0 };
+        this.stats = {
+          registrationDate: null,
+          totalProjects: 0,
+          totalIssuesAssigned: 0,
+          totalComments: 0
+        };
       }
     });
   }

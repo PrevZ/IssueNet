@@ -21,14 +21,14 @@ router.get('/', authenticateToken, async (req, res) => {
     }
 });
 
-// GET /api/projects/user/:userId - Trova progetti creati da un utente specifico (utente stesso o admin)
+// GET /api/projects/user/:userId - Trova progetti creati da un utente specifico (utente stesso o project_manager)
 router.get('/user/:userId', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
-        // Verifica autorizzazioni: solo l'utente stesso o admin possono vedere i propri progetti
+        // Verifica autorizzazioni: solo l'utente stesso o project_manager possono vedere i propri progetti
         const requestedUserId = parseInt(req.params.userId);
-        if (req.user.role !== 'admin' && req.user.userId !== requestedUserId) {
+        if (req.user.role !== 'project_manager' && req.user.userId !== requestedUserId) {
             return res.status(403).json({ error: 'Non autorizzato ad accedere ai progetti di questo utente' });
         }
 
@@ -42,35 +42,14 @@ router.get('/user/:userId', authenticateToken, async (req, res) => {
     }
 });
 
-// GET /api/projects/user/:userId/stats - Ottiene statistiche aggregate per tutti i progetti dell'utente (utente stesso o admin)
-router.get('/user/:userId/stats', authenticateToken, async (req, res) => {
-    const connection = await db.getConnection();
-    res.setHeader('Content-Type', 'application/json');
-    try {
-        // Verifica autorizzazioni: solo l'utente stesso o admin
-        const requestedUserId = parseInt(req.params.userId);
-        if (req.user.role !== 'admin' && req.user.userId !== requestedUserId) {
-            return res.status(403).json({ error: 'Non autorizzato ad accedere alle statistiche di questo utente' });
-        }
-
-        const stats = await projectDAO.getUserProjectStats(connection, req.params.userId);
-        res.json(stats);
-    } catch (error) {
-        console.error("Error fetching user project stats:", error);
-        res.status(500).json({ error: error.message });
-    } finally {
-        await connection.end();
-    }
-});
-
-// GET /api/projects/user/:userId/enhanced - Ottiene progetti con statistiche integrate (utente stesso o admin)
+// GET /api/projects/user/:userId/enhanced - Ottiene progetti con statistiche integrate (utente stesso o project_manager)
 router.get('/user/:userId/enhanced', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
-        // Verifica autorizzazioni: solo l'utente stesso o admin
+        // Verifica autorizzazioni: solo l'utente stesso o project_manager
         const requestedUserId = parseInt(req.params.userId);
-        if (req.user.role !== 'admin' && req.user.userId !== requestedUserId) {
+        if (req.user.role !== 'project_manager' && req.user.userId !== requestedUserId) {
             return res.status(403).json({ error: 'Non autorizzato ad accedere ai progetti di questo utente' });
         }
 
@@ -78,21 +57,6 @@ router.get('/user/:userId/enhanced', authenticateToken, async (req, res) => {
         res.json(projects);
     } catch (error) {
         console.error("Error fetching enhanced projects:", error);
-        res.status(500).json({ error: error.message });
-    } finally {
-        await connection.end();
-    }
-});
-
-// GET /api/projects/status/:status - Trova progetti per status (active/archived) (solo admin)
-router.get('/status/:status', authenticateToken, requireRole(['admin']), async (req, res) => {
-    const connection = await db.getConnection();
-    res.setHeader('Content-Type', 'application/json');
-    try {
-        const projects = await projectDAO.getProjectsByStatus(connection, req.params.status);
-        res.json(projects);
-    } catch (error) {
-        console.error("Error fetching projects by status:", error);
         res.status(500).json({ error: error.message });
     } finally {
         await connection.end();
@@ -132,8 +96,8 @@ router.get('/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// POST /api/projects - Crea un nuovo progetto (solo admin)
-router.post('/', authenticateToken, requireRole(['admin']), async (req, res) => {
+// POST /api/projects - Crea un nuovo progetto (solo project_manager)
+router.post('/', authenticateToken, requireRole(['project_manager']), async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
@@ -154,20 +118,20 @@ router.post('/', authenticateToken, requireRole(['admin']), async (req, res) => 
     }
 });
 
-// PUT /api/projects/:id - Aggiorna un progetto esistente (solo admin o creatore del progetto)
-router.put('/:id', authenticateToken, async (req, res) => {
+// PUT /api/projects/:id - Aggiorna un progetto esistente (solo project_manager )
+router.put('/:id', authenticateToken, requireRole(['project_manager']), async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
     try {
-        // Verifica autorizzazioni: solo admin o creatore del progetto
+        // Verifica autorizzazioni: solo project_manager
         const projectResult = await projectDAO.getProjectById(connection, req.params.id);
         if (projectResult.length === 0) {
             return res.status(404).json({ error: 'Progetto non trovato' });
         }
 
         const project = projectResult[0];
-        if (req.user.role !== 'admin' && req.user.userId !== project.created_by) {
+        if (req.user.role !== 'project_manager') {
             return res.status(403).json({ error: 'Non autorizzato a modificare questo progetto' });
         }
 
@@ -188,8 +152,8 @@ router.put('/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// DELETE /api/projects/:id - Elimina un progetto (solo admin)
-router.delete('/:id', authenticateToken, requireRole(['admin']), async (req, res) => {
+// DELETE /api/projects/:id - Elimina un progetto (solo project_manager)
+router.delete('/:id', authenticateToken, requireRole(['project_manager']), async (req, res) => {
     const projectId = parseInt(req.params.id);
     
     // Validazione dell'ID

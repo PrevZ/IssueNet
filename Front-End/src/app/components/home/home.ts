@@ -25,6 +25,7 @@ import { IssueService } from '../../services/issue.service';
 })
 export class Home implements OnInit {
   currentUser: User | null = null;
+  users: User[] = [];
   
   // Features
   features = [
@@ -56,12 +57,10 @@ export class Home implements OnInit {
   
   currentFeatureIndex = 0;
 
-  // statistiche utente
+  // statistiche utente (Admin)
   userStats = {
     registrationDate: '',
-    totalProjects: 0,
-    totalIssues: 0,
-    comments: 0
+    total_users: 0
   };
 
   // Tips
@@ -173,19 +172,15 @@ export class Home implements OnInit {
       this.userStats.registrationDate = this.currentUser.created_at;
     }
 
-    // Recupera progetti
-    this.projectService.getUserProjectStats(userId).subscribe(stats => {
-      this.userStats.totalProjects = Number(stats.total_projects) || 0;
-    });
-
-    // Recupera issue
-    this.issueService.getIssuesByAssignee(userId).subscribe(issues => {
-      this.userStats.totalIssues = issues.length;
-    });
-
-    // Recupera commenti
-    this.commentService.getCommentsByUser(userId).subscribe(comments => {
-      this.userStats.comments = comments.length;
+    // Recupera utenti totali (solo per admin)
+    this.userService.getAllUsers().subscribe({
+      next: (users) => {
+        this.users = users;
+        this.userStats.total_users = users.length;
+      },
+      error: (err) => {
+        console.error('Errore nel recupero degli utenti:', err);
+      }
     });
   }
   

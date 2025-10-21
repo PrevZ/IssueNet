@@ -143,4 +143,9 @@ export class UserService {
   changePassword(userId: number, passwordData: {currentPassword: string, newPassword: string}): Observable<any> {
     return this.http.post(this.apiConfig.getApiUrl(`${this.endpoint}/${userId}/change-password`), passwordData);
   }
+
+  // Ottieni statistiche complete dell'utente
+  getUserStats(userId: number): Observable<any> {
+    return this.http.get<any>(this.apiConfig.getApiUrl(`${this.endpoint}/${userId}/stats`));
+  }
 }

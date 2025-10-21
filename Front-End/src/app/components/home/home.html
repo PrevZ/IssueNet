@@ -149,7 +149,7 @@
           </div>
         </div>
 
-        <div class="feature-card-item" routerLink="/dashboard">
+        <div class="feature-card-item" routerLink="/dashboard" *ngIf="!isAdmin()">
           <div class="feature-card-icon">
             <mat-icon>dashboard</mat-icon>
           </div>
@@ -185,8 +185,8 @@
   </div>
 </div>
 
-<!-- Statistiche per utenti autenticati -->
-<div class="stats-section" *ngIf="currentUser">
+<!-- Statistiche per utenti autenticati (Admin) -->
+<div class="stats-section" *ngIf="currentUser && isAdmin()">
   <div class="container">
     <h2>Le tue statistiche</h2>
     <div class="stats-grid">
@@ -194,21 +194,9 @@
         <div class="stat-number">{{ userStats.registrationDate | date:'dd/MM/yyyy' }}</div>
         <div class="stat-label">Iscrizione</div>
       </div>
-      <div class="stat-card" *ngIf="isAdmin()">
-        <div class="stat-number">{{ userStats.registrationDate | date:'dd/MM/yyyy' }}</div>
+      <div class="stat-card">
+        <div class="stat-number">{{ userStats.total_users }}</div>
         <div class="stat-label">Utenti totali</div>
-      </div>
-      <div class="stat-card" *ngIf="isPM()">
-        <div class="stat-number">{{ userStats.totalProjects }}</div>
-        <div class="stat-label">Progetti Attivi</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">{{ userStats.totalIssues }}</div>
-        <div class="stat-label">Issue Totali</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-number">{{ userStats.comments }}</div>
-        <div class="stat-label">Commenti Inseriti</div>
       </div>
     </div>
   </div>

@@ -58,13 +58,14 @@ export class UserManagementComponent implements OnInit {
   // Configurazione delle opzioni dei ruoli per la UI
   roleOptions = [
     { value: 'admin', label: 'Admin', color: 'warn', icon: 'admin_panel_settings' },
+    { value: 'project_manager', label: 'Project Manager', color: 'warn', icon: 'engineering' },
     { value: 'developer', label: 'Developer', color: 'primary', icon: 'code' },
     { value: 'tester', label: 'Tester', color: 'accent', icon: 'bug_report' }
   ];
 
-  userStats = {
-    total: 0,      
-    admin: 0,      
+  userStats = {     
+    admin: 0, 
+    project_manager: 0,     
     developer: 0,  
     tester: 0      
   };
@@ -123,8 +124,8 @@ export class UserManagementComponent implements OnInit {
   // Calcola le statistiche degli utenti raggruppati per ruolo
   private calculateStats(): void {
     this.userStats = {
-      total: this.users.length,
       admin: this.users.filter(u => u.role === 'admin').length,
+      project_manager: this.users.filter(u => u.role === 'project_manager').length,
       developer: this.users.filter(u => u.role === 'developer').length,
       tester: this.users.filter(u => u.role === 'tester').length
     };

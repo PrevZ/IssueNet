@@ -101,9 +101,28 @@ const deleteUser = async function (connection, userId) {
     return (result.affectedRows > 0);
 }
 
+// Ottiene statistiche complete di un utente
+const getUserStats = async function (connection, userId) {
+    sql = `SELECT
+           u.created_at,
+           COUNT(DISTINCT p.id_project) as total_projects,
+           COUNT(DISTINCT ia.id_issue) as total_issues_assigned,
+           COUNT(DISTINCT c.id_comment) as total_comments
+           FROM users u
+           LEFT JOIN projects p ON u.id_user = p.created_by
+           LEFT JOIN issues ia ON u.id_user = ia.assigned_to
+           LEFT JOIN comments c ON u.id_user = c.id_user
+           WHERE u.id_user = ?
+           GROUP BY u.id_user, u.created_at`;
+    params = [userId];
+
+    const rows = await db.execute(connection, sql, params);
+    return (!rows ? {} : rows[0]);
+}
+
 // Esporta tutte le funzioni per usarle nelle route
 module.exports = {
     getAllUsers, getUserById, getUserByUsername,
     getUserByEmail, getUsersByRole, createUser,
-    updateUser, deleteUser
+    updateUser, deleteUser, getUserStats
 }
