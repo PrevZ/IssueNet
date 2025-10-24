@@ -69,8 +69,8 @@ const deleteComment = async function (connection, commentId) {
     sql = `DELETE FROM comments WHERE id_comment = ?`;
     params = [commentId];
 
-    const rows = await db.execute(connection, sql, params);
-    return (!rows ? [] : rows[0]);
+    const result = await db.execute(connection, sql, params);
+    return (result && result.affectedRows > 0);
 }
 
 // Conta il numero di commenti di una issue

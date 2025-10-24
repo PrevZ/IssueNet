@@ -95,6 +95,24 @@ export class Navbar implements OnInit {
     this.router.navigate(['/home']);
   }
 
+  // Cambia utente - porta direttamente alla pagina di login
+  switchUser(): void {
+    // Chiudi il menu mobile se aperto
+    this.closeMobileMenu();
+
+    // Pulisce lo stato dell'utente
+    this.userService.logout();
+
+    // Mostra messaggio informativo
+    this.snackBar.open('Cambio utente in corso...', 'Chiudi', {
+      duration: 2000,
+      panelClass: ['info-snack']
+    });
+
+    // Reindirizza alla pagina di login
+    this.router.navigate(['/login']);
+  }
+
   // Verifica se l'utente corrente è admin
   isAdmin(): boolean {
     return this.currentUser?.role === 'admin';

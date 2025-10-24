@@ -13,7 +13,7 @@ const SALT_ROUNDS = 12;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 const JWT_EXPIRES_IN = '24h';
 
-// GET /api/users - Ottiene tutti gli utenti con filtri opzionali (solo admin)
+// GET /api/users - Ottiene tutti gli utenti con filtri opzionali
 router.get('/', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');

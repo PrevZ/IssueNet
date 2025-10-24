@@ -108,17 +108,24 @@
 
         <mat-form-field appearance="outline" class="full-width" *ngIf="userForm.get('changePassword')?.value">
           <mat-label>Nuova Password</mat-label>
-          <input matInput 
+          <input matInput
                  [type]="hidePassword ? 'password' : 'text'"
                  formControlName="password"
-                 placeholder="Nuova password (almeno 6 caratteri)">
-          <button mat-icon-button 
-                  matSuffix 
+                 placeholder="Nuova password (almeno 6 caratteri)"
+                 required>
+          <button mat-icon-button
+                  matSuffix
                   type="button"
                   (click)="hidePassword = !hidePassword">
             <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
           </button>
-          <mat-hint>Lascia vuoto per mantenere la password attuale</mat-hint>
+          <mat-error *ngIf="userForm.get('password')?.hasError('required')">
+            La nuova password è obbligatoria
+          </mat-error>
+          <mat-error *ngIf="userForm.get('password')?.hasError('minlength')">
+            La password deve essere di almeno 6 caratteri
+          </mat-error>
+          <mat-hint>Inserisci una password di almeno 6 caratteri</mat-hint>
         </mat-form-field>
       </div>
     </mat-dialog-content>

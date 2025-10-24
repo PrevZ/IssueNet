@@ -114,16 +114,17 @@
                   <mat-icon>visibility</mat-icon>
                 </button>
                 <button mat-icon-button
+                        *ngIf="canEditIssue(issue)"
                         (click)="openEditIssueDialog(issue); $event.stopPropagation()"
                         matTooltip="Modifica"
                         class="card-action-btn edit-btn">
                   <mat-icon>edit</mat-icon>
                 </button>
                 <button mat-icon-button
+                        *ngIf="canDeleteIssue(issue)"
                         (click)="openDeleteIssueDialog(issue); $event.stopPropagation()"
                         matTooltip="Elimina"
-                        class="card-action-btn delete-btn"
-                        *ngIf="isPM()">
+                        class="card-action-btn delete-btn">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>

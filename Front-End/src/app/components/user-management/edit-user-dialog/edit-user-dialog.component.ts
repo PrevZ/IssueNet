@@ -42,6 +42,7 @@ export class EditUserDialogComponent implements OnInit {
   hidePassword = true;
   roleOptions = [
     { value: 'admin', label: 'Admin', icon: 'admin_panel_settings' },
+    { value: 'project_manager', label: 'Project Manager', icon: 'engineering' },
     { value: 'developer', label: 'Developer', icon: 'code' },
     { value: 'tester', label: 'Tester', icon: 'bug_report' }
   ];
@@ -90,9 +91,23 @@ export class EditUserDialogComponent implements OnInit {
         Validators.minLength(6)
       ]));
     } else if (this.canChangePassword()) {
-      // Modalità modifica: password opzionale con checkbox
-      this.userForm.addControl('password', this.fb.control(''));
+      // Modalità modifica: password opzionale ma con validazione lunghezza se compilata
+      this.userForm.addControl('password', this.fb.control('', [
+        Validators.minLength(6)
+      ]));
       this.userForm.addControl('changePassword', this.fb.control(false));
+
+      // Aggiungi listener per abilitare/disabilitare validazione in base al checkbox
+      this.userForm.get('changePassword')?.valueChanges.subscribe(checked => {
+        const passwordControl = this.userForm.get('password');
+        if (checked) {
+          passwordControl?.setValidators([Validators.required, Validators.minLength(6)]);
+        } else {
+          passwordControl?.clearValidators();
+          passwordControl?.setValue('');
+        }
+        passwordControl?.updateValueAndValidity();
+      });
     }
 
     // Disabilita alcuni campi se non sei admin e stai modificando un altro utente

@@ -6,8 +6,8 @@ const { authenticateToken, requireRole, optionalAuth } = require('../middleware/
 
 const router = express.Router();
 
-// GET /api/comments - Ottiene tutti i commenti con filtri opzionali (solo admin)
-router.get('/', authenticateToken, requireRole(['admin']), async (req, res) => {
+// GET /api/comments - Ottiene tutti i commenti con filtri opzionali (solo utenti autenticati)
+router.get('/', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
@@ -36,14 +36,14 @@ router.get('/issue/:issueId', authenticateToken, async (req, res) => {
     }
 });
 
-// GET /api/comments/user/:userId - Ottiene tutti i commenti di un utente specifico (utente stesso o admin)
+// GET /api/comments/user/:userId - Ottiene tutti i commenti di un utente specifico (utente stesso)
 router.get('/user/:userId', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
     try {
-        // Verifica autorizzazioni: solo l'utente stesso o admin possono vedere i propri commenti
+        // Verifica autorizzazioni: solo l'utente stesso può vedere i propri commenti
         const requestedUserId = parseInt(req.params.userId);
-        if (req.user.role !== 'admin' && req.user.userId !== requestedUserId) {
+        if (req.user.userId !== requestedUserId) {
             return res.status(403).json({ error: 'Non autorizzato ad accedere ai commenti di questo utente' });
         }
 
@@ -112,20 +112,20 @@ router.post('/', authenticateToken, async (req, res) => {
     }
 });
 
-// PUT /api/comments/:id - Aggiorna il contenuto di un commento (solo autore o admin)
+// PUT /api/comments/:id - Aggiorna il contenuto di un commento (solo autore)
 router.put('/:id', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
     try {
-        // Verifica autorizzazioni: solo l'autore del commento o admin possono modificarlo
+        // Verifica autorizzazioni: solo l'autore del commento può modificarlo
         const commentResult = await commentDAO.getCommentById(connection, req.params.id);
         if (commentResult.length === 0) {
             return res.status(404).json({ error: 'Commento non trovato' });
         }
 
         const comment = commentResult[0];
-        if (req.user.role !== 'admin' && req.user.userId !== comment.created_by) {
+        if (req.user.userId !== comment.id_user) {
             return res.status(403).json({ error: 'Non autorizzato a modificare questo commento' });
         }
 
@@ -145,20 +145,20 @@ router.put('/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// DELETE /api/comments/:id - Elimina un commento (solo autore o admin)
+// DELETE /api/comments/:id - Elimina un commento (solo autore)
 router.delete('/:id', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
     try {
-        // Verifica autorizzazioni: solo l'autore del commento o admin possono eliminarlo
+        // Verifica autorizzazioni: solo l'autore del commento può eliminarlo
         const commentResult = await commentDAO.getCommentById(connection, req.params.id);
         if (commentResult.length === 0) {
             return res.status(404).json({ error: 'Commento non trovato' });
         }
 
         const comment = commentResult[0];
-        if (req.user.role !== 'admin' && req.user.userId !== comment.created_by) {
+        if (req.user.userId !== comment.id_user) {
             return res.status(403).json({ error: 'Non autorizzato a eliminare questo commento' });
         }
 

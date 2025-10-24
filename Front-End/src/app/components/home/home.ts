@@ -34,7 +34,7 @@ export class Home implements OnInit {
       title: 'Dashboard Intuitiva',
       description: 'Visualizza tutti i tuoi progetti e issue in un\'interfaccia chiara e organizzata.',
       icon: 'dashboard',
-      image: '/assets/images/dashboard.png',
+      image: '/assets/images/intro/ds.png',
       alt: 'Dashboard IssueNet'
     },
     {
@@ -42,7 +42,7 @@ export class Home implements OnInit {
       title: 'Collaborazione',
       description: 'Lavora in team, assegna compiti e tieni traccia dei progressi di tutti.',
       icon: 'group',
-      image: '/assets/images/project.png',
+      image: '/assets/images/intro/pb.png',
       alt: 'Collaborazione in team'
     },
     {
@@ -50,7 +50,7 @@ export class Home implements OnInit {
       title: 'Tracking Avanzato',
       description: 'Monitora lo stato degli issue, aggiungi commenti e tieni tutto sotto controllo.',
       icon: 'track_changes',
-      image: '/assets/images/issues.png',
+      image: '/assets/images/intro/ib.png',
       alt: 'Tracking degli issue'
     }
   ];

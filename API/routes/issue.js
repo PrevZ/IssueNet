@@ -140,8 +140,8 @@ router.get('/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// POST /api/issues - Crea una nuova issue (solo developer/admin)
-router.post('/', authenticateToken, requireRole(['developer', 'admin']), async (req, res) => {
+// POST /api/issues - Crea una nuova issue (solo developer/project_manager)
+router.post('/', authenticateToken, requireRole(['developer', 'project_manager']), async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
@@ -162,20 +162,20 @@ router.post('/', authenticateToken, requireRole(['developer', 'admin']), async (
     }
 });
 
-// PUT /api/issues/:id - Aggiorna una issue esistente (solo assegnatario, creatore o admin)
+// PUT /api/issues/:id - Aggiorna una issue esistente (solo assegnatario, creatore o project_manager)
 router.put('/:id', authenticateToken, async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');
     try {
-        // Verifica autorizzazioni: solo assegnatario, creatore o admin possono modificare
+        // Verifica autorizzazioni: solo assegnatario, creatore o project_manager possono modificare
         const issueResult = await issueDAO.getIssueById(connection, req.params.id);
         if (issueResult.length === 0) {
             return res.status(404).json({ error: 'Issue non trovata' });
         }
 
         const issue = issueResult[0];
-        const canModify = req.user.role === 'admin' ||
+        const canModify = req.user.role === 'project_manager' ||
                          req.user.userId === issue.created_by ||
                          req.user.userId === issue.assigned_to;
 
@@ -200,8 +200,8 @@ router.put('/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// DELETE /api/issues/:id - Elimina una issue (solo admin)
-router.delete('/:id', authenticateToken, requireRole(['admin']), async (req, res) => {
+// DELETE /api/issues/:id - Elimina una issue (solo project_manager e developer)
+router.delete('/:id', authenticateToken, requireRole(['project_manager', 'developer']), async (req, res) => {
     const connection = await db.getConnection();
     await connection.beginTransaction();
     res.setHeader('Content-Type', 'application/json');

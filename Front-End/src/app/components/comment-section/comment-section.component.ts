@@ -268,34 +268,19 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
 
   // Elimina un commento dopo conferma utente
   deleteComment(commentId: number): void {
-    console.log('deleteComment called with commentId:', commentId);
     if (confirm('Sei sicuro di voler eliminare questo commento?')) {
-      console.log('User confirmed deletion');
       const sub = this.commentService.deleteComment(commentId).subscribe({
         next: (response) => {
-          console.log('Comment deleted successfully, response:', response);
+          console.log('Commento eliminato con successo');
+          // Rimuove il commento dalla lista locale per aggiornamento immediato
           this.comments = this.comments.filter(c => c.id_comment !== commentId);
         },
         error: (error) => {
           console.error('Errore nell\'eliminazione del commento:', error);
-          console.log('Error status:', error.status);
-          console.log('Error message:', error.message);
-          
-          // Se l'errore è 404 (Not Found) o 200-299, considera l'operazione riuscita
-          if (error.status === 404 || (error.status >= 200 && error.status < 300)) {
-            console.log('Treating as successful deletion despite error response');
-            this.comments = this.comments.filter(c => c.id_comment !== commentId);
-          } else {
-            alert('Errore durante l\'eliminazione del commento. Riprova.');
-          }
-        },
-        complete: () => {
-          console.log('Delete operation completed');
+          alert('Errore durante l\'eliminazione del commento. Riprova.');
         }
       });
       this.subscriptions.add(sub);
-    } else {
-      console.log('User cancelled deletion');
     }
   }
 

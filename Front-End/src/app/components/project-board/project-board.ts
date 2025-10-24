@@ -406,7 +406,13 @@ export class ProjectBoard implements OnInit {
     this.issueService.deleteIssue(issue.id_issue).subscribe({
       next: () => {
         console.log('Issue eliminata con successo');
-        this.loadProjectIssues(); // Ricarica la board
+        // Rimuove l'issue dalla colonna locale per aggiornamento immediato
+        this.kanbanColumns.forEach(column => {
+          const index = column.issues.findIndex(i => i.id_issue === issue.id_issue);
+          if (index !== -1) {
+            column.issues.splice(index, 1);
+          }
+        });
       },
       error: (error) => {
         console.error('Errore nell\'eliminazione dell\'issue:', error);
@@ -452,5 +458,28 @@ export class ProjectBoard implements OnInit {
   // Verifica se l'utente può creare issue (project manager o developer)
   canCreateIssue(): boolean {
     return this.currentUser?.role === 'project_manager' || this.currentUser?.role === 'developer';
+  }
+
+  // Verifica se l'utente può modificare una issue specifica
+  canEditIssue(issue: Issue): boolean {
+    if (!this.currentUser) return false;
+
+    // Project manager e developer possono modificare qualsiasi issue
+    if (this.currentUser.role === 'project_manager' || this.currentUser.role === 'developer') return true;
+
+    // L'utente può modificare se è assegnato all'issue (include i tester)
+    if (this.currentUser.id_user === issue.assigned_to) return true;
+
+    return false;
+  }
+
+  // Verifica se l'utente può eliminare una issue specifica
+  canDeleteIssue(issue: Issue): boolean {
+    if (!this.currentUser) return false;
+
+    // Solo project manager e developer possono eliminare le issue
+    if (this.currentUser.role === 'project_manager' || this.currentUser.role === 'developer') return true;
+
+    return false;
   }
 }
