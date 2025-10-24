@@ -28,7 +28,7 @@ CREATE TABLE projects (
     `status` ENUM('active', 'archived') DEFAULT 'active',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (created_by) REFERENCES users(id_user)
+    FOREIGN KEY (created_by) REFERENCES users(id_user) ON DELETE CASCADE
 );
 
 -- Tabella Issue
@@ -48,8 +48,8 @@ CREATE TABLE issues (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (id_project) REFERENCES projects(id_project) ON DELETE CASCADE,
-    FOREIGN KEY (assigned_to) REFERENCES users(id_user),
-    FOREIGN KEY (created_by) REFERENCES users(id_user)
+    FOREIGN KEY (assigned_to) REFERENCES users(id_user) ON DELETE SET NULL,
+    FOREIGN KEY (created_by) REFERENCES users(id_user) ON DELETE CASCADE
 );
 
 -- Tabella Comments
@@ -61,5 +61,5 @@ CREATE TABLE comments (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (id_issue) REFERENCES issues(id_issue) ON DELETE CASCADE,
-    FOREIGN KEY (id_user) REFERENCES users(id_user)
+    FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE
 );

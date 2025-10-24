@@ -46,13 +46,17 @@ const getCommentsByUser = async function (connection, userId) {
 
 // Crea un nuovo commento nel database
 const createComment = async function (connection, comment) {
-    sql = `INSERT INTO comments (id_issue, id_user, content) 
+    sql = `INSERT INTO comments (id_issue, id_user, content)
     VALUES (?, ?, ?)`;
     params = [comment.id_issue, comment.id_user, comment.content];
 
     const result = await db.execute(connection, sql, params);
     if (result.affectedRows == 0) return null;
-    else return comment;
+
+    // Recupera il commento appena creato con tutti i campi (id_comment, created_at, updated_at)
+    const newCommentId = result.insertId;
+    const createdComment = await getCommentById(connection, newCommentId);
+    return createdComment.length > 0 ? createdComment[0] : null;
 }
 
 // Aggiorna il contenuto di un commento esistente

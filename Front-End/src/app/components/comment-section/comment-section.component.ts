@@ -194,7 +194,7 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
           if (!newComment.updated_at || isNaN(new Date(newComment.updated_at).getTime())) {
             newComment.updated_at = newComment.created_at;
           }
-          
+
           // Aggiungi il nuovo commento in cima alla lista
           this.comments.unshift(newComment);
           this.commentForm.reset();
@@ -226,43 +226,31 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
 
   // Gestisce l'invio della modifica di un commento
   onSubmitEdit(commentId: number): void {
-    console.log('onSubmitEdit called with commentId:', commentId);
-    console.log('Form valid:', this.editForm.valid);
-    console.log('Form value:', this.editForm.value);
-    console.log('isSubmitting:', this.isSubmitting);
-    
     if (this.editForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
-      
+
       const updateData: UpdateCommentRequest = {
         content: this.editForm.get('content')?.value.trim()
       };
 
-      console.log('Sending update request with data:', updateData);
-
       const sub = this.commentService.updateComment(commentId, updateData).subscribe({
         next: (response) => {
-          console.log('Update successful, response:', response);
           const index = this.comments.findIndex(c => c.id_comment === commentId);
           if (index !== -1) {
             this.comments[index].content = updateData.content;
             this.comments[index].updated_at = new Date().toISOString();
           }
-          
+
           this.cancelEdit();
           this.isSubmitting = false;
         },
         error: (error) => {
           console.error('Errore nell\'aggiornamento del commento:', error);
+          alert('Errore durante l\'aggiornamento del commento. Riprova.');
           this.isSubmitting = false;
         }
       });
       this.subscriptions.add(sub);
-    } else {
-      console.log('Form validation failed or already submitting');
-      if (this.editForm.errors) {
-        console.log('Form errors:', this.editForm.errors);
-      }
     }
   }
 
@@ -271,7 +259,6 @@ export class CommentSectionComponent implements OnInit, OnDestroy, OnChanges {
     if (confirm('Sei sicuro di voler eliminare questo commento?')) {
       const sub = this.commentService.deleteComment(commentId).subscribe({
         next: (response) => {
-          console.log('Commento eliminato con successo');
           // Rimuove il commento dalla lista locale per aggiornamento immediato
           this.comments = this.comments.filter(c => c.id_comment !== commentId);
         },

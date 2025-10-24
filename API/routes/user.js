@@ -216,11 +216,12 @@ router.delete('/:id', authenticateToken, requireRole(['admin']), async (req, res
     try {
         const deletedUser = await userDAO.deleteUser(connection, req.params.id);
         if (deletedUser) {
-            res.status(200).json({ message: 'Contatto eliminato con successo' });
+            await connection.commit();
+            res.status(200).json({ message: 'Utente eliminato con successo' });
         } else {
+            await connection.rollback();
             res.status(404).json({ error: 'User not found' });
         }
-        await connection.commit();
     } catch (error) {
         console.error("Error deleting user:", error);
         await connection.rollback();
