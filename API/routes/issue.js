@@ -176,6 +176,7 @@ router.put('/:id', authenticateToken, async (req, res) => {
 
         const issue = issueResult[0];
         const canModify = req.user.role === 'project_manager' ||
+                         req.user.role === 'developer' ||
                          req.user.userId === issue.created_by ||
                          req.user.userId === issue.assigned_to;
 
