@@ -64,7 +64,36 @@ INSERT INTO issues (title, description, priority, status, type, id_project, assi
 ('Throttling requests', 'Implementare limitazione richieste per endpoint', 'high', 'todo', 'feature', 5, 7, 8, 10.00, NULL, '2025-07-30'),
 ('Cache layer MongoDB', 'Sistema di cache distribuita con MongoDB per performance', 'medium', 'in_progress', 'improvement', 5, 8, 6, 14.00, 7.00, '2025-08-02'),
 ('Versioning automatico', 'Sistema di versioning intelligente delle API', 'low', 'in_review', 'improvement', 5, 11, 5, 8.00, 6.00, '2025-07-25'),
-('Documentazione OpenAPI', 'Documentazione interattiva API con OpenAPI 3.0', 'medium', 'done', 'task', 5, 11, 5, 6.00, 5.00, '2025-07-09');
+('Documentazione OpenAPI', 'Documentazione interattiva API con OpenAPI 3.0', 'medium', 'done', 'task', 5, 11, 5, 6.00, 5.00, '2025-07-09'),
+
+-- Issue aggiuntive per Online Store Pro (id: 1, PM: Francesca=3)
+('Sistema raccomandazioni AI', 'Implementare algoritmo ML per suggerimenti prodotti personalizzati', 'high', 'todo', 'feature', 1, 8, 3, 24.00, NULL, '2025-08-10'),
+('Gestione inventario real-time', 'Sincronizzazione quantità disponibili in tempo reale', 'critical', 'in_progress', 'feature', 1, 6, 6, 18.00, 9.00, '2025-07-27'),
+('Fix crash carrello vuoto', 'L\'app crasha quando si apre carrello senza prodotti', 'critical', 'in_review', 'bug', 1, 9, 7, 3.00, 2.50, '2025-07-14'),
+('Dashboard vendite analytics', 'Creare dashboard per monitoraggio vendite e metriche', 'medium', 'todo', 'feature', 1, 7, 3, 14.00, NULL, '2025-08-05'),
+
+-- Issue aggiuntive per TaskFlow Mobile (id: 2, PM: Francesca=3)
+('Widget home screen iOS', 'Widget per visualizzare task urgenti dalla home', 'medium', 'todo', 'feature', 2, 8, 3, 10.00, NULL, '2025-08-08'),
+('Dark mode completo', 'Implementare tema scuro per tutta l\'applicazione', 'low', 'in_progress', 'improvement', 2, 6, 7, 8.00, 4.00, '2025-07-29'),
+('Condivisione task via link', 'Permettere condivisione task tramite link dinamici', 'medium', 'in_review', 'feature', 2, 10, 6, 6.00, 5.50, '2025-07-21'),
+('Statistiche produttività', 'Grafici e metriche per tracciare produttività personale', 'low', 'done', 'feature', 2, 11, 3, 10.00, 9.00, '2025-07-11'),
+
+-- Issue aggiuntive per SecureAuth Hub (id: 3, PM: Roberto=4)
+('Biometric authentication', 'Supporto per impronta digitale su dispositivi compatibili', 'high', 'todo', 'feature', 3, 6, 4, 12.00, NULL, '2025-08-02'),
+('Password strength validator', 'Validatore avanzato con suggerimenti sicurezza', 'medium', 'in_progress', 'improvement', 3, 7, 8, 6.00, 3.00, '2025-07-26'),
+('Fix timeout sessione', 'Timeout sessione non rispetta il valore configurato', 'high', 'in_review', 'bug', 3, 11, 6, 4.00, 3.50, '2025-07-17'),
+('Rate limiting login', 'Protezione contro brute force attacks sui login', 'critical', 'done', 'security', 3, 9, 4, 8.00, 7.00, '2025-07-07'),
+
+-- Issue aggiuntive per DataViz Dashboard (id: 4, PM: Roberto=4)
+('Template dashboard custom', 'Permettere agli utenti di creare template personalizzati', 'medium', 'todo', 'feature', 4, 8, 4, 16.00, NULL, '2025-08-12'),
+('Filtri avanzati temporali', 'Aggiungere filtri per range temporali e confronti', 'medium', 'in_progress', 'feature', 4, 6, 7, 10.00, 5.00, '2025-07-31'),
+('Notifiche anomalie dati', 'Sistema di alert automatico per valori anomali', 'high', 'todo', 'feature', 4, 7, 4, 14.00, NULL, '2025-08-06'),
+
+-- Issue aggiuntive per Central API Core (id: 5, PM: Elena=5)
+('Webhooks sistema eventi', 'Implementare sistema webhooks per notifiche eventi', 'high', 'in_progress', 'feature', 5, 7, 5, 20.00, 10.00, '2025-08-04'),
+('Health check endpoints', 'Endpoint per monitoraggio stato servizi', 'medium', 'in_review', 'task', 5, 10, 8, 4.00, 3.50, '2025-07-23'),
+('GraphQL support', 'Aggiungere supporto GraphQL oltre alle REST API', 'low', 'todo', 'feature', 5, 8, 5, 22.00, NULL, '2025-08-15'),
+('Fix memory leak cache', 'Memory leak nel sistema di caching dopo uso prolungato', 'critical', 'done', 'bug', 5, 11, 6, 6.00, 5.00, '2025-07-04');
 
 -- Inserimento commenti realistici per test
 -- Admin NON commentano. PM, Dev e Tester possono commentare
@@ -110,4 +139,53 @@ INSERT INTO comments (id_issue, id_user, content) VALUES
 (23, 8, 'Cache MongoDB funziona ottimamente. TTL dinamico basato su frequenza di utilizzo.'),
 (23, 10, 'Ho testato con diversi pattern di accesso, la cache riduce i tempi di risposta del 70%.'),
 (25, 8, 'OpenAPI 3.0 è live! Documentazione interattiva con esempi e sandbox di test.'),
-(25, 5, 'Eccellente! Questo renderà molto più facile l\'onboarding di nuovi developer.');
+(25, 5, 'Eccellente! Questo renderà molto più facile l\'onboarding di nuovi developer.'),
+
+-- Commenti per le nuove issue di Online Store Pro
+(26, 8, 'Sto valutando TensorFlow.js per implementare il sistema di raccomandazioni lato client.'),
+(26, 3, 'Buona scelta! Considera anche di implementare A/B testing per verificare l\'efficacia.'),
+(27, 6, 'WebSocket configurato per sync real-time inventario. Prestazioni eccellenti!'),
+(27, 9, 'Testato con 1000+ prodotti simultanei, la sincronizzazione è istantanea.'),
+(28, 7, 'Bug identificato! Era un null pointer sul check iniziale del carrello. Fix pronto.'),
+(28, 9, 'Confermato risolto. Ho testato tutti gli edge case, nessun crash.'),
+(29, 7, 'Per la dashboard userò Chart.js con aggregazioni server-side per performance.'),
+(29, 3, 'Ottimo! Aggiungi anche export PDF per i report mensili.'),
+
+-- Commenti per le nuove issue di TaskFlow Mobile
+(30, 8, 'Widget iOS richiede WidgetKit, sto studiando la API Apple per aggiornamenti ottimali.'),
+(30, 10, 'Serve anche versione Android con App Widgets per parità di funzionalità.'),
+(31, 6, 'Dark mode implementato con Context API. Supporta preferenza sistema e toggle manuale.'),
+(31, 11, 'Testato su iOS e Android, i colori sono accessibili e rispettano WCAG 2.1.'),
+(32, 6, 'Link dinamici creati con Firebase Dynamic Links. Funzionano su web e mobile.'),
+(32, 10, 'Ho verificato deep linking, funziona perfettamente anche con app non installata.'),
+(33, 7, 'Dashboard produttività completa! Grafici settimanali, mensili e annuali implementati.'),
+(33, 3, 'Fantastico lavoro! Gli utenti apprezzeranno molto questa feature.'),
+
+-- Commenti per le nuove issue di SecureAuth Hub
+(34, 6, 'Sto usando Web Authentication API per biometrica. Compatibile con FIDO2.'),
+(34, 4, 'Perfetto! Assicurati di gestire fallback per browser non supportati.'),
+(35, 7, 'Validator implementato con zxcvbn library. Suggerimenti in tempo reale attivi.'),
+(35, 11, 'Testato con password comuni e complesse, i suggerimenti sono molto utili.'),
+(36, 6, 'Timeout corretto! Era un problema di conversione tra secondi e millisecondi.'),
+(36, 11, 'Verificato con diversi timeout configurati, ora rispetta sempre il valore.'),
+(37, 8, 'Rate limiting attivo! Max 5 tentativi ogni 15 minuti per IP. Poi blocco temporaneo.'),
+(37, 4, 'Eccellente! Questo previene efficacemente attacchi brute force.'),
+
+-- Commenti per le nuove issue di DataViz Dashboard
+(38, 8, 'Sistema template drag-and-drop quasi pronto. Sto usando React DnD Kit.'),
+(38, 4, 'Ottimo! Permetti anche il salvataggio e condivisione template tra utenti.'),
+(39, 6, 'Filtri temporali implementati: oggi, settimana, mese, custom range, confronto periodi.'),
+(39, 10, 'Testato tutti i filtri, funzionano perfettamente e i dati sono accurati.'),
+(40, 7, 'Sistema alert configurato con soglie personalizzabili per ogni metrica.'),
+(40, 9, 'Ho testato con valori anomali simulati, notifiche arrivano istantaneamente.'),
+
+-- Commenti per le nuove issue di Central API Core
+(41, 7, 'Webhooks implementati! Eventi: create, update, delete. Retry automatico su failure.'),
+(41, 5, 'Perfetto! Aggiungi anche signature HMAC per validazione autenticità payload.'),
+(41, 11, 'Ho testato i webhooks con vari servizi, il retry funziona con backoff esponenziale.'),
+(42, 8, 'Health check endpoints pronti: /health (basic), /health/detailed (metriche complete).'),
+(42, 10, 'Verificato, forniscono info utili su database, cache, memoria, CPU.'),
+(43, 8, 'Sto valutando Apollo Server per GraphQL. Schema generation da REST esistenti.'),
+(43, 5, 'Buona scelta! Assicurati di mantenere retrocompatibilità con REST.'),
+(44, 6, 'Memory leak trovato e risolto! Era un event listener non rimosso correttamente.'),
+(44, 11, 'Confermato! Test di stress 24h completato, memoria stabile.');
