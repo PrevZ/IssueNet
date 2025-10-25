@@ -28,7 +28,7 @@ router.get('/', authenticateToken, async (req, res) => {
     }
 });
 
-// GET /api/users/role/:role - Trova utenti per ruolo specifico (admin/developer/tester)
+// GET /api/users/role/:role - Trova utenti per ruolo specifico (admin/project manager/developer/tester)
 router.get('/role/:role', async (req, res) => {
     const connection = await db.getConnection();
     res.setHeader('Content-Type', 'application/json');
